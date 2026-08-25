@@ -1,0 +1,19 @@
+# 第三方源码参考（用于分析，不纳入本项目版本控制）
+# 其中 deepseek-harness 与 langgraph 已各自含 .git，是独立仓库
+source-code-reference/
+
+# 参考书籍 PDF（大二进制、版权内容）
+book-reference/
+
+# 提取的论文全文（参考材料）
+thesis_extracted.txt
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 通用
+.DS_Store
+Thumbs.db
