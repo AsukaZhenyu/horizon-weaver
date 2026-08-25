@@ -1,7 +1,6 @@
-"""keyan-automation：结构化输入输出的 schema 定义。
+"""keyan-automation：结构化输入输出的 schema 定义（pydantic 版）。
 
-零第三方依赖，只依赖标准库。定义了两种结构：
-
+定义两种结构：
 1. 图结点 (Node)：Agent 探索过的一个状态，写入 graph/nodes.jsonl（每行一个）。
 2. 动作块 (Action)：模型每次推理输出的结构化动作。
 
@@ -9,13 +8,16 @@
 - 客观字段（index / changes / git）由 harness 测量与填写，不由模型填写；
 - 主观字段（inference / reasoning）由模型填写，只用于规划建议，不用于判定结点好坏；
 - 模型输出必须经 parse_action 校验，非法则拒绝（8B 模型极易吐出非法 JSON）。
+
+依赖：pydantic（`pip install pydantic`）。
 """
 from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field
 from enum import Enum
+
+from pydantic import BaseModel, Field, ValidationError
 
 
 class ActionKind(str, Enum):
@@ -34,49 +36,30 @@ class NodeStatus(str, Enum):
     TARGET = "target"      # 到达目标
 
 
-@dataclass
-class Index:
+class Index(BaseModel):
     """客观指标：由 harness 测量，不由模型填写。"""
     metric: str            # 例如 "tokens/s"、"F1"、"accuracy"、"container_pass"
     value: float
 
 
-@dataclass
-class Node:
+class Node(BaseModel):
     """图结点：Agent 探索过的一个状态。
 
-    字段语义：
     - index     客观指标（测量值，可信，用于判定结点好坏）
     - changes   客观变化（相对 parent，来自 git diff，与结点转移直接相关）
     - inference 主观推断（模型对"变化 -> 指标变化"因果映射的判断，只用于规划）
     """
     id: str
-    parent: str | None
+    parent: str | None = None
     git: str | None = None
     index: Index | None = None
-    changes: list[str] = field(default_factory=list)
+    changes: list[str] = Field(default_factory=list)
     inference: str = ""
     status: NodeStatus = NodeStatus.EXPLORING
     summary: str = ""      # 一句话人话，供 human-readable 视图使用
 
-    def to_json(self) -> str:
-        d = {
-            "id": self.id,
-            "parent": self.parent,
-            "git": self.git,
-            "index": None if self.index is None else {
-                "metric": self.index.metric, "value": self.index.value,
-            },
-            "changes": self.changes,
-            "inference": self.inference,
-            "status": self.status.value,
-            "summary": self.summary,
-        }
-        return json.dumps(d, ensure_ascii=False)
 
-
-@dataclass
-class Action:
+class Action(BaseModel):
     """模型输出的结构化动作块。"""
     action: ActionKind
     target: str = ""       # 动作对象：文件路径 / 命令 / 结点 id
@@ -106,41 +89,21 @@ def _extract_json(text: str) -> str:
 
 def parse_action(raw: str) -> Action:
     """解析并校验模型输出的动作块，非法则抛 SchemaError。"""
+    extracted = _extract_json(raw)
     try:
-        obj = json.loads(_extract_json(raw))
+        # model_validate_json 同时处理 JSON 语法错误与字段校验错误
+        return Action.model_validate_json(extracted)
+    except ValidationError as e:
+        # 精炼错误信息，便于模型据以下一轮重写
+        errors = e.errors()
+        detail = "; ".join(
+            f"{err.get('loc', ('?',))}: {err.get('msg', '')}" for err in errors[:3]
+        )
+        raise SchemaError(f"schema 校验失败: {detail}") from e
     except json.JSONDecodeError as e:
         raise SchemaError(f"JSON 解析失败: {e}") from e
-
-    if not isinstance(obj, dict):
-        raise SchemaError(f"输出必须是 JSON 对象，实际是 {type(obj).__name__}")
-
-    action = obj.get("action")
-    try:
-        kind = ActionKind(action)
-    except ValueError:
-        raise SchemaError(
-            f"非法 action: {action!r}，必须是 {[k.value for k in ActionKind]} 之一"
-        )
-
-    return Action(
-        action=kind,
-        target=str(obj.get("target", "")).strip(),
-        change=str(obj.get("change", "")).strip(),
-        reasoning=str(obj.get("reasoning", "")).strip(),
-    )
 
 
 def node_from_json(line: str) -> Node:
     """从 JSONL 的一行解析出 Node（用于 load_graph）。"""
-    obj = json.loads(line)
-    idx = obj.get("index")
-    return Node(
-        id=obj["id"],
-        parent=obj.get("parent"),
-        git=obj.get("git"),
-        index=None if idx is None else Index(idx["metric"], idx["value"]),
-        changes=obj.get("changes", []),
-        inference=obj.get("inference", ""),
-        status=NodeStatus(obj.get("status", "exploring")),
-        summary=obj.get("summary", ""),
-    )
+    return Node.model_validate_json(line)
