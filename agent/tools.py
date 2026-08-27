@@ -1,0 +1,113 @@
+"""工具层：对齐 Claude Code 的 Tool 接口（validate→execute→result）。
+
+v0.2 的四个工具对应四种动作，核心是把「裸 send_keys 发命令」升级成带退出码的执行路径：
+
+- bash   ：执行一条单行命令，命令末尾注入退出码哨兵 `; echo 'KEYAN_EXIT_CODE='$?`。
+           哨兵在 harness 追加 `; tmux wait -S done` **之前**，所以 $? 捕获的是原命令的退出码。
+- write  ：把多行内容写进容器文件。走 session.copy_to_container（put_archive），
+           绕开 heredoc——这是 P1「多行命令被 `; tmux wait` 破坏」的正解。
+- read   ：读文件（观察，可重复，不参与 act 的去重）。
+- verify ：运行自写的客观检查命令，退出码 0 记 verified=True（done 门控的证据）。
+
+工具层不依赖 terminal-bench 的运行时导入（仅类型标注），因此单元测试可独立导入。
+"""
+from __future__ import annotations
+
+import hashlib
+import re
+import tempfile
+from dataclasses import dataclass
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from terminal_bench.terminal.tmux_session import TmuxSession
+
+EXIT_CODE_MARKER = "KEYAN_EXIT_CODE"
+_EXIT_ECHO = "; echo '" + EXIT_CODE_MARKER + "='$?"
+
+
+@dataclass
+class ToolResult:
+    """工具执行结果：给模型看的输出 + 客观退出码 + 是否通过验证。"""
+    output: str
+    exit_code: int | None = None
+    verified: bool = False
+    ok: bool = True
+
+
+def with_exit_marker(command: str) -> str:
+    """给单行命令末尾注入退出码哨兵（必须在 harness 追加 `; tmux wait -S done` 之前）。"""
+    return command.rstrip() + _EXIT_ECHO
+
+
+def parse_exit_code(text: str) -> int | None:
+    """从终端输出解析最近一次 KEYAN_EXIT_CODE=N。取最后一次出现，避免历史干扰。"""
+    matches = re.findall(re.escape(EXIT_CODE_MARKER) + r"=(-?\d+)", text)
+    return int(matches[-1]) if matches else None
+
+
+def done_gate_rejection(nodes: list, step: int, min_steps_before_done: int = 2) -> str:
+    """done 门控：返回拒绝理由，空串表示放行。
+
+    会话日志是唯一真相：done 前必须 (1) 超过最少步数下限 (2) 有至少一次
+    通过（verified 且 exit_code==0）的 verify 证据。nodes 用 duck-typing，
+    只依赖 verified / exit_code 两个属性，避免工具层反向依赖 schema。
+    """
+    if step < min_steps_before_done:
+        return f"至少完成 {min_steps_before_done} 步后再报告完成"
+    has_evidence = any(
+        getattr(n, "verified", False) and getattr(n, "exit_code", None) == 0
+        for n in nodes
+    )
+    if not has_evidence:
+        return "尚无通过的 verify 证据（KEYAN_EXIT_CODE=0）"
+    return ""
+
+
+def run_bash(session: "TmuxSession", command: str) -> ToolResult:
+    """执行单行命令，返回输出 + 退出码。"""
+    if not command.strip():
+        return ToolResult(output="[空命令，未执行]", exit_code=None, ok=False)
+    try:
+        session.send_keys([with_exit_marker(command), "Enter"], block=True)
+    except Exception as e:  # 超时 / tmux 异常
+        return ToolResult(output=f"[bash 执行失败: {e}]", exit_code=None, ok=False)
+    out = session.get_incremental_output()
+    return ToolResult(output=out, exit_code=parse_exit_code(out))
+
+
+def write_file(
+    session: "TmuxSession",
+    path: str,
+    content: str,
+    logging_dir: Path | None = None,
+) -> ToolResult:
+    """把 content 写入容器内 path（须为绝对路径）。经 copy_to_container 实现。"""
+    target = Path(path)
+    if not target.is_absolute():
+        return ToolResult(
+            output=f"[write 需要绝对路径，收到: {path!r}]", exit_code=None, ok=False
+        )
+    tmp_dir = (
+        (logging_dir / "tmp")
+        if logging_dir is not None
+        else Path(tempfile.gettempdir()) / "keyan"
+    )
+    tmp_dir.mkdir(parents=True, exist_ok=True)
+    tmp_file = tmp_dir / (hashlib.sha1(content.encode()).hexdigest()[:12] + ".tmp")
+    tmp_file.write_text(content, encoding="utf-8")
+    try:
+        session.copy_to_container(
+            paths=[tmp_file],
+            container_dir=str(target.parent),
+            container_filename=target.name,
+        )
+    except Exception as e:
+        return ToolResult(output=f"[write 失败: {e}]", exit_code=None, ok=False)
+    return ToolResult(output=f"[已写入 {path}，{len(content)} 字符]", exit_code=0)
+
+
+def read_file(session: "TmuxSession", path: str) -> ToolResult:
+    """读文件（观察，可重复）。退出码 0 表示文件存在。"""
+    return run_bash(session, f'cat "{path}"')

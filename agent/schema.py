@@ -21,11 +21,19 @@ from pydantic import BaseModel, Field, ValidationError
 
 
 class ActionKind(str, Enum):
-    """模型可选的四类动作。"""
-    ACT = "act"            # 采取一个变化 / 跑一个实验
+    """模型可选的动作。"""
+    ACT = "act"            # 采取一个变化 / 跑一个实验（配合 tool 字段）
+    VERIFY = "verify"      # 运行自写的客观检查命令，产出「通过/失败」证据
     ROLLBACK = "rollback"  # 回滚到 best 结点
     RETRIEVE = "retrieve"  # 按需加载某段上下文（精确上下文管理的抓手）
     DONE = "done"          # 声称到达 target
+
+
+class ToolKind(str, Enum):
+    """action=act 时使用的工具（v0.2：对齐 Claude Code 的 validate→execute→result）。"""
+    BASH = "bash"          # 在终端执行一条单行命令（带退出码哨兵）
+    WRITE = "write"        # 把多行内容写进文件（解决 heredoc 被破坏的问题）
+    READ = "read"          # 读一个文件（观察，可重复）
 
 
 class NodeStatus(str, Enum):
@@ -57,12 +65,16 @@ class Node(BaseModel):
     inference: str = ""
     status: NodeStatus = NodeStatus.EXPLORING
     summary: str = ""      # 一句话人话，供 human-readable 视图使用
+    exit_code: int | None = None   # 该步命令的退出码（0=成功，非0=失败，None=无命令）
+    verified: bool = False         # 该步是否是「已通过」的 verify（done 门控证据）
 
 
 class Action(BaseModel):
     """模型输出的结构化动作块。"""
     action: ActionKind
-    target: str = ""       # 动作对象：文件路径 / 命令 / 结点 id
+    tool: ToolKind = ToolKind.BASH   # 仅 action=act 时生效
+    target: str = ""       # 动作对象：bash=命令；write/read=文件路径；verify=检查命令
+    content: str = ""      # 仅 action=act + tool=write 时使用：文件完整内容
     change: str = ""       # 具体做什么
     reasoning: str = ""    # 为什么这步能缩小与 target 的差距（写入结点的 inference）
 

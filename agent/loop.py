@@ -30,6 +30,7 @@ import json
 import os
 import subprocess
 from pathlib import Path
+from typing import Callable
 
 import httpx
 
@@ -37,6 +38,7 @@ from schema import (
     Action, ActionKind, Index, Node, NodeStatus,
     parse_action, SchemaError, node_from_json,
 )
+from system_prompt import build_loop_prompt
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GRAPH = REPO_ROOT / "graph" / "nodes.jsonl"
@@ -48,21 +50,7 @@ BASE_URL = os.environ.get("OPENAI_BASE_URL", "http://127.0.0.1:8080/v1")
 MAX_STEPS = int(os.environ.get("MAX_STEPS", "200"))  # 单次运行的动作预算
 
 
-SYSTEM_PROMPT = """你是 keyan-automation 的科研探索 Agent。你的任务是探索一个项目，逼近一个目标指标。
-
-你只能输出一个 JSON 动作块，格式：
-{"action": "act|rollback|retrieve|done", "target": "...", "change": "...", "reasoning": "..."}
-
-- act：改一处代码 / 跑一个实验。target=文件路径或命令，change=具体改动。
-- rollback：当前状态不如已知最优，回滚到 best 结点。
-- retrieve：需要加载某段上下文才能决策。target=文件路径或符号名。
-- done：判断已达到目标指标。
-
-规则：
-1. 执行动作前，检查当前状态是否已被探索过；探索过的状态不要重走。
-2. 每一步的 reasoning 必须说明"这步变化 -> 指标变化"的因果推断。
-3. 目标：思路清晰的探索，把错误探索转化为经验，不反复横跳。
-"""
+SYSTEM_PROMPT = build_loop_prompt()
 
 
 # ---------- 0. 基础设施 ----------
@@ -122,6 +110,15 @@ def git_checkout(commit: str) -> bool:
     return r.returncode == 0
 
 
+def git_head() -> str:
+    """当前 HEAD 短 hash（非 git 目录则空串）。"""
+    r = subprocess.run(
+        ["git", "-C", str(WORKDIR), "rev-parse", "--short", "HEAD"],
+        capture_output=True, text=True,
+    )
+    return r.stdout.strip() if r.returncode == 0 else ""
+
+
 def best_node(nodes: list[Node]) -> Node | None:
     return next((n for n in reversed(nodes) if n.status == NodeStatus.BEST), None)
 
@@ -152,16 +149,22 @@ def build_context(goal: dict, nodes: list[Node]) -> str:
 
 # ---------- 2/3. decide + act ----------
 
-def run_step(action: Action) -> None:
-    """执行 ACT。v0 语义：把 target 当作一条 shell 命令在 TASK_WORKDIR 里跑。
+def run_step(action: Action) -> Callable[[], bool]:
+    """执行 ACT，返回一个 disposer（逆变换：checkout 回执行前的状态）。
+
+    v0 语义：把 target 当作一条 shell 命令在 TASK_WORKDIR 里跑。
+    disposer 走 git（对应 dsh 的 ctx.effect 逆变换）：调用时回退到本步之前的 HEAD，
+    供 rollback 按 LIFO 顺序处置效应。
 
     TODO: Terminal-Bench 的容器命令执行接入点；代码编辑类动作接入具体文件修改。
     """
     if not action.target:
         print("[run_step] 空 target，跳过")
-        return
+        return lambda: False
+    prev = git_head()
     print(f"[run_step] 执行: {action.target}")
     subprocess.run(action.target, shell=True, cwd=str(WORKDIR))
+    return lambda: git_checkout(prev)
 
 
 # ---------- 4. sense ----------
@@ -181,6 +184,7 @@ def main(goal: dict) -> None:
     nodes = load_graph()
     seen = {state_key(n) for n in nodes}
     cur_id = len(nodes)
+    disposers: list[Callable[[], bool]] = []  # LIFO 回退链（铁律 A）
 
     for _ in range(MAX_STEPS):
         # 1. observe
@@ -199,15 +203,19 @@ def main(goal: dict) -> None:
             break
         if action.action == ActionKind.ROLLBACK:
             b = best_node(nodes)
-            print(f"[rollback] 回滚到 {b.id if b else '无'} ({b.git if b else ''})")
-            if b:
+            if b and b.git:
+                print(f"[rollback] 回滚到 best {b.id} ({b.git})")
                 git_checkout(b.git)
+            elif disposers:
+                # 无 best 结点时，按 LIFO 处置最近一步的效应
+                print("[rollback] 无 best，LIFO 回退最近一步")
+                disposers.pop()()
             continue
         if action.action == ActionKind.RETRIEVE:
             # v0：retrieve 暂不实现，只打印；后续把目标上下文注入下一轮
             print(f"[retrieve] 请求加载: {action.target}（v0 暂不处理）")
             continue
-        run_step(action)
+        disposers.append(run_step(action))
 
         # 4. sense
         index = sense(goal)

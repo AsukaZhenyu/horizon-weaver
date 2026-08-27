@@ -69,15 +69,18 @@ Agent：自动debug，自动操作运行实验、探索参数，在框架内自�
 
 ### 最小验证原则
 
-从简单到复杂，从模拟到真实
+从简单到复杂，从模拟到真实，“冒烟测试”
 
 在具体实现前，请确保已经建立数学模型，经过初步模拟验算
 
-以及其他的科研原则，参考[科研注意事项](../../Research/5.6-Sol-research.md)和[科研错题本](../../Research/README.md)，这些要放到system prompt上。
+以及其他的科研原则，参考[科研注意事项](research-experience/5.6-Sol-research.md)和[科研错题本](research-experience/5.6-Sol-detour.md)，这些要放到system prompt上。
 
 ### 经验保存
 
 PPT制作，用户个人的偏好，格式，保存形式也是文件，和其他文件一样，保存、压缩、Cache
+
+### 环境隔离
+在Docker中配置环境、执行任务，保证可复现性，同时避免污染宿主环境
 
 
 ## Why SAIR？
