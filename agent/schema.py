@@ -84,29 +84,48 @@ class SchemaError(ValueError):
 
 
 def _extract_json(text: str) -> str:
-    """从模型输出中提取第一个 JSON 对象。
+    """从模型输出中提取第一个 JSON 对象（用括号配对，忽略尾随的围栏代码块）。
 
-    8B 模型常在 JSON 外包裹 ```json ... ``` 或多余说明文字。
+    8B 模型常在 JSON 外包裹 ```json ... ``` 或多余说明文字；
+    write 动作后还会紧跟 ``` 围栏代码块放文件内容，故不能用「首 { 到末 }」。
     """
     text = text.strip()
-    fence = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.DOTALL)
-    if fence:
-        return fence.group(1)
     start = text.find("{")
-    end = text.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        return text[start:end + 1]
-    raise SchemaError("模型输出中找不到 JSON 对象")
+    if start == -1:
+        raise SchemaError("模型输出中找不到 JSON 对象")
+    depth = 0
+    in_str = False
+    escape = False
+    for i in range(start, len(text)):
+        c = text[i]
+        if in_str:
+            if escape:
+                escape = False
+            elif c == "\\":
+                escape = True
+            elif c == '"':
+                in_str = False
+        else:
+            if c == '"':
+                in_str = True
+            elif c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    return text[start:i + 1]
+    raise SchemaError("JSON 对象未闭合（缺少配对的 }）")
 
 
 _TOOL_NAMES = {"bash", "write", "read"}
 
 
 def _normalize_action(data: dict) -> dict:
-    """弱模型常把工具名写进 action 字段（如 {"action":"write"}），而非 action=act + tool=write。
+    """弱模型常见字段错位的归一化。
 
-    归一化：若 action 恰好是某个工具名，则视为 act 并据此设置 tool
-    （工具名出现在 action 槽位，是比 tool 槽位更强的意图信号）。
+    1. 把工具名写进 action 字段（如 {"action":"write"}）→ 视为 act + tool=write；
+    2. 非 act 动作（done/verify/rollback/retrieve）的 tool 字段无意义，
+       弱模型常填 "none"/"N/A"/"null"，直接丢弃，避免 ToolKind 枚举校验失败卡死 done。
     """
     if not isinstance(data, dict):
         return data
@@ -115,6 +134,10 @@ def _normalize_action(data: dict) -> dict:
         data = dict(data)
         data["action"] = ActionKind.ACT.value
         data["tool"] = action
+        return data
+    if action is not None and action != ActionKind.ACT.value:
+        data = dict(data)
+        data.pop("tool", None)
     return data
 
 
@@ -124,7 +147,10 @@ def parse_action(raw: str) -> Action:
     try:
         data = json.loads(extracted)
     except json.JSONDecodeError as e:
-        raise SchemaError(f"JSON 解析失败: {e}") from e
+        hint = ""
+        if "control character" in str(e) or "Unterminated string" in str(e):
+            hint = "（多行内容不要塞进 content 字段——把文件完整内容放进 JSON 之后的 ``` 围栏代码块）"
+        raise SchemaError(f"JSON 解析失败: {e}{hint}") from e
     try:
         # 先归一化弱模型的常见字段错位，再校验
         return Action.model_validate(_normalize_action(data))
@@ -135,6 +161,21 @@ def parse_action(raw: str) -> Action:
             f"{err.get('loc', ('?',))}: {err.get('msg', '')}" for err in errors[:3]
         )
         raise SchemaError(f"schema 校验失败: {detail}") from e
+
+
+_CODE_FENCE_RE = re.compile(r"```[^\n`]*\n(.*?)```", re.DOTALL)
+
+
+def extract_code_block(raw: str) -> str:
+    """从模型输出里提取第一个 fenced code block 的内容（write 工具用）。
+
+    write 动作的 JSON 之后会紧跟 ```python ... ``` 围栏放文件完整内容；
+    内容原样返回（不做 JSON 转义），避免多行内容塞进 JSON 字符串导致解析失败。
+    """
+    m = _CODE_FENCE_RE.search(raw)
+    if not m:
+        return ""
+    return m.group(1).rstrip("\n")
 
 
 def node_from_json(line: str) -> Node:

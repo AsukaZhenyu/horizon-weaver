@@ -97,32 +97,37 @@ _TERMINAL_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此
 字段含义：
 - action：五选一。
   * act：采取一个变化。用 tool 字段指明工具。
-  * verify：运行一条**自写的客观检查命令**，判断你的产出是否正确（这是唯一能证明完成的证据）。
+  * verify：运行一条**客观断言命令**（只检查、不修改），判断你的产出是否正确（这是唯一能证明完成的证据）。断言要像 `test -f /app/out.json`、`grep -q "expected" /app/out.txt`、`python -c "assert ..."` 这样直接判对错。**不要写成「运行脚本 && echo」**。
   * rollback：回退到已知更好的状态。
   * retrieve：需要加载某段上下文才能决策（用 read 读取即可）。
   * done：任务已完成。
 - tool（仅 action=act 时生效）：
   * bash：在终端里执行一条**单行** shell 命令，target=这条命令。
-  * write：把多行内容写进一个文件，target=容器内绝对路径，content=完整文件内容。
+  * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容放在 JSON 之后的 ``` 围栏代码块里（**不要**塞进 content 字段）。
   * read：读取一个文件的内容，target=容器内绝对路径。
 - target：动作对象。act/bash=命令；act/write、act/read=文件路径；verify=检查命令。
-- content：仅 act/write 使用，为文件的完整内容。
+- content：已弃用。写文件时把完整内容放进 JSON 后紧跟的 ``` 围栏代码块，不要放进 content 字段。
 - change：一句话说明这条动作要做什么（客观，写入结点的 changes）。
 - reasoning：为什么这步能朝目标推进（「这步变化 → 预期结果」的因果推断，写入结点的 inference）。
 
-示例（照抄字段取值；action 只能是 act/verify/rollback/retrieve/done，工具名写进 tool，不要写进 action）：
-{"action":"act","tool":"write","target":"/app/x.py","content":"print(1)","change":"写脚本","reasoning":"多行内容用 write，避免 heredoc"}
+示例（照抄字段取值；action 只能是 act/verify/rollback/retrieve/done，工具名写进 tool，不要写进 action；write 的文件内容放在 JSON 后的 ``` 围栏里）：
+{"action":"act","tool":"write","target":"/app/x.py","change":"写脚本","reasoning":"多行内容用 write，避免 heredoc"}
+```python
+print(1)
+print(2)
+```
 {"action":"act","tool":"bash","target":"python /app/x.py","change":"跑脚本","reasoning":"执行刚写入的文件"}
-{"action":"verify","target":"python /app/x.py && test -f /app/out.json","change":"验证产出","reasoning":"确认脚本产出正确"}
+{"action":"verify","target":"test -f /app/out.json && grep -q expected /app/out.json","change":"验证产出","reasoning":"只做客观断言，不重跑脚本"}
 
 ## 硬规则
 
 1. 一次只输出一个动作；观察用 read，改动用 act，验证用 verify。
 2. act/bash 的每条命令**只能执行一次**：已执行过的命令不要重试，换一种完全不同的方法。
-3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联。
-4. 命令执行后系统会给出退出码（KEYAN_EXIT_CODE=N）：0 表示成功，非 0 表示失败。根据退出码判断真失败还是假失败。
+3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放在 JSON 之后的 ``` 围栏代码块里，content 字段留空。
+4. 命令执行后系统会**自动**追加退出码哨兵（KEYAN_EXIT_CODE=N）：0 成功、非 0 失败。**你自己绝不要在命令里 echo KEYAN_EXIT_CODE**——`bash x.sh && echo 'KEYAN_EXIT_CODE=0'` 会让退出码恒为 0，掩盖真实结果。
 5. **done 之前必须至少有一次 verify 且 KEYAN_EXIT_CODE=0**，否则 done 会被拒绝。前 2 步内禁止输出 done。
-6. 环境无法 git 回滚时，rollback 用 act/write 把你上一步的修改改回去，不要空转。"""
+6. 环境无法 git 回滚时，rollback 用 act/write 把你上一步的修改改回去，不要空转。
+7. 相同内容的 write、相同命令的 verify/bash 重复执行会被引擎拒绝并计入卡死——不要反复写同样的东西、反复验证同一件事，换新方法。"""
 
 
 _LOOP_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此之外不要输出任何文字）

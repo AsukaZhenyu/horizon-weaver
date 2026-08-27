@@ -19,6 +19,7 @@ v0.2 相对 v0.1 的升级（三条铁律）：
 """
 from __future__ import annotations
 
+import hashlib
 import re
 from pathlib import Path
 
@@ -28,7 +29,16 @@ from terminal_bench.agents.failure_mode import FailureMode
 from terminal_bench.terminal.tmux_session import TmuxSession
 from terminal_bench.utils.logger import logger
 
-from schema import Action, ActionKind, ToolKind, Node, NodeStatus, parse_action, SchemaError
+from schema import (
+    Action,
+    ActionKind,
+    ToolKind,
+    Node,
+    NodeStatus,
+    extract_code_block,
+    parse_action,
+    SchemaError,
+)
 from system_prompt import build_terminal_prompt
 from tools import done_gate_rejection, read_file, run_bash, write_file
 
@@ -168,6 +178,29 @@ class KeyanAgent(BaseAgent):
             {"role": "user", "content": user},
         ]
 
+    def _stuck_result(
+        self,
+        stuck: int,
+        markers: list[tuple[float, str]],
+        session: TmuxSession,
+        total_in: int,
+        total_out: int,
+        n_nodes: int,
+    ) -> AgentResult | None:
+        """卡死判定：连续 STUCK_LIMIT 步无进展 → 干净终止；否则返回 None 继续。"""
+        if stuck >= STUCK_LIMIT:
+            markers.append((session.get_asciinema_timestamp(), "stuck"))
+            self._logger.warning(
+                f"连续 {stuck} 步无进展，判定卡死，终止（已 {n_nodes} 结点）"
+            )
+            return AgentResult(
+                total_input_tokens=total_in,
+                total_output_tokens=total_out,
+                failure_mode=FailureMode.UNKNOWN,
+                timestamped_markers=markers,
+            )
+        return None
+
     # ---------- 主循环 ----------
 
     def perform_task(
@@ -180,6 +213,8 @@ class KeyanAgent(BaseAgent):
         total_out = 0
         nodes: list[Node] = []
         seen_commands: dict[str, int | None] = {}  # command -> 上次退出码
+        seen_writes: dict[tuple[str, str], None] = {}  # (target, 内容 sha1) -> 已写过
+        seen_verifies: dict[str, int | None] = {}  # verify 命令 -> 上次退出码
         markers: list[tuple[float, str]] = []
         obs = ""
         stuck = 0  # 连续被去重拒绝的步数
@@ -248,6 +283,11 @@ class KeyanAgent(BaseAgent):
                     self._logger.warning(reject)
                     obs = f"[{reject}]\n" + obs
                     stuck += 1
+                    res = self._stuck_result(
+                        stuck, markers, session, total_in, total_out, len(nodes)
+                    )
+                    if res is not None:
+                        return res
                     continue
                 markers.append((session.get_asciinema_timestamp(), "done"))
                 self._logger.info("模型声称任务完成（已通过 verify 门控）")
@@ -260,43 +300,142 @@ class KeyanAgent(BaseAgent):
                     "改用 act+write 把你上一步的修改改回去，不要空转。]\n" + obs
                 )
                 markers.append((session.get_asciinema_timestamp(), "rollback"))
+                self._logger.warning("rollback 无 git 控制权，计入卡死")
+                stuck += 1
+                res = self._stuck_result(
+                    stuck, markers, session, total_in, total_out, len(nodes)
+                )
+                if res is not None:
+                    return res
                 continue
             if action.action == ActionKind.RETRIEVE:
+                # B7：retrieve 是「需要上下文」的占位，本身不产出进度。
+                # 给出文件路径就直接读；否则计入卡死，防止反复 retrieve 空转烧满 max_steps。
+                target = (action.target or "").strip()
+                if target:
+                    result = read_file(session, target)
+                    obs = result.output
+                    _append_node(
+                        changes=[f"retrieve/read {target}"],
+                        inference=action.reasoning,
+                        summary=action.change or f"read {target}",
+                        exit_code=result.exit_code,
+                    )
+                    self._logger.info(f"retrieve→read {target}（exit={result.exit_code}）")
+                    stuck = 0
+                    continue
                 obs = (
-                    "[retrieve：如需某段上下文，用 act + tool=read 读取对应文件。]\n" + obs
+                    "[retrieve 缺少 target：若要读文件，用 act + tool=read 并给出绝对路径；"
+                    "否则直接输出 act 动手。]\n" + obs
                 )
                 markers.append((session.get_asciinema_timestamp(), "retrieve"))
+                self._logger.warning("retrieve 无 target，计入卡死")
+                stuck += 1
+                res = self._stuck_result(
+                    stuck, markers, session, total_in, total_out, len(nodes)
+                )
+                if res is not None:
+                    return res
                 continue
 
             # 4. verify：自写客观检查命令，产出 done 门控证据
             if action.action == ActionKind.VERIFY:
-                result = run_bash(session, action.target)
+                target = (action.target or "").strip()
+                # B5：重复 verify 命令 = 空转（与 bash 去重一致），计入卡死
+                if target in seen_verifies:
+                    prev = seen_verifies[target]
+                    obs = (
+                        f"[拒绝执行：verify 命令 {target[:80]!r} 已执行过（上次退出码 {prev}）。"
+                        "不要重复验证同一件事，换一条新的客观断言。]\n" + obs
+                    )
+                    _append_node(
+                        changes=[f"verify: {target}（重复，已拒绝）"],
+                        inference=action.reasoning,
+                        summary=action.change or f"verify: {target[:60]}",
+                        status=NodeStatus.REFUTED,
+                        exit_code=prev,
+                    )
+                    stuck += 1
+                    res = self._stuck_result(
+                        stuck, markers, session, total_in, total_out, len(nodes)
+                    )
+                    if res is not None:
+                        return res
+                    continue
+                result = run_bash(session, target)
                 exit_code = result.exit_code
                 verified = exit_code == 0
                 obs = result.output
+                seen_verifies[target] = exit_code
                 _append_node(
-                    changes=[f"verify: {action.target}"],
+                    changes=[f"verify: {target}"],
                     inference=action.reasoning,
-                    summary=action.change or f"verify: {action.target[:60]}",
+                    summary=action.change or f"verify: {target[:60]}",
                     exit_code=exit_code,
                     verified=verified,
                 )
                 markers.append(
-                    (session.get_asciinema_timestamp(), f"verify({exit_code}): {action.target[:60]}")
+                    (session.get_asciinema_timestamp(), f"verify({exit_code}): {target[:60]}")
                 )
                 self._logger.info(f"verify 退出码 {exit_code}，verified={verified}")
-                stuck = 0
+                # B3：verify 失败也算「无进展」，纳入卡死判定（修复反复 verify 空转）
+                stuck = 0 if verified else stuck + 1
+                res = self._stuck_result(
+                    stuck, markers, session, total_in, total_out, len(nodes)
+                )
+                if res is not None:
+                    return res
                 continue
 
             # 5. act：按 tool 分派（bash / write / read）
             if action.tool == ToolKind.WRITE:
-                result = write_file(session, action.target, action.content, logging_dir)
+                # B1：文件内容优先取 JSON 后的 ``` 围栏代码块，而非 JSON 里的 content 字段
+                content = extract_code_block(raw) or action.content
+                if not content.strip():
+                    obs = (
+                        "[write 缺少文件内容：请在 JSON 后紧跟 ``` 围栏代码块放完整内容，"
+                        "不要把多行内容塞进 content 字段。]\n" + obs
+                    )
+                    stuck += 1
+                    res = self._stuck_result(
+                        stuck, markers, session, total_in, total_out, len(nodes)
+                    )
+                    if res is not None:
+                        return res
+                    continue
+                # B5：相同内容写到相同文件 = 空转，计入卡死（与 bash 去重一致）
+                fp = hashlib.sha1(content.encode()).hexdigest()
+                wkey = (action.target, fp)
+                if wkey in seen_writes:
+                    obs = (
+                        f"[拒绝执行：文件 {action.target!r} 已写入过相同内容，不要重复写。"
+                        "若确需修改，内容必须与上次不同。]\n" + obs
+                    )
+                    _append_node(
+                        changes=[f"write {action.target}（重复内容，已拒绝）"],
+                        inference=action.reasoning,
+                        summary=action.change or f"write {action.target}",
+                        status=NodeStatus.REFUTED,
+                        exit_code=None,
+                    )
+                    stuck += 1
+                    res = self._stuck_result(
+                        stuck, markers, session, total_in, total_out, len(nodes)
+                    )
+                    if res is not None:
+                        return res
+                    continue
+                result = write_file(session, action.target, content, logging_dir)
                 obs = result.output
+                seen_writes[wkey] = None
                 _append_node(
                     changes=[f"write {action.target}"],
                     inference=action.reasoning,
                     summary=action.change or f"write {action.target}",
                     exit_code=result.exit_code,
+                )
+                self._logger.info(
+                    f"write {action.target}（{len(content)} 字符，exit={result.exit_code}）"
                 )
                 stuck = 0
                 continue
@@ -310,6 +449,7 @@ class KeyanAgent(BaseAgent):
                     summary=action.change or f"read {action.target}",
                     exit_code=result.exit_code,
                 )
+                self._logger.info(f"read {action.target}（exit={result.exit_code}）")
                 stuck = 0
                 continue
 
@@ -346,20 +486,13 @@ class KeyanAgent(BaseAgent):
                     summary=action.change or action.reasoning,
                     exit_code=exit_code,
                 )
+                self._logger.info(f"act: {command[:80]}（exit={exit_code}）")
                 stuck = 0
 
-            # 6. 卡死判定：连续 STUCK_LIMIT 步被去重拒绝 → 干净终止
-            if stuck >= STUCK_LIMIT:
-                markers.append((session.get_asciinema_timestamp(), "stuck"))
-                self._logger.warning(
-                    f"连续 {stuck} 步无新命令，判定卡死，终止（已 {len(nodes)} 结点）"
-                )
-                return AgentResult(
-                    total_input_tokens=total_in,
-                    total_output_tokens=total_out,
-                    failure_mode=FailureMode.UNKNOWN,
-                    timestamped_markers=markers,
-                )
+            # 6. 卡死判定：连续 STUCK_LIMIT 步无进展 → 干净终止
+            res = self._stuck_result(stuck, markers, session, total_in, total_out, len(nodes))
+            if res is not None:
+                return res
 
         return AgentResult(
             total_input_tokens=total_in,

@@ -17,7 +17,7 @@ import hashlib
 import re
 import tempfile
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -25,6 +25,18 @@ if TYPE_CHECKING:
 
 EXIT_CODE_MARKER = "KEYAN_EXIT_CODE"
 _EXIT_ECHO = "; echo '" + EXIT_CODE_MARKER + "='$?"
+
+# B8：模型会偷学 harness 的哨兵，在自己命令里手动写
+#   `; echo 'KEYAN_EXIT_CODE='$?` 或 `&& echo 'KEYAN_EXIT_CODE=0'`。
+# 这会在真实命令退出码之后再产生第二个「伪哨兵」；parse_exit_code 取最后一位，
+# 于是被这个恒为 0 的伪哨兵掩盖成 0（pip install 失败被报成成功）。
+# 执行前先剥掉模型自带的手动哨兵，保证只剩 harness 追加的那一个，
+# $? 捕获的才是原命令的真实退出码。
+# 引号可能落在 KEYAN_EXIT_CODE 前、`=` 后（如 'KEYAN_EXIT_CODE='$?）、或值后；
+# 值可能是 $? 或数字。故用 [\$?\d]* 统一收尾，引号各位置可选。
+_SELF_ECHO_RE = re.compile(
+    r"(?:;|&&|\|\|)\s*echo\s+['\"]?KEYAN_EXIT_CODE\s*=\s*['\"]?[\$?\d]*['\"]?"
+)
 
 
 @dataclass
@@ -37,7 +49,12 @@ class ToolResult:
 
 
 def with_exit_marker(command: str) -> str:
-    """给单行命令末尾注入退出码哨兵（必须在 harness 追加 `; tmux wait -S done` 之前）。"""
+    """给单行命令末尾注入退出码哨兵（必须在 harness 追加 `; tmux wait -S done` 之前）。
+
+    先剥掉模型可能偷学的 `echo 'KEYAN_EXIT_CODE=...'`（B8），
+    避免伪哨兵掩盖真实退出码。
+    """
+    command = _SELF_ECHO_RE.sub("", command)
     return command.rstrip() + _EXIT_ECHO
 
 
@@ -83,12 +100,18 @@ def write_file(
     content: str,
     logging_dir: Path | None = None,
 ) -> ToolResult:
-    """把 content 写入容器内 path（须为绝对路径）。经 copy_to_container 实现。"""
-    target = Path(path)
-    if not target.is_absolute():
+    """把 content 写入容器内 path（须为容器 POSIX 绝对路径）。经 copy_to_container 实现。
+
+    容器路径是 POSIX 风格（/app/x.py），必须用 PurePosixPath 解析：
+    Windows 上的 Path 会把 /app 判成非绝对（缺盘符），导致写文件全部被拒。
+    """
+    if not path.startswith("/"):
         return ToolResult(
-            output=f"[write 需要绝对路径，收到: {path!r}]", exit_code=None, ok=False
+            output=f"[write 需要容器内绝对路径（以 / 开头），收到: {path!r}]",
+            exit_code=None,
+            ok=False,
         )
+    target = PurePosixPath(path)
     tmp_dir = (
         (logging_dir / "tmp")
         if logging_dir is not None
@@ -100,7 +123,7 @@ def write_file(
     try:
         session.copy_to_container(
             paths=[tmp_file],
-            container_dir=str(target.parent),
+            container_dir=str(target.parent) or "/",
             container_filename=target.name,
         )
     except Exception as e:
