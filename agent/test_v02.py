@@ -44,6 +44,13 @@ def test_action_rejects_bad_tool():
         pass
 
 
+def test_action_normalizes_tool_name_in_action_field():
+    a = parse_action('{"action": "write", "tool": "write", "target": "/app/x.py", "content": "print(1)"}')
+    assert a.action == ActionKind.ACT
+    assert a.tool == ToolKind.WRITE
+    assert a.content == "print(1)"
+
+
 def test_node_new_fields_default():
     n = Node(id="n1")
     assert n.exit_code is None

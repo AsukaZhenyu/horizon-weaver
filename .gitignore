@@ -17,3 +17,11 @@ venv/
 # 通用
 .DS_Store
 Thumbs.db
+
+开发log/
+
+# 参考代码分析
+reference-analysis/
+
+# 个人科研经历
+research-experience/

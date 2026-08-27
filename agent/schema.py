@@ -99,12 +99,35 @@ def _extract_json(text: str) -> str:
     raise SchemaError("模型输出中找不到 JSON 对象")
 
 
+_TOOL_NAMES = {"bash", "write", "read"}
+
+
+def _normalize_action(data: dict) -> dict:
+    """弱模型常把工具名写进 action 字段（如 {"action":"write"}），而非 action=act + tool=write。
+
+    归一化：若 action 恰好是某个工具名，则视为 act 并据此设置 tool
+    （工具名出现在 action 槽位，是比 tool 槽位更强的意图信号）。
+    """
+    if not isinstance(data, dict):
+        return data
+    action = data.get("action")
+    if isinstance(action, str) and action in _TOOL_NAMES:
+        data = dict(data)
+        data["action"] = ActionKind.ACT.value
+        data["tool"] = action
+    return data
+
+
 def parse_action(raw: str) -> Action:
     """解析并校验模型输出的动作块，非法则抛 SchemaError。"""
     extracted = _extract_json(raw)
     try:
-        # model_validate_json 同时处理 JSON 语法错误与字段校验错误
-        return Action.model_validate_json(extracted)
+        data = json.loads(extracted)
+    except json.JSONDecodeError as e:
+        raise SchemaError(f"JSON 解析失败: {e}") from e
+    try:
+        # 先归一化弱模型的常见字段错位，再校验
+        return Action.model_validate(_normalize_action(data))
     except ValidationError as e:
         # 精炼错误信息，便于模型据以下一轮重写
         errors = e.errors()
@@ -112,8 +135,6 @@ def parse_action(raw: str) -> Action:
             f"{err.get('loc', ('?',))}: {err.get('msg', '')}" for err in errors[:3]
         )
         raise SchemaError(f"schema 校验失败: {detail}") from e
-    except json.JSONDecodeError as e:
-        raise SchemaError(f"JSON 解析失败: {e}") from e
 
 
 def node_from_json(line: str) -> Node:

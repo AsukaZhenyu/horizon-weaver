@@ -110,6 +110,11 @@ _TERMINAL_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此
 - change：一句话说明这条动作要做什么（客观，写入结点的 changes）。
 - reasoning：为什么这步能朝目标推进（「这步变化 → 预期结果」的因果推断，写入结点的 inference）。
 
+示例（照抄字段取值；action 只能是 act/verify/rollback/retrieve/done，工具名写进 tool，不要写进 action）：
+{"action":"act","tool":"write","target":"/app/x.py","content":"print(1)","change":"写脚本","reasoning":"多行内容用 write，避免 heredoc"}
+{"action":"act","tool":"bash","target":"python /app/x.py","change":"跑脚本","reasoning":"执行刚写入的文件"}
+{"action":"verify","target":"python /app/x.py && test -f /app/out.json","change":"验证产出","reasoning":"确认脚本产出正确"}
+
 ## 硬规则
 
 1. 一次只输出一个动作；观察用 read，改动用 act，验证用 verify。
