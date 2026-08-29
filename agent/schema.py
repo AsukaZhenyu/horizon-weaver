@@ -79,20 +79,38 @@ class Action(BaseModel):
     reasoning: str = ""    # 为什么这步能缩小与 target 的差距（写入结点的 inference）
 
 
+class Attempt(BaseModel):
+    """一次尝试的完整记录：action（做了什么）+ result（客观结果）+ inference（引擎自动推断）。
+
+    Node Agent 上下文组织的核心单元——所有尝试都以 (action, result, inference)
+    三元组进上下文；其中 inference 由引擎确定性生成（尤其对失败尝试），
+    不让弱模型自己反思。供 NodeAgent 记录、高层 agent 未来消费。
+
+    - action_summary  动作摘要，如 "bash pip install pandas" / "write /app/x.py"
+    - target          动作对象（命令 / 文件路径）
+    - exit_code       该步退出码（0=成功，非0=失败，None=无命令/超时）
+    - result          结果摘要（错误优先、截断）
+    - raw_output      命令完整输出（剥掉 harness 噪声、不做摘要，截断到 RAW_LIMIT）。
+                      与 result（一句话摘要）互补：模型既能快速扫账本，又能看完整细节。
+    - inference       引擎自动生成的推断：这一步意味着什么、下一步往哪走
+    - verified        是否「已通过」的 verify（done 门控证据）
+    """
+    step: int
+    action_summary: str = ""
+    target: str = ""
+    exit_code: int | None = None
+    result: str = ""
+    raw_output: str = ""
+    inference: str = ""
+    verified: bool = False
+
+
 class SchemaError(ValueError):
     """模型输出不符合 schema。"""
 
 
-def _extract_json(text: str) -> str:
-    """从模型输出中提取第一个 JSON 对象（用括号配对，忽略尾随的围栏代码块）。
-
-    8B 模型常在 JSON 外包裹 ```json ... ``` 或多余说明文字；
-    write 动作后还会紧跟 ``` 围栏代码块放文件内容，故不能用「首 { 到末 }」。
-    """
-    text = text.strip()
-    start = text.find("{")
-    if start == -1:
-        raise SchemaError("模型输出中找不到 JSON 对象")
+def _balanced_object(text: str, start: int) -> str | None:
+    """从 start（指向 '{'）做括号配对，返回闭合的 {...} 字符串；未闭合返回 None。"""
     depth = 0
     in_str = False
     escape = False
@@ -114,7 +132,33 @@ def _extract_json(text: str) -> str:
                 depth -= 1
                 if depth == 0:
                     return text[start:i + 1]
-    raise SchemaError("JSON 对象未闭合（缺少配对的 }）")
+    return None
+
+
+def _extract_json(text: str) -> str:
+    """从模型输出中提取动作 JSON 对象（括号配对，容忍包围的自由文本）。
+
+    支持两种输出形态：
+    - System 2：模型先自由思考（思考文字里可能含代码块 / JSON 示例），最后输出动作 JSON；
+    - write：动作 JSON 在前，文件内容在后面的 ``` 围栏代码块里（可能含大括号）。
+
+    策略：从后往前找每个 `{"action"` 起点做括号配对，返回第一个配对成功的
+    （即模型最终要执行的那个动作——动作约定写在最后）；找不到 `{"action"` 时
+    退回第一个 `{` 配对。这样思考文字里的杂散大括号 / JSON 示例不会干扰提取。
+    """
+    text = text.strip()
+    starts = [m.start() for m in re.finditer(r'\{\s*"action"', text)]
+    for start in reversed(starts):
+        obj = _balanced_object(text, start)
+        if obj is not None:
+            return obj
+    first = text.find("{")
+    if first == -1:
+        raise SchemaError("模型输出中找不到 JSON 对象")
+    obj = _balanced_object(text, first)
+    if obj is None:
+        raise SchemaError("JSON 对象未闭合（缺少配对的 }）")
+    return obj
 
 
 _TOOL_NAMES = {"bash", "write", "read"}
@@ -167,15 +211,17 @@ _CODE_FENCE_RE = re.compile(r"```[^\n`]*\n(.*?)```", re.DOTALL)
 
 
 def extract_code_block(raw: str) -> str:
-    """从模型输出里提取第一个 fenced code block 的内容（write 工具用）。
+    """从模型输出里提取最后一个 fenced code block 的内容（write 工具用）。
 
     write 动作的 JSON 之后会紧跟 ```python ... ``` 围栏放文件完整内容；
+    取**最后一个**围栏块——System 2 下模型思考文字里可能含 ``` 示例，
+    文件内容始终是动作 JSON 之后的那个（最后一个）。
     内容原样返回（不做 JSON 转义），避免多行内容塞进 JSON 字符串导致解析失败。
     """
-    m = _CODE_FENCE_RE.search(raw)
-    if not m:
+    blocks = _CODE_FENCE_RE.findall(raw)
+    if not blocks:
         return ""
-    return m.group(1).rstrip("\n")
+    return blocks[-1].rstrip("\n")
 
 
 def node_from_json(line: str) -> Node:
