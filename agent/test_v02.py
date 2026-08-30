@@ -175,6 +175,27 @@ def test_write_file_rejects_relative_path():
     assert not r.ok
 
 
+def test_write_file_preserves_lf_newlines():
+    # B9：write_text 在 Windows 文本模式默认把 \n 翻成 \r\n，写进 Linux 容器的文件
+    # 会带 \r，跑脚本时报 `$'\r': command not found`（fix-permissions 冒烟实测）。
+    # write_file 必须用 write_bytes 保持 LF。
+    from pathlib import Path
+
+    class FakeSession:
+        def __init__(self):
+            self.written_bytes = None
+
+        def copy_to_container(self, paths=None, container_dir=None, container_filename=None):
+            self.written_bytes = Path(paths[0]).read_bytes()
+
+    s = FakeSession()
+    content = "#!/bin/bash\n\necho hi\n"
+    r = write_file(s, "/app/x.sh", content)
+    assert r.exit_code == 0
+    assert s.written_bytes == content.encode("utf-8")  # 原始 LF
+    assert b"\r" not in s.written_bytes
+
+
 def main() -> int:
     import traceback
 

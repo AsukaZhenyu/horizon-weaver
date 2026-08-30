@@ -172,7 +172,9 @@ def write_file(
     )
     tmp_dir.mkdir(parents=True, exist_ok=True)
     tmp_file = tmp_dir / (hashlib.sha1(content.encode()).hexdigest()[:12] + ".tmp")
-    tmp_file.write_text(content, encoding="utf-8")
+    # 用 write_bytes 写原始字节：write_text 在 Windows 上文本模式默认把 \n 翻成 \r\n，
+    # 容器里会出现 `$'\r': command not found`（B9）——写进 Linux 容器的文件必须保持 LF。
+    tmp_file.write_bytes(content.encode("utf-8"))
     try:
         session.copy_to_container(
             paths=[tmp_file],
