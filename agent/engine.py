@@ -67,6 +67,9 @@ _NOISE_LINE_RE = re.compile(
     r"installing collected packages|warning:|note:)\s*",
     re.IGNORECASE,
 )
+# 退出码哨兵值（KEYAN_EXIT_CODE=N）。可能独立成行，也可能因文件末行无换行而拼在
+# 内容行尾（如 `echo "ok"KEYAN_EXIT_CODE=0`）——后者不能整行丢弃，只剥掉哨兵值。
+_SENTINEL_VALUE_RE = re.compile(r"KEYAN_EXIT_CODE=-?\d+")
 
 
 def _sanitize_terminal(text: str) -> str:
@@ -82,16 +85,21 @@ def _sanitize_terminal(text: str) -> str:
 def _clean_bash_output(output: str) -> list[str]:
     """清洗一条 bash 命令的原始终端输出，返回真实命令输出的非空行（顺序保留）。
 
-    剥掉三类 harness 注入的噪声，否则「真实输出」会被它们淹没：
-    - 回显的命令行 + 退出码哨兵（含 `KEYAN_EXIT_CODE` / `tmux wait` 的行）；
+    剥掉 harness 注入的噪声，否则「真实输出」会被它们淹没：
+    - 回显的命令行（含 `tmux wait`）；
+    - 退出码哨兵：独立成行 → 丢弃；拼在内容行尾（文件末行无换行）→ 只剥哨兵值、保留内容；
     - 命令跑完后 tmux 回显的尾部 shell 提示符（`root@...:/app#`）。
     """
     lines = [l.strip() for l in _sanitize_terminal(output or "").splitlines() if l.strip()]
-    cleaned = [
-        l
-        for l in lines
-        if "KEYAN_EXIT_CODE" not in l and "tmux wait" not in l and l not in _HARNESS_HEADERS
-    ]
+    cleaned: list[str] = []
+    for l in lines:
+        if "tmux wait" in l or l in _HARNESS_HEADERS:
+            continue
+        if "KEYAN_EXIT_CODE" in l:
+            l = _SENTINEL_VALUE_RE.sub("", l).strip()
+            if not l:
+                continue
+        cleaned.append(l)
     while cleaned and _SHELL_PROMPT_RE.match(cleaned[-1]):
         cleaned.pop()
     return cleaned
@@ -262,8 +270,12 @@ def make_attempt(step_no: int, action: Action, result) -> Attempt:
         res_txt = ""  # write 的结果已由 inference 的 result.output 承载，避免重复
         raw = ""
     elif action.tool == ToolKind.READ:
-        res_txt = _sanitize_terminal(result.output or "")[:ATTEMPT_RESULT_LIMIT]
-        raw = "\n".join(_clean_bash_output(result.output))[:ATTEMPT_RAW_LIMIT]
+        # read = `cat "path"`，res_txt 只应展示文件内容（清洗后的），不能把终端噪声
+        #（回显命令行 / 退出码哨兵）当文件内容喂给模型——否则模型会把 KEYAN_EXIT_CODE=0
+        # 误判成「文件里混入了哨兵」，反复 rewrite 文件去「移除」它（B10，fix-permissions 实测）。
+        lines = _clean_bash_output(result.output)
+        res_txt = "\n".join(lines)[:ATTEMPT_RESULT_LIMIT]
+        raw = "\n".join(lines)[:ATTEMPT_RAW_LIMIT]
     else:
         res_txt = summarize_result(result.output, result.exit_code)
         raw = "\n".join(_clean_bash_output(result.output))[:ATTEMPT_RAW_LIMIT]

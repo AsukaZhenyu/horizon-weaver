@@ -133,6 +133,17 @@ def test_summarize_result_strips_harness_header():
     assert summarize_result(out, exit_code=0) == ""
 
 
+def test_summarize_result_strips_sentinel_appended_to_content():
+    # B10：文件末行无换行时，退出码哨兵拼到内容行尾（`echo okKEYAN_EXIT_CODE=0`）。
+    # 不能整行丢弃（会吞掉真实内容），只剥哨兵值——否则 read 出来的文件内容缺行，
+    # 或模型把哨兵误判成「文件里混入了 KEYAN_EXIT_CODE」，反复 rewrite 去移除它。
+    out = (
+        'cat "/app/x.sh"; echo \'KEYAN_EXIT_CODE=\'$?; tmux wait -S done\n'
+        "echo okKEYAN_EXIT_CODE=0\n"
+    )
+    assert summarize_result(out, exit_code=0) == "echo ok"
+
+
 # ---------- attempt_summary ----------
 
 def test_attempt_summary_bash():
