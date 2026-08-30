@@ -90,13 +90,15 @@ def build_loop_prompt() -> str:
 
 
 def build_node_agent_prompt() -> str:
-    """Node Agent（问题解决层）专用：只含任务级动作 schema + 硬规则，不含科研层。
+    """Node Agent（问题解决层）专用 prompt 的**骨架**（v0.5）。
 
     科研层（图导航协议、结点三分、科研规则）属于高层 agent，见 build_loop_prompt。
-    v0.3 关键：弱模型解决小问题不需要科研/项目整体知识，删掉科研层让注意力
-    聚焦在「这一步做什么、结果如何、下一步往哪走」上。
+    v0.5 起，Node Agent 的完整 prompt = 本骨架 + 各能力插件（system2 / verify / spec）
+    各自贡献的 prompt_section（由 SystemPromptPlugin 通过 ctx.collect("prompt-section")
+    汇总）。骨架只含「act/done + bash/write/read + 硬规则」这些插件无关的公共部分，
+    spec/verify/system2 的可选语义不再写死在这里——摘掉哪个插件，哪段就从 prompt 消失。
     """
-    return _NODE_AGENT_ACTIONS
+    return NODE_AGENT_SKELETON
 
 
 _TERMINAL_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此之外不要输出任何文字）
@@ -159,56 +161,34 @@ _LOOP_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此之�
 
 
 # ---------------------------------------------------------------------------
-# Node Agent（v0.3）：只留任务级动作 schema + 硬规则，删掉科研层。
-# 动作只有 act/verify/done（rollback/retrieve 是科研层语义，留给高层 agent）。
+# Node Agent（v0.5）：只留插件无关的骨架——act/done + bash/write/read + 硬规则。
+# verify / spec / system2 的语义各自迁到 plugins.py 里对应插件的 prompt_section。
+# 完整 prompt = 本骨架 + Σ 各插件 prompt_section（SystemPromptPlugin 汇总）。
 # ---------------------------------------------------------------------------
 
-_NODE_AGENT_ACTIONS = """## 你的动作（先简要思考，最后输出一个 JSON 块）
+NODE_AGENT_SKELETON = """## 你的动作（最后输出一个 JSON 块）
 
-可以先用一两句话简要说明「这步做什么、为什么」（System 2 思考，可选），然后输出一个 JSON 动作块。**JSON 块是唯一会被执行的内容，必须是输出的最后内容、完整闭合。** 不要长篇大论——思考超过 3 句就很可能让 JSON 出不来而被拒绝；拿不准时直接输出 JSON。
-
-### 第一步：必须先输出 spec（构造验收测试样例）
-
-拿到指令后，**第一轮先输出 spec**，把「怎样算完成」写成一组可检查的测试样例锁定下来，然后才开始动手。先判断任务类别，再按类别构造：
-
-- **target（目标值显式）**：指令写明了精确目标（如「算到 462」）。样例直接断言目标值：`python3 -c "assert eval(open('/app/output.txt').read().strip())==462"`。黑天鹅 = "长得对但值错"，绝不用 `test -f` 或「含数字」这类表面检查。
-- **behavior（行为/症状）**：指令描述「坏了」的症状（如「pip 坏了」「权限不对」）。样例触发行为、断言症状消失：`python3 -m pip install somepkg && python3 -c "import somepkg"`。尽量覆盖多个调用入口。
-- **transform（数据变换）**：指令描述数据变换（jq/csv/pandas）。样例在小输入上跑参考、diff 产物：`diff <(jq '...' /app/in.json) /app/expected.json`。先特殊后一般（小样本→全量）。
-- **diagnose（分析/诊断）**：指令要求跑分析出报告。样例断言报告含关键发现。
-
-样例硬要求：**每条内嵌断言**（`assert` / `==` / `grep -q 具体串` / `diff 参考` / 触发行为后断言 exit 0），**不要** `echo` / `true` / `test -f` / `ls` 这类只验「存在/非空」的表面检查。取最小充分集（通常 2~4 条，最多 6 条）。
+**JSON 块是唯一会被执行的内容，必须是输出的最后内容、完整闭合。** 不要长篇大论——拿不准时直接输出 JSON。
 
 ### 格式
 
-{"action": "spec|act|verify|done", "tool": "bash|write|read", "target": "...", "content": "...", "change": "...", "reasoning": "...", "cases": [{"command":"...","clause":"...","category":"..."}]}
-
-spec 示例（照抄结构；cases 是测试样例数组）：
-{"action":"spec","cases":[{"command":"python3 -c \"assert eval(open('/app/output.txt').read().strip())==462\"","clause":"输出表达式的值等于 462","category":"target"}]}
+{"action": "act|done", "tool": "bash|write|read", "target": "...", "content": "...", "change": "...", "reasoning": "..."}
 
 字段含义：
-- action：四选一。
-  * spec：**只在第一轮输出一次**，构造验收测试样例（cases 字段）。锁定后上下文会显示「验收测试样例」，
-    之后**禁止再输出 spec**——直接 act / verify / done。重复输出 spec 会被引擎拒绝并计入终止。
-  * act：采取一个变化，用 tool 字段指明工具。
-  * verify：运行**你已承诺的某条 spec 样例命令**（逐字复制该样例的 command 作为 target），只检查、不修改，产出「通过/失败」证据。
-  * done：任务已完成。
+- action：act（采取一个变化）/ done（任务已完成）。
 - tool（仅 action=act 时生效）：
   * bash：在终端里执行一条**单行** shell 命令，target=这条命令。
   * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容放在 JSON 之后的 ``` 围栏代码块里（**不要**塞进 content 字段）。
   * read：读取一个文件的内容，target=容器内绝对路径。
-- target：动作对象。act/bash=命令；act/write、act/read=文件路径；verify=某条 spec 样例的 command。
+- target：动作对象。act/bash=命令；act/write、act/read=文件路径。
 - content：已弃用。写文件时把完整内容放进 JSON 后紧跟的 ``` 围栏代码块，不要放进 content 字段。
 - change：一句话说明这条动作要做什么（客观）。
 - reasoning：为什么这步能朝目标推进（「这步变化 → 预期结果」的因果推断）。
-- cases：仅 action=spec 时使用，测试样例数组，每条含 command（带断言的命令）/ clause（对应哪个验收点）/ category（target/behavior/transform/diagnose）。
 
 ## 硬规则
 
-1. **第一步必须先输出 spec，且 spec 只输出这一次**；锁定后（上下文会显示「验收测试样例」）禁止再输出 spec，直接 act / verify / done，否则引擎拒绝并计入终止。
-2. 一次只输出一个动作；观察用 read，改动用 act，验证用 verify。
-3. act/bash 的每条命令**只能执行一次**：已执行过的命令不要重试，换一种完全不同的方法。
-4. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放在 JSON 之后的 ``` 围栏代码块里，content 字段留空。
-5. 命令执行后系统会**自动**追加退出码哨兵（KEYAN_EXIT_CODE=N）：0 成功、非 0 失败。**你自己绝不要在命令里 echo KEYAN_EXIT_CODE**——`bash x.sh && echo 'KEYAN_EXIT_CODE=0'` 会让退出码恒为 0，掩盖真实结果。
-6. **done 前引擎会跑全部 spec 样例，全部通过才算完成**；任一条失败会被告知哪条没过，请修复后重试 done，**不要降低验收标准或改样例**。前 2 步内禁止输出 done。
-7. verify 的目标必须是某条 spec 样例的 command（逐字相同），不能自由造新断言。
-8. 相同内容的 write、相同命令的 verify/bash 重复执行会被引擎拒绝并计入卡死——不要反复写同样的东西、反复验证同一件事，换新方法。"""
+1. 一次只输出一个动作；观察用 read，改动用 act。
+2. act/bash 的每条命令**只能执行一次**：已执行过的命令不要重试，换一种完全不同的方法。
+3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放在 JSON 之后的 ``` 围栏代码块里，content 字段留空。
+4. 命令执行后系统会**自动**追加退出码哨兵（KEYAN_EXIT_CODE=N）：0 成功、非 0 失败。**你自己绝不要在命令里 echo KEYAN_EXIT_CODE**——`bash x.sh && echo 'KEYAN_EXIT_CODE=0'` 会让退出码恒为 0，掩盖真实结果。
+5. 相同内容的 write、相同命令的 bash 重复执行会被引擎拒绝并计入卡死——不要反复写同样的东西、反复验证同一件事，换新方法。"""

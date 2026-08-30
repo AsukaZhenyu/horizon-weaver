@@ -17,7 +17,7 @@ from pathlib import Path
 from terminal_bench.agents.base_agent import AgentResult, BaseAgent
 from terminal_bench.agents.failure_mode import FailureMode
 
-from node_agent import NodeAgent
+from node_agent import NodeAgent, build_default_plugins
 
 # termination -> FailureMode：stuck / max_steps 都不是「引擎崩溃」，只是没解出来；
 # 唯一致命的引擎错误是模型服务调用失败（model_error）。
@@ -39,10 +39,13 @@ class TbTestAgent(BaseAgent):
         **kwargs,
     ):
         super().__init__(**kwargs)
+        # v0.5：spec-first 净负，默认关；显式 build_default_plugins()（enable_spec=False）。
         self._node_agent = NodeAgent(
-            model_name=model_name,
-            api_base=api_base,
-            temperature=temperature,
+            plugins=build_default_plugins(
+                model_name=model_name,
+                api_base=api_base,
+                temperature=temperature,
+            ),
             max_steps=max_steps,
         )
 
