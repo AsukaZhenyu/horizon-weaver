@@ -18,6 +18,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import re
+import time
 from pathlib import Path
 
 import httpx
@@ -26,19 +27,28 @@ from schema import (
     Action,
     ActionKind,
     Attempt,
+    SpecCase,
     ToolKind,
     extract_code_block,
     parse_action,
     SchemaError,
 )
 from system_prompt import build_node_agent_prompt
-from tools import ToolResult, done_gate_rejection, read_file, run_bash, write_file
+from tools import ToolResult, read_file, run_bash, validate_spec, write_file
 
 SYSTEM_PROMPT = build_node_agent_prompt()
 
 # done 门控：前 2 步禁止 done；卡死判定阈值（连续 N 步被去重拒绝）。
 MIN_STEPS_BEFORE_DONE = 2
 STUCK_LIMIT = 8
+# spec 锁定后再输出 spec 的独立终止阈值（不被 act 重置）。
+# spec/act 跷跷板：spec 被拒后下一个 act 重置 stuck，让「连续无进展」永远到不了 8，
+# 模型空转直到 harness 900s 超时（broken-python 实测）。单独计数，满 3 次干净终止。
+SPEC_REEMIT_LIMIT = 3
+# 墙钟时间上限（秒）：NodeAgent 必须在 terminal-bench 的 900s agent_timeout 之前主动返回。
+# 超时会导致 harness「executor 线程 join」卡死 1~2.5 小时（jq/countdown-game 实测），
+# 所以宁可提前干净终止（max_steps），也不撞 900s 硬超时。留 300s 缓冲。
+TIME_LIMIT_S = 600.0
 
 # 上下文预算：单条 result 截断长度；单条 raw_output 截断长度；账本最多保留的最近条数（更旧压缩为一行）。
 ATTEMPT_RESULT_LIMIT = 200
@@ -221,16 +231,25 @@ def build_context(
     attempts: list[Attempt],
     obs: str,
     feedback: str = "",
+    spec_cases: list | None = None,
     max_entries: int = MAX_LEDGER_ENTRIES,
 ) -> str:
-    """把「目标 + 所有尝试（动作→结果→推断）+ 系统反馈」组织成一轮用户消息。
+    """把「目标 + 已锁定 spec 样例 + 所有尝试（动作→结果→推断）+ 系统反馈」组织成一轮用户消息。
 
+    - spec_cases（v0.4）：已锁定的验收测试样例，done 前全部通过才算完成；渲染在目标之后，
+      让模型时刻记得自己承诺的验收线。
     - 所有 attempt 都进（每条一行：action → result → inference）；result 已截断、
       错误优先，模型仍可用 read 工具取完整内容。
     - 总条数超预算时，最旧压缩为 `…(前 N 步省略)…`。
     - 首步（无 attempts）时展示「## 当前终端」初始屏。
     """
     parts = ["## 目标", instruction, ""]
+    if spec_cases:
+        parts.append("## 验收测试样例（已锁定，done 前全部通过才算完成）")
+        for i, case in enumerate(spec_cases, 1):
+            clause = f"  —— {case.clause}" if getattr(case, "clause", "") else ""
+            parts.append(f"{i}. {case.command}{clause}")
+        parts.append("")
     if feedback:
         parts += ["## 系统反馈", feedback, ""]
     if attempts:
@@ -285,12 +304,14 @@ class NodeAgent:
         api_base: str = "http://127.0.0.1:8080/v1",
         temperature: float = 0.2,
         max_steps: int = 100,
+        time_limit_s: float = TIME_LIMIT_S,
         **kwargs,
     ):
         self._model_name = model_name
         self._api_base = api_base.rstrip("/")
         self._temperature = temperature
         self._max_steps = max_steps
+        self._time_limit_s = time_limit_s
 
     # ---------- 模型调用（httpx 直连本地 llama-server） ----------
 
@@ -396,6 +417,8 @@ class NodeAgent:
         markers: list[tuple[float, str]] = []
         stuck = 0  # 连续被去重拒绝的步数
         feedback = ""  # 最近一次被拒绝/无进展的系统反馈（注入下一轮）
+        spec_cases: list[SpecCase] | None = None  # 已锁定的验收测试样例（spec-first，v0.4）
+        spec_reemit = 0  # spec 锁定后再输出 spec 的次数（独立计数，不被 act 重置）
 
         graph_path = None
         if logging_dir is not None:
@@ -442,9 +465,19 @@ class NodeAgent:
         # 1. observe（首屏）
         obs = session.get_incremental_output()
 
+        started = time.monotonic()
         for step in range(self._max_steps):
+            # 墙钟上限：在 terminal-bench 的 900s agent_timeout 之前主动返回，
+            # 避免超时触发 harness 线程 join 卡死（jq/countdown-game 实测 1~2.5h）。
+            if time.monotonic() - started > self._time_limit_s:
+                markers.append((session.get_asciinema_timestamp(), "time-limit"))
+                _logger.warning(
+                    f"达到墙钟时间上限 {self._time_limit_s:.0f}s，主动终止（已 {len(attempts)} 次尝试）"
+                )
+                return NodeResult(attempts, "max_steps", total_in, total_out, markers)
+
             # 2. decide
-            ctx = build_context(instruction, attempts, obs, feedback)
+            ctx = build_context(instruction, attempts, obs, feedback, spec_cases)
             messages = [
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": ctx},
@@ -475,20 +508,85 @@ class NodeAgent:
                 continue
             _log_step(step, ctx, raw, action.model_dump_json())
 
-            # 3. done 门控（会话日志是唯一真相：done 必须有可验证证据）
+            # 2.5 spec-first（v0.4）：动手前必须先构造测试样例，否则任何动作都拒绝
+            if spec_cases is None and action.action != ActionKind.SPEC:
+                feedback = (
+                    "第一步必须先构造验收测试样例：读指令、判断任务类别（target/behavior/transform/diagnose），"
+                    '然后输出 {"action":"spec","cases":[{...}]}。样例要带期望输出（内嵌 assert/diff/触发行为），'
+                    "不要 echo/test -f/true/ls 这类表面检查。"
+                )
+                stuck += 1
+                res = self._stuck_result(stuck, markers, session, attempts, total_in, total_out)
+                if res is not None:
+                    return res
+                continue
+
+            # 2.6 SPEC：校验并锁定验收样例（锁定后不可改，防「做完再回改样例洗白」）
+            if action.action == ActionKind.SPEC:
+                if spec_cases is not None:
+                    # spec 已锁定，再输出 spec 是「spec/act 跷跷板」：浪费步数，且下一个 act
+                    # 会重置 stuck，让卡死保护失效（broken-python 900s 超时的根因）。
+                    # 独立计数（不被 act 重置），满 SPEC_REEMIT_LIMIT 次干净终止。
+                    spec_reemit += 1
+                    if spec_reemit >= SPEC_REEMIT_LIMIT:
+                        markers.append((session.get_asciinema_timestamp(), "spec-loop"))
+                        _logger.warning(
+                            f"spec 锁定后重复输出 spec {spec_reemit} 次，判定陷入 spec 循环，终止"
+                        )
+                        return NodeResult(attempts, "stuck", total_in, total_out, markers)
+                    feedback = (
+                        "spec 已锁定，不能再输出 spec。从现在起只允许输出 act（动手做一件事，"
+                        "tool=bash/write/read）或 verify（逐字复制你已承诺的某条样例 command）"
+                        f"或 done。这是第 {spec_reemit} 次重复 spec，再重复会直接终止。"
+                    )
+                else:
+                    reason = validate_spec(action.cases)
+                    if reason:
+                        feedback = f"spec 被拒：{reason}。请重新输出合法的 spec。"
+                    else:
+                        spec_cases = action.cases
+                        markers.append((session.get_asciinema_timestamp(), f"spec: {len(spec_cases)} cases"))
+                        _logger.info(f"锁定 spec：{len(spec_cases)} 条验收样例")
+                        feedback = ""
+                        stuck = 0
+                        continue
+                _logger.warning(f"spec 处理未完成：{feedback}")
+                stuck += 1
+                res = self._stuck_result(stuck, markers, session, attempts, total_in, total_out)
+                if res is not None:
+                    return res
+                continue
+
+            # 3. done 门控 v2（spec-first）：spec 已锁定 + 全部样例通过才放行
             if action.action == ActionKind.DONE:
-                reason = done_gate_rejection(attempts, step, MIN_STEPS_BEFORE_DONE)
-                if reason:
-                    _logger.warning(f"拒绝 done：{reason}")
-                    feedback = f"拒绝 done：{reason}。"
-                    stuck += 1
-                    res = self._stuck_result(stuck, markers, session, attempts, total_in, total_out)
-                    if res is not None:
-                        return res
-                    continue
-                markers.append((session.get_asciinema_timestamp(), "done"))
-                _logger.info("任务完成（已通过 verify 门控）")
-                return NodeResult(attempts, "done", total_in, total_out, markers)
+                if spec_cases is None:
+                    feedback = "拒绝 done：尚未构造 spec 验收样例，先输出 spec。"
+                elif step < MIN_STEPS_BEFORE_DONE:
+                    feedback = f"拒绝 done：至少完成 {MIN_STEPS_BEFORE_DONE} 步后再报告完成。"
+                else:
+                    failures = []
+                    for i, case in enumerate(spec_cases, 1):
+                        r = run_bash(session, case.command)
+                        if r.exit_code != 0:
+                            failures.append(
+                                f"  第 {i} 条（{case.clause or case.command[:60]}）"
+                                f"退出码 {r.exit_code}：{extract_error_line(r.output)}"
+                            )
+                    if failures:
+                        feedback = (
+                            "拒绝 done：以下 spec 样例未通过——\n" + "\n".join(failures)
+                            + "\n请修复后重试 done，不要降低验收标准或改样例。"
+                        )
+                    else:
+                        markers.append((session.get_asciinema_timestamp(), "done"))
+                        _logger.info(f"任务完成（{len(spec_cases)} 条 spec 样例全部通过）")
+                        return NodeResult(attempts, "done", total_in, total_out, markers)
+                _logger.warning(f"拒绝 done：{feedback}")
+                stuck += 1
+                res = self._stuck_result(stuck, markers, session, attempts, total_in, total_out)
+                if res is not None:
+                    return res
+                continue
 
             # rollback / retrieve：容器无 git 控制权，转为信号注入（科研层语义，兜底）
             if action.action == ActionKind.ROLLBACK:
@@ -523,9 +621,20 @@ class NodeAgent:
                     return res
                 continue
 
-            # 4. verify：自写客观检查命令，产出 done 门控证据
+            # 4. verify：只能跑已承诺的 spec 样例命令（防自由造新断言游戏化）
             if action.action == ActionKind.VERIFY:
                 target = (action.target or "").strip()
+                matched = next((c for c in (spec_cases or []) if c.command.strip() == target), None)
+                if matched is None:
+                    feedback = (
+                        "verify 的目标命令必须是你已承诺的某条 spec 样例的 command（逐字相同）。"
+                        "要检查某条样例就复制它的 command；不能自由造新断言。"
+                    )
+                    stuck += 1
+                    res = self._stuck_result(stuck, markers, session, attempts, total_in, total_out)
+                    if res is not None:
+                        return res
+                    continue
                 if target in seen_verifies:  # 重复 verify 命令 = 空转，计入卡死
                     prev = seen_verifies[target]
                     feedback = _verify_repeat_feedback(target, prev)

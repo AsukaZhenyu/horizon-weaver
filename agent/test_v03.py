@@ -22,11 +22,12 @@ from schema import (
     ActionKind,
     Attempt,
     SchemaError,
+    SpecCase,
     ToolKind,
     _extract_json,
     extract_code_block,
 )
-from tools import ToolResult
+from tools import MAX_SPEC_CASES, ToolResult, is_surface_check, validate_spec
 
 
 def _act(**kw) -> Action:
@@ -326,8 +327,8 @@ def test_context_log_written_per_step():
             return 0.0
 
     responses = [
-        '{"action":"verify","target":"test -f /app/x"}',
-        '{"action":"done"}',
+        '{"action":"spec","cases":[{"command":"grep -q 462 /app/output.txt","clause":"输出 462","category":"target"}]}',
+        '{"action":"act","tool":"bash","target":"echo hi"}',
         '{"action":"done"}',
     ]
 
@@ -353,7 +354,7 @@ def test_context_log_written_per_step():
         assert "喂给模型的上下文" in text
         assert "模型原始输出" in text
         assert "解析出的动作" in text
-        assert "test -f /app/x" in text  # 解析出的动作进了日志
+        assert "grep -q 462 /app/output.txt" in text  # spec 样例命令进了日志
         assert result.termination == "done"
 
 
@@ -411,6 +412,225 @@ def test_verify_repeat_feedback_failed_guides_fix():
     fb = _verify_repeat_feedback("python -m pip --version", 1)
     assert "失败" in fb
     assert "先修复" in fb
+
+
+# ---------- v0.4 spec-first：反表面检查 + spec 校验 + 门控 ----------
+
+def test_is_surface_check_true_and_echo():
+    assert is_surface_check("true") is True
+    assert is_surface_check(":") is True
+    assert is_surface_check("echo done") is True
+    assert is_surface_check("echo 'ok'") is True
+
+
+def test_is_surface_check_pure_observation():
+    assert is_surface_check("ls") is True
+    assert is_surface_check("cat /app/x.py") is True
+    assert is_surface_check("head /app/data.csv") is True
+
+
+def test_is_surface_check_existence_only():
+    assert is_surface_check("test -f /app/output.txt") is True
+    assert is_surface_check("test -s /app/output.txt") is True
+    assert is_surface_check("[ -f /app/x ]") is True
+
+
+def test_is_surface_check_not_surface():
+    assert is_surface_check(
+        "python3 -c \"assert eval(open('/app/output.txt').read().strip())==462\""
+    ) is False
+    assert is_surface_check("test -f /app/out.json && grep -q expected /app/out.json") is False
+    assert is_surface_check("diff <(jq '.a' /app/in.json) /app/expected.json") is False
+    assert is_surface_check(
+        "python3 -m pip install somepkg && python3 -c 'import somepkg'"
+    ) is False
+    # cat 带 pipe = 语义检查（grep 具体串），不是纯观察
+    assert is_surface_check("cat /app/x | grep -q expected") is False
+
+
+def _case(cmd, clause="", category=""):
+    return SpecCase(command=cmd, clause=clause, category=category)
+
+
+def test_validate_spec_empty():
+    assert validate_spec([]) is not None
+    assert validate_spec(None) is not None
+
+
+def test_validate_spec_rejects_surface():
+    assert validate_spec([_case("echo ok")]) is not None
+    assert validate_spec([_case("test -f /app/x")]) is not None
+
+
+def test_validate_spec_rejects_duplicate():
+    assert validate_spec([_case("grep -q x /app/y"), _case("grep -q x /app/y")]) is not None
+
+
+def test_validate_spec_rejects_too_many():
+    cases = [_case(f"grep -q {i} /app/x") for i in range(MAX_SPEC_CASES + 1)]
+    assert validate_spec(cases) is not None
+
+
+def test_validate_spec_accepts_valid():
+    cases = [
+        _case(
+            "python3 -c \"assert eval(open('/app/output.txt').read().strip())==462\"",
+            "值等于 462",
+            "target",
+        ),
+        _case("python3 -m pip install somepkg && python3 -c 'import somepkg'", "pip 可装包", "behavior"),
+    ]
+    assert validate_spec(cases) is None
+
+
+def test_build_context_shows_spec_cases():
+    cases = [
+        SpecCase(
+            command="python3 -c \"assert eval(open('/app/output.txt').read().strip())==462\"",
+            clause="值等于 462",
+            category="target",
+        ),
+    ]
+    ctx = build_context("算出 462", [], "", "", cases)
+    assert "## 验收测试样例" in ctx
+    assert "assert eval" in ctx
+    assert "值等于 462" in ctx
+
+
+def test_run_requires_spec_first():
+    from node_agent import NodeAgent
+
+    class FakeSession:
+        def send_keys(self, keys, block=True):
+            pass
+
+        def get_incremental_output(self):
+            return "KEYAN_EXIT_CODE=0\n"
+
+        def copy_to_container(self, paths=None, container_dir=None, container_filename=None):
+            pass
+
+        def get_asciinema_timestamp(self):
+            return 0.0
+
+    # 模型第一步就输出 act（非法），引擎应反复拒绝直至卡死，而不是放行
+    responses = ['{"action":"act","tool":"bash","target":"ls"}']
+
+    def _fake_call(messages):
+        return responses[0], {"prompt_tokens": 1, "completion_tokens": 1}
+
+    agent = NodeAgent()
+    agent._call_model_with_retry = _fake_call
+    result = agent.run("任务", FakeSession())
+    assert result.termination == "stuck"
+
+
+def test_run_spec_first_done_flow():
+    from node_agent import NodeAgent
+
+    class FakeSession:
+        def __init__(self):
+            self.keys = []
+
+        def send_keys(self, keys, block=True):
+            self.keys.append(keys)
+
+        def get_incremental_output(self):
+            return "KEYAN_EXIT_CODE=0\nok"
+
+        def copy_to_container(self, paths=None, container_dir=None, container_filename=None):
+            pass
+
+        def get_asciinema_timestamp(self):
+            return 0.0
+
+    responses = [
+        '{"action":"spec","cases":[{"command":"python3 -c \'print(1)\'","clause":"脚本能跑","category":"behavior"}]}',
+        '{"action":"act","tool":"bash","target":"echo hi"}',
+        '{"action":"done"}',
+    ]
+
+    def _fake_call(messages):
+        raw = responses.pop(0) if responses else '{"action":"done"}'
+        return raw, {"prompt_tokens": 1, "completion_tokens": 1}
+
+    agent = NodeAgent()
+    agent._call_model_with_retry = _fake_call
+    session = FakeSession()
+    result = agent.run("跑脚本", session)
+    assert result.termination == "done"
+    # spec 样例命令在 done 门控时被真正执行过
+    assert any("python3 -c 'print(1)'" in "".join(k) for k in session.keys)
+
+
+def test_run_spec_loop_terminates():
+    # v0.4 回归：spec 锁定后模型反复输出 spec（穿插 act），spec/act 跷跷板会让 stuck 被 act
+    # 重置、永不触发卡死（broken-python 900s 超时）。独立 spec_reemit 计数满 3 次应干净终止。
+    from node_agent import NodeAgent
+
+    class FakeSession:
+        def send_keys(self, keys, block=True):
+            pass
+
+        def get_incremental_output(self):
+            return "KEYAN_EXIT_CODE=0\nok"
+
+        def copy_to_container(self, paths=None, container_dir=None, container_filename=None):
+            pass
+
+        def get_asciinema_timestamp(self):
+            return 0.0
+
+    spec = '{"action":"spec","cases":[{"command":"grep -q 462 /app/output.txt","clause":"输出 462","category":"target"}]}'
+    responses = [
+        spec,  # 第一步：锁定
+        spec,  # 重复 1
+        '{"action":"act","tool":"bash","target":"echo a"}',  # act 重置 stuck，但不重置 spec_reemit
+        spec,  # 重复 2
+        '{"action":"act","tool":"bash","target":"echo b"}',
+        spec,  # 重复 3 → 终止
+    ]
+
+    def _fake_call(messages):
+        raw = responses.pop(0) if responses else spec
+        return raw, {"prompt_tokens": 1, "completion_tokens": 1}
+
+    agent = NodeAgent()
+    agent._call_model_with_retry = _fake_call
+    result = agent.run("任务", FakeSession())
+    assert result.termination == "stuck"
+    # 终止原因是 spec 循环，而非泛化的连续卡死
+    assert any(m[1] == "spec-loop" for m in result.markers)
+
+
+def test_run_time_limit_returns_max_steps():
+    # 墙钟上限：在 terminal-bench 的 900s agent_timeout 前主动返回（jq/countdown-game 卡顿根因）。
+    # 用负值 time_limit_s 让首轮即触发，验证干净返回 max_steps 而非超时。
+    from node_agent import NodeAgent
+
+    class FakeSession:
+        def send_keys(self, keys, block=True):
+            pass
+
+        def get_incremental_output(self):
+            return "KEYAN_EXIT_CODE=0\n"
+
+        def copy_to_container(self, paths=None, container_dir=None, container_filename=None):
+            pass
+
+        def get_asciinema_timestamp(self):
+            return 0.0
+
+    spec = '{"action":"spec","cases":[{"command":"grep -q 462 /app/output.txt","clause":"输出 462","category":"target"}]}'
+
+    def _fake_call(messages):
+        return spec, {"prompt_tokens": 1, "completion_tokens": 1}
+
+    agent = NodeAgent(time_limit_s=-1.0)  # 立即超时
+    agent._call_model_with_retry = _fake_call
+    result = agent.run("任务", FakeSession())
+    assert result.termination == "max_steps"
+    assert any(m[1] == "time-limit" for m in result.markers)
 
 
 def main() -> int:

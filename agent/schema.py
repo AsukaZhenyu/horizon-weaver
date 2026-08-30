@@ -23,7 +23,8 @@ from pydantic import BaseModel, Field, ValidationError
 class ActionKind(str, Enum):
     """模型可选的动作。"""
     ACT = "act"            # 采取一个变化 / 跑一个实验（配合 tool 字段）
-    VERIFY = "verify"      # 运行自写的客观检查命令，产出「通过/失败」证据
+    SPEC = "spec"          # 动手前构造测试样例（带期望输出），锁定为 done 门控标准
+    VERIFY = "verify"      # 运行一条已承诺的 spec 样例命令，产出「通过/失败」证据
     ROLLBACK = "rollback"  # 回滚到 best 结点
     RETRIEVE = "retrieve"  # 按需加载某段上下文（精确上下文管理的抓手）
     DONE = "done"          # 声称到达 target
@@ -69,6 +70,24 @@ class Node(BaseModel):
     verified: bool = False         # 该步是否是「已通过」的 verify（done 门控证据）
 
 
+class SpecCase(BaseModel):
+    """一条验收测试样例（spec-first verify 的核心单元，v0.4）。
+
+    模型在动手前构造一组样例锁定为 done 门控标准；done 时引擎依次运行每条样例，
+    全部 exit 0 才算完成。样例必须是「语义检查」（判值/判行为），不是「表面检查」
+    （test -f / 非空 / echo / true），后者由 tools.is_surface_check 拒绝。
+
+    - command  带断言的 bash 命令（exit 0 = 该样例通过）。断言内嵌在命令里：
+               `assert` / `==` / `grep -q 具体串` / `diff 参考` / `触发行为 && 断言症状消失`。
+    - clause   引用指令的哪个验收点（一句话，供人/模型理解样例意图）。
+    - category 任务类别：target（目标值显式）/ behavior（行为症状）/ transform（数据变换）/
+               diagnose（分析诊断）。仅用于 prompt 引导与记录，引擎不据此硬校验。
+    """
+    command: str = ""
+    clause: str = ""
+    category: str = ""
+
+
 class Action(BaseModel):
     """模型输出的结构化动作块。"""
     action: ActionKind
@@ -77,6 +96,7 @@ class Action(BaseModel):
     content: str = ""      # 仅 action=act + tool=write 时使用：文件完整内容
     change: str = ""       # 具体做什么
     reasoning: str = ""    # 为什么这步能缩小与 target 的差距（写入结点的 inference）
+    cases: list[SpecCase] = Field(default_factory=list)  # 仅 action=spec 时使用
 
 
 class Attempt(BaseModel):

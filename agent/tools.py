@@ -82,6 +82,59 @@ def done_gate_rejection(nodes: list, step: int, min_steps_before_done: int = 2) 
     return ""
 
 
+# spec 样例条数硬约束（v0.4）：最少 1 条（空 spec 拒绝），最多 6 条（防灌水）。
+# 「至少 2 条（目标断言 + 一条黑天鹅）」是 prompt 层的软约束，不在此硬卡——
+# 弱模型对 countdown-game 这种单目标任务可能只写得出一条有效断言，硬卡会把它卡死。
+MIN_SPEC_CASES = 1
+MAX_SPEC_CASES = 6
+
+
+def is_surface_check(command: str) -> bool:
+    """判定一条命令是否「表面检查」——只验存在/类型/非空/恒真，不验值/行为。
+
+    假完成的根因是模型用表面检查（`test -f` / 非空 / `echo` / `true`）替代语义检查
+    （值对不对 / 症状消没消）。done 门控据此拒绝这类样例。
+    """
+    cmd = " ".join(command.split())
+    if not cmd:
+        return True
+    # 恒真 / 空转 / 只回显
+    if cmd in {"true", ":", "false"} or cmd.startswith("echo "):
+        return True
+    # 纯观察：只读命令、无判定（ls/cat/head/…）。若带 |/&/</> 则可能是
+    # `cat file | grep expected` 这类语义检查，不判表面。
+    if re.fullmatch(r"(ls|pwd|whoami|id|env|printenv|cat|head|tail|wc|file)(\s.*)?", cmd) \
+            and not re.search(r"[|&<>]", cmd):
+        return True
+    # 纯存在/类型/非空/权限检查（test -f / [ -f ），后面没跟任何值/行为断言
+    if re.match(r"^(test|\[)\s+-[efdsrwxL]\b", cmd) and not re.search(r"(&&|\|\||[|;<>])", cmd):
+        return True
+    return False
+
+
+def validate_spec(cases) -> str | None:
+    """校验一组 spec 样例，返回拒绝理由（None = 通过）。duck-typed：每条只依赖 .command。
+
+    硬约束：非空、条数 [MIN, MAX]、每条命令非空、非表面检查、命令去重。
+    「不重不漏 / 分类构造」是 prompt 层的软约束，由模型尽力，不在引擎硬卡（弱模型易跑偏）。
+    """
+    if not cases:
+        return "spec 至少需要 1 条测试样例"
+    if len(cases) > MAX_SPEC_CASES:
+        return f"spec 样例太多（最多 {MAX_SPEC_CASES} 条，取最小充分集，不要灌水）"
+    seen: set[str] = set()
+    for i, case in enumerate(cases, 1):
+        cmd = " ".join((getattr(case, "command", "") or "").split())
+        if not cmd:
+            return f"第 {i} 条命令为空"
+        if is_surface_check(cmd):
+            return f"第 {i} 条是表面检查（只验存在/非空/恒真，不验值或行为）：{cmd[:80]!r}"
+        if cmd in seen:
+            return f"第 {i} 条与前面的样例重复"
+        seen.add(cmd)
+    return None
+
+
 def run_bash(session: "TmuxSession", command: str) -> ToolResult:
     """执行单行命令，返回输出 + 退出码。"""
     if not command.strip():
