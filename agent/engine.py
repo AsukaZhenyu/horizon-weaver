@@ -2,7 +2,7 @@
 
 从 v0.4 的 node_agent.py 里抽出来的一层：把「一次动作 + 工具结果」落成
 Attempt（引擎**自动**生成 inference 与 result 摘要，不让弱模型自己反思），
-并把所有尝试组织成一轮用户上下文。plugins.py（各插件）与 node_agent.py（门面）
+并把所有尝试组织成一轮用户上下文。plugins 包（各插件）与 node_agent.py（门面）
 都 import 这里，互不 import 对方，避免循环依赖。
 
 这层是「纯函数 + 常量」，不持有任何运行态；运行态在 plugins.RunState 里。

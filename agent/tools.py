@@ -109,6 +109,10 @@ def is_surface_check(command: str) -> bool:
     # 纯存在/类型/非空/权限检查（test -f / [ -f ），后面没跟任何值/行为断言
     if re.match(r"^(test|\[)\s+-[efdsrwxL]\b", cmd) and not re.search(r"(&&|\|\||[|;<>])", cmd):
         return True
+    # 纯 dump：jq 只把值打出来、不比对（无 -e / 无管道 / 无 diff/grep/test 收尾），
+    # 是「观察」不是「断言」——`jq '.a' file` 只能证明文件在、不能证明值对。
+    if re.match(r"^jq\s+", cmd) and not re.search(r"(-e\b|==|!=|<=|>=|\||&&|\|\||grep|diff|test)", cmd):
+        return True
     return False
 
 

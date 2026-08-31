@@ -115,10 +115,10 @@ _TERMINAL_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此
   * done：任务已完成。
 - tool（仅 action=act 时生效）：
   * bash：在终端里执行一条**单行** shell 命令，target=这条命令。
-  * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容放在 JSON 之后的 ``` 围栏代码块里（**不要**塞进 content 字段）。
+  * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容直接放 content 字段，或放在 JSON 之后的 ``` 围栏代码块里（**不要**用 ```json 围栏装文件内容）。
   * read：读取一个文件的内容，target=容器内绝对路径。
 - target：动作对象。act/bash=命令；act/write、act/read=文件路径；verify=检查命令。
-- content：已弃用。写文件时把完整内容放进 JSON 后紧跟的 ``` 围栏代码块，不要放进 content 字段。
+- content：写文件时的完整内容。可直接放这里，或放 JSON 后紧跟的 ``` 围栏代码块（非 json 标签）。
 - change：一句话说明这条动作要做什么（客观，写入结点的 changes）。
 - reasoning：为什么这步能朝目标推进（「这步变化 → 预期结果」的因果推断，写入结点的 inference）。
 
@@ -135,7 +135,7 @@ print(2)
 
 1. 一次只输出一个动作；观察用 read，改动用 act，验证用 verify。
 2. act/bash 的每条命令**只能执行一次**：已执行过的命令不要重试，换一种完全不同的方法。
-3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放在 JSON 之后的 ``` 围栏代码块里，content 字段留空。
+3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放 content 字段或 JSON 之后的 ``` 围栏代码块里（不要用 ```json 装文件内容）。
 4. 命令执行后系统会**自动**追加退出码哨兵（KEYAN_EXIT_CODE=N）：0 成功、非 0 失败。**你自己绝不要在命令里 echo KEYAN_EXIT_CODE**——`bash x.sh && echo 'KEYAN_EXIT_CODE=0'` 会让退出码恒为 0，掩盖真实结果。
 5. **done 之前必须至少有一次 verify 且 KEYAN_EXIT_CODE=0**，否则 done 会被拒绝。前 2 步内禁止输出 done。
 6. 环境无法 git 回滚时，rollback 用 act/write 把你上一步的修改改回去，不要空转。
@@ -162,7 +162,7 @@ _LOOP_ACTIONS = """## 你的动作（每次只输出一个 JSON 块，除此之�
 
 # ---------------------------------------------------------------------------
 # Node Agent（v0.5）：只留插件无关的骨架——act/done + bash/write/read + 硬规则。
-# verify / spec / system2 的语义各自迁到 plugins.py 里对应插件的 prompt_section。
+# verify / spec / system2 的语义各自迁到 plugins 包（agent/plugins/）里对应插件的 prompt_section。
 # 完整 prompt = 本骨架 + Σ 各插件 prompt_section（SystemPromptPlugin 汇总）。
 # ---------------------------------------------------------------------------
 
@@ -178,10 +178,10 @@ NODE_AGENT_SKELETON = """## 你的动作（最后输出一个 JSON 块）
 - action：act（采取一个变化）/ done（任务已完成）。
 - tool（仅 action=act 时生效）：
   * bash：在终端里执行一条**单行** shell 命令，target=这条命令。
-  * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容放在 JSON 之后的 ``` 围栏代码块里（**不要**塞进 content 字段）。
+  * write：把多行内容写进一个文件，target=容器内绝对路径；文件完整内容直接放 content 字段，或放在 JSON 之后的 ``` 围栏代码块里（**不要**用 ```json 围栏装文件内容——那是动作本身的标签）。
   * read：读取一个文件的内容，target=容器内绝对路径。
 - target：动作对象。act/bash=命令；act/write、act/read=文件路径。
-- content：已弃用。写文件时把完整内容放进 JSON 后紧跟的 ``` 围栏代码块，不要放进 content 字段。
+- content：写文件时的完整内容。可直接放这里，或放 JSON 后紧跟的 ``` 围栏代码块（非 json 标签）。
 - change：一句话说明这条动作要做什么（客观）。
 - reasoning：为什么这步能朝目标推进（「这步变化 → 预期结果」的因果推断）。
 
@@ -189,6 +189,6 @@ NODE_AGENT_SKELETON = """## 你的动作（最后输出一个 JSON 块）
 
 1. 一次只输出一个动作；观察用 read，改动用 act。
 2. act/bash 的每条命令**只能执行一次**：已执行过的命令不要重试，换一种完全不同的方法。
-3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放在 JSON 之后的 ``` 围栏代码块里，content 字段留空。
+3. 多行内容（脚本、配置）一律用 act/write 写进文件再执行，绝不用 heredoc 内联；write 的文件内容放 content 字段或 JSON 之后的 ``` 围栏代码块里（不要用 ```json 装文件内容）。
 4. 命令执行后系统会**自动**追加退出码哨兵（KEYAN_EXIT_CODE=N）：0 成功、非 0 失败。**你自己绝不要在命令里 echo KEYAN_EXIT_CODE**——`bash x.sh && echo 'KEYAN_EXIT_CODE=0'` 会让退出码恒为 0，掩盖真实结果。
 5. 相同内容的 write、相同命令的 bash 重复执行会被引擎拒绝并计入卡死——不要反复写同样的东西、反复验证同一件事，换新方法。"""

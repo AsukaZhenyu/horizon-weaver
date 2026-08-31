@@ -227,21 +227,26 @@ def parse_action(raw: str) -> Action:
         raise SchemaError(f"schema 校验失败: {detail}") from e
 
 
-_CODE_FENCE_RE = re.compile(r"```[^\n`]*\n(.*?)```", re.DOTALL)
+_CODE_FENCE_RE = re.compile(r"```([^\n`]*)\n(.*?)```", re.DOTALL)
 
 
 def extract_code_block(raw: str) -> str:
-    """从模型输出里提取最后一个 fenced code block 的内容（write 工具用）。
+    """从模型输出里提取「文件内容」围栏（write 工具用）。
 
-    write 动作的 JSON 之后会紧跟 ```python ... ``` 围栏放文件完整内容；
-    取**最后一个**围栏块——System 2 下模型思考文字里可能含 ``` 示例，
-    文件内容始终是动作 JSON 之后的那个（最后一个）。
+    write 动作的 JSON 之后会紧跟 ```lang ... ``` 围栏放文件完整内容；
+    取**最后一个非 json** 围栏块——模型常把动作 JSON 本身也包在 ```json 里
+    （jq 任务实测：旧实现把 ```json 围栏里的动作 JSON 当文件内容写进了 /app/cmd.sh），
+    那个是「动作」不是「文件内容」，必须跳过。System 2 思考文字里也可能含 ``` 示例，
+    文件内容始终是动作 JSON 之后的那个（最后一个非 json 围栏）。
     内容原样返回（不做 JSON 转义），避免多行内容塞进 JSON 字符串导致解析失败。
     """
     blocks = _CODE_FENCE_RE.findall(raw)
     if not blocks:
         return ""
-    return blocks[-1].rstrip("\n")
+    for lang, body in reversed(blocks):
+        if lang.strip().lower() != "json":
+            return body.rstrip("\n")
+    return ""
 
 
 def node_from_json(line: str) -> Node:

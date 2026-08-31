@@ -4,17 +4,18 @@
 用「结构化 I/O + 工具化 + 退出码哨兵 + 去重/卡死 + 引擎自动推断」把任务做出来。
 
 v0.5 重构：不再是一个硬编码一切的大类，而是「瘦门面」——把模型适配器、工具、
-system prompt、verify、spec、主循环全部拆成 plugins.py 里的可插拔组件，经
-runtime.Context 装配。门面只做三件事：
+system prompt、verify、spec、主循环全部拆成 plugins 包（agent/plugins/）里的
+可插拔组件，经 runtime.Context 装配。门面只做三件事：
 
 1. 持有 NodeAgent 的历史签名 `run(instruction, session, logging_dir=None)`，
    让 tb_test.py 等调用方零改动或极小改动；
 2. 把 `plugins=[...]`（或默认插件集）交给 Runtime 装配，取 `ctx.agentLoop` 执行；
-3. 保留 `_call_model_with_retry` / `_make_attempt` 等历史方法名（test_v03 直接
-   monkey-patch / 调用），它们委托给 plugins.LlmClient / engine.make_attempt。
+3. 保留 `_call_model_with_retry` / `_make_attempt` 等历史方法名（test_node_agent.py
+   直接 monkey-patch / 调用），它们委托给 plugins.LlmClient / engine.make_attempt。
 
 引擎推断（attempt_summary / summarize_attempt / build_context …）在 engine.py；
-插件在 plugins.py；这里只 re-export 供 test_v03 的历史 import 兼容。
+插件在 plugins 包（agent/plugins/）；这里只 re-export 供 test_engine.py 的历史
+import 兼容。
 
 session 依赖 duck-typed 协议（与 tools.py 一致）：
     send_keys / get_incremental_output / copy_to_container / get_asciinema_timestamp
@@ -42,7 +43,7 @@ from engine import (
 from plugins import LlmClient, NodeResult, build_default_plugins
 from runtime import Runtime
 
-# re-export 历史 import 面（test_v03：from node_agent import ...）
+# re-export 历史 import 面（test_engine.py：from node_agent import ...）
 __all__ = [
     "NodeAgent",
     "NodeResult",
@@ -72,6 +73,7 @@ class NodeAgent:
         max_steps: int = 100,
         time_limit_s: float = TIME_LIMIT_S,
         plugins=None,
+        enable_spec: bool = False,
         **kwargs,
     ):
         self._model_name = model_name
@@ -79,10 +81,11 @@ class NodeAgent:
         self._temperature = temperature
         self._max_steps = max_steps
         self._time_limit_s = time_limit_s
-        self._plugins = plugins  # 可选：自定义插件集；None = 用默认（spec-first 兼容）
+        self._plugins = plugins  # 可选：自定义插件集；None = 用默认（spec 默认关）
+        self._enable_spec = enable_spec  # 裸 NodeAgent() 的 spec 开关（默认关，与 tb_test 一致）
         self._llm = None  # 惰性创建：仅当走门面自己的 HTTP 路径时才建
 
-    # ---------- 历史方法（test_v03 monkey-patch / 直接调用） ----------
+    # ---------- 历史方法（test_node_agent.py monkey-patch / 直接调用） ----------
 
     def _get_llm(self) -> LlmClient:
         if self._llm is None:
@@ -92,7 +95,7 @@ class NodeAgent:
         return self._llm
 
     def _call_model_with_retry(self, messages: list[dict], max_attempts: int = 4):
-        """委托给 LlmClient.complete（空输出重试）。test_v03 用假实现替换此方法。"""
+        """委托给 LlmClient.complete（空输出重试）。test_node_agent.py 用假实现替换此方法。"""
         return self._get_llm().complete(messages, max_attempts)
 
     def _count_tokens(self, usage: dict, content: str = "") -> tuple[int, int]:
@@ -107,7 +110,7 @@ class NodeAgent:
 
     def _make_llm_client(self):
         """把门面自己的 LLM 方法包成一个 client（complete/count_tokens），
-        注入 LlmPlugin——这样 test_v03 对 `agent._call_model_with_retry` 的
+        注入 LlmPlugin——这样 test_node_agent.py 对 `agent._call_model_with_retry` 的
         monkey-patch 才能透传到循环里。"""
         agent = self
 
@@ -121,12 +124,13 @@ class NodeAgent:
         return _FacadeClient()
 
     def _build_plugins(self):
-        """裸 NodeAgent() 的默认插件集：保持 v0.4 spec-first 行为（test_v03 依赖）。
+        """裸 NodeAgent() 的默认插件集：spec 默认关（与 build_default_plugins / tb_test 一致）。
 
-        生产/新代码请显式 `NodeAgent(plugins=build_default_plugins())` = spec 关。
+        要复现 v0.4 spec-first，用 `NodeAgent(enable_spec=True)` 或
+        `NodeAgent(plugins=build_default_plugins(enable_spec=True))`。
         """
         return build_default_plugins(
-            enable_spec=True,
+            enable_spec=self._enable_spec,
             model_name=self._model_name,
             api_base=self._api_base,
             temperature=self._temperature,
