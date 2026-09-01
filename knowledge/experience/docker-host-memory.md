@@ -2,7 +2,7 @@
 
 > 日期：2026-08-29
 > 环境：Windows 11（15.2GB RAM）/ RTX 4070 Laptop GPU（8GB VRAM）/ Docker Desktop + WSL2
-> 场景：keyan-automation + terminal-bench，本地 llama-server 跑 Qwen3.5-9B（Q4_K_M）
+> 场景：HorizonWeaver + terminal-bench，本地 llama-server 跑 Qwen3.5-9B（Q4_K_M）
 
 ## 现象
 

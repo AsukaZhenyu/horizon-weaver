@@ -1,4 +1,4 @@
-"""keyan-automation：六步自主探索循环（最小实现骨架）。
+"""HorizonWeaver：六步自主探索循环（最小实现骨架）。
 
     observe -> decide -> act -> sense -> update -> (loop-closure check)
 

@@ -1,4 +1,4 @@
-"""keyan-automation：结构化输入输出的 schema 定义（pydantic 版）。
+"""HorizonWeaver：结构化输入输出的 schema 定义（pydantic 版）。
 
 定义两种结构：
 1. 图结点 (Node)：Agent 探索过的一个状态，写入 graph/nodes.jsonl（每行一个）。

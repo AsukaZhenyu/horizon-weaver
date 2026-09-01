@@ -1,4 +1,4 @@
-"""keyan-automation 的 system prompt 共享内核。
+"""HorizonWeaver 的 system prompt 共享内核。
 
 README 第 36-83、133-147 行要求写进 system prompt 的内容，拆成两部分复用：
 - 共享内核（图导航 + 结点三分 + 项目自主导航 + 精确上下文 + 最小验证 + 科研原则）
@@ -47,7 +47,7 @@ RESEARCH_RULES = """## 科研原则（硬规则）
 # 共享内核：图导航 + 结点三分 + 项目自主导航 + 精确上下文 + 最小验证 + 环境隔离
 # ---------------------------------------------------------------------------
 
-CORE_KERNEL = """你是 keyan-automation 的科研探索 Agent。你的任务是自主探索一个项目、逼近一个目标，全程把探索过程记录成一张 human-readable 的图。
+CORE_KERNEL = """你是 HorizonWeaver 的科研探索 Agent。你的任务是自主探索一个项目、逼近一个目标，全程把探索过程记录成一张 human-readable 的图。
 
 ## 图导航协议
 

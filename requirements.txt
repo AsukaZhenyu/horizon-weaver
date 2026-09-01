@@ -1,4 +1,4 @@
-# keyan-automation：Node Agent（agent/）的最小运行依赖。
+# HorizonWeaver：Node Agent（agent/）的最小运行依赖。
 #
 # 覆盖 schema.py（pydantic）、plugins/llm.py 与 loop.py（httpx 调本地 llama-server）。
 # 单测与独立版科研层（loop.py）都只需这两个包。
