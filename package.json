@@ -1,0 +1,13 @@
+{
+  "name": "horizon-weaver",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A minimal executable substrate for learning agent programs",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node examples/context-and-components.mjs"
+  },
+  "dependencies": { "@deepseek-ai/cordis": "4.0.1" }
+}

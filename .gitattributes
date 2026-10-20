@@ -1,0 +1,5 @@
+* text=auto eol=lf
+docs/history/sources/*.md -text
+*.png binary
+*.pdf binary
+*.docx binary
