@@ -1,5 +1,6 @@
-import { createHost } from '../runtime/host.mjs';
-import { compare, evaluate } from '../experiments/evaluate.mjs';
+import { createHost } from '../runtime/host.js';
+import { reference } from '../runtime/protocol.js';
+import { compare, evaluate } from '../experiments/evaluate.js';
 
 const mode = process.argv.includes('--trusted-process') ? 'trusted-process' : 'docker';
 const host = await createHost({ root: '.horizon/demo', worker: { mode } });
@@ -13,10 +14,11 @@ try {
 `, { grants: ['install'] });
   const built = await host.kernel.run(builder, {});
   if (built.status !== 'submitted') throw new Error(built.error);
-  const generated = built.output;
+  const generated = reference(built.output);
   const selection = await compare(host.kernel, [seed, generated], [
     { id: 'development', input: { numbers: [2, 3] }, expected: 5 },
   ]);
+  if (!selection.selected) throw new Error('No candidate selected');
   const transfer = await evaluate(host.kernel, selection.selected, [
     { id: 'new-input', input: { numbers: [7, -2, 4] }, expected: 9 },
   ]);

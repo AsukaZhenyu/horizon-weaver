@@ -2,15 +2,21 @@
 
 The first implementation makes references, context operations and executable composition concrete. It does not yet implement a learned proposer, terminal tools, checkpoint recovery, or Terminal-Bench integration. Its deterministic examples establish execution behavior, not task-solving improvements.
 
+## Implementation language and contracts
+
+The Cordis host, fixture evaluator, examples and tests use TypeScript, compiled as Node.js ESM with `NodeNext` resolution. `tsconfig.json` enables `strict`, checked indexed access and exact optional properties; compilation stops on type errors. `runtime/protocol.ts` defines JSON values, content references, executable definitions, context views, operation arguments, model adapters, run outcomes and journal event payloads. These are execution contracts, not new agent roles or policies.
+
+Python worker packets, persisted records and HTTP model replies still require runtime validation. Boundary decoders check incoming shapes before host code uses the typed values; TypeScript does not validate data from another process. The Python ABI and operation names remain unchanged. `npm run typecheck` checks all maintained TypeScript sources; `npm test` builds them and runs the emitted tests. Generated JavaScript and declarations live in ignored `dist/`; Python assets remain in the source tree.
+
 ## Values and executables
 
-`runtime/values.mjs` stores immutable JSON records addressed by SHA-256 over content and provenance. A record includes its parents and host-assigned producer. Equal text from distinct producers can have distinct references. Reads verify integrity.
+`runtime/values.ts` stores immutable JSON records addressed by SHA-256 over content and provenance. A record includes its parents and host-assigned producer. Equal text from distinct producers can have distinct references. Reads verify integrity.
 
 An executable is a value containing `abi`, a source reference, dependency `bindings`, and requested `grants`. The initial ABI is a Python function `main(input, api)` returning JSON. Composition uses ordinary code and `api.request('call', target=..., input=...)`. Definition identity includes source and exact dependency references.
 
 ## Host and component boundary
 
-`runtime/host.mjs` registers a service with the actual Cordis 4.0.1 package. The service owns value access, component dispatch, shared budgets, model transport and append-only run journals. It does not assign planner, critic, memory or verifier roles.
+`runtime/host.ts` registers a service with the actual Cordis 4.0.1 package. The service owns value access, component dispatch, shared budgets, model transport and append-only run journals. It does not assign planner, critic, memory or verifier roles.
 
 Components execute through `sdk/python/worker.py`. The default Docker worker has no network, no writable host mount, no model credentials, and a read-only filesystem. Only the SDK file is mounted. All host operations use a JSON RPC boundary; references must be available to the current run. A component may not acquire capabilities that its caller lacks. A subsequent run can explicitly use a saved executable and its dependencies.
 
@@ -26,9 +32,9 @@ The initial journal records call identities, parent calls, exact input/output re
 
 ## Evaluation and learning boundary
 
-Returning from the entry component submits its output; no semantic reflection or verification gate is required. `experiments/evaluate.mjs` independently compares JSON fixture outputs with expected values that are not passed to components. It is a narrow evaluator for engineering fixtures.
+Returning from the entry component submits its output; no semantic reflection or verification gate is required. `experiments/evaluate.ts` independently compares JSON fixture outputs with expected values that are not passed to components. It is a narrow evaluator for engineering fixtures.
 
-`compare` executes supplied candidates and selects by passed tasks, then operation count. It does not generate candidates, enforce a token-level matched-compute budget, or establish learning/transfer results. `seeds/generate.py` demonstrates model-generated code; `examples/context-and-components.mjs` uses an authored builder. A learned proposer, reusable library selection, task environments and real matched-budget experiments are the next vertical slice.
+`compare` executes supplied candidates and selects by passed tasks, then operation count. It does not generate candidates, enforce a token-level matched-compute budget, or establish learning/transfer results. `seeds/generate.py` demonstrates model-generated code; `examples/context-and-components.ts` uses an authored builder. A learned proposer, reusable library selection, task environments and real matched-budget experiments are the next vertical slice.
 
 ## Current verification
 

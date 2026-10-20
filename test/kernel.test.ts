@@ -1,17 +1,34 @@
 import test from 'node:test';
+import type { TestContext } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createHost } from '../runtime/host.mjs';
-import { canonical, Values } from '../runtime/values.mjs';
-import { compare, evaluate } from '../experiments/evaluate.mjs';
+import { createHost } from '../runtime/host.js';
+import type { HostOptions } from '../runtime/host.js';
+import { canonical, parseJson, Values } from '../runtime/values.js';
+import { isJsonObject, reference } from '../runtime/protocol.js';
+import type { JsonObject, JsonValue, ModelMessage, RunResult } from '../runtime/protocol.js';
+import { compare, evaluate } from '../experiments/evaluate.js';
 
-async function fixture(t, options = {}) {
+async function fixture(t: TestContext, options: Omit<HostOptions, 'root'> = {}) {
   const root = mkdtempSync(join(tmpdir(), 'horizon-test-'));
   const host = await createHost({ root, worker: { mode: 'trusted-process' }, ...options });
   t.after(async () => { await host.dispose(); rmSync(root, { recursive: true, force: true }); });
   return { ...host, root };
+}
+
+function submitted(run: RunResult): asserts run is Extract<RunResult, { status: 'submitted' }> {
+  if (run.status !== 'submitted') assert.fail(run.error);
+}
+
+function failed(run: RunResult): asserts run is Extract<RunResult, { status: 'failed' }> {
+  assert.equal(run.status, 'failed');
+}
+
+function object(value: JsonValue | undefined): JsonObject {
+  assert.ok(isJsonObject(value));
+  return value;
 }
 
 test('immutable references preserve provenance and detect tampering', t => {
@@ -42,13 +59,13 @@ test('unloading the Cordis service cancels an active component', async t => {
   await new Promise(resolve => setTimeout(resolve, 100));
   await host.dispose();
   const run = await pending;
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /cancelled/);
   assert.ok(run.elapsedMs < 3000);
 });
 
 test('context load, retain, consumption, eviction and search are explicit', async t => {
-  const requests = [];
+  const requests: ModelMessage[][] = [];
   const { kernel } = await fixture(t, { model: async messages => { requests.push(messages); return { content: 'ok' }; } });
   const entry = kernel.define(`def main(task, api):
     old = api.request('values.put', value='old history')
@@ -67,11 +84,15 @@ test('context load, retain, consumption, eviction and search are explicit', asyn
             'search': api.request('values.search', query='old history')}
 `, { grants: ['model'] });
   const run = await kernel.run(entry, {});
-  assert.equal(run.status, 'submitted', run.error);
+  submitted(run);
   assert.deepEqual(requests.map(messages => messages.map(item => item.content)), [['old history', 'current observation'], ['old history']]);
-  assert.deepEqual(run.output.original.entries, []);
-  assert.equal(run.output.after.entries.length, 1);
-  assert.ok(run.output.search.refs.length > 0);
+  const output = object(run.output);
+  assert.deepEqual(object(output['original'])['entries'], []);
+  const entries = object(output['after'])['entries'];
+  assert.ok(Array.isArray(entries));
+  assert.equal(entries.length, 1);
+  const refs = object(output['search'])['refs'];
+  assert.ok(Array.isArray(refs) && refs.length > 0);
   assert.equal(run.modelCalls, 2);
 });
 
@@ -83,16 +104,21 @@ test('generated component is callable and reusable after restarting the host', a
     return {'ref': ref, 'answer': api.request('call', target=ref, input=6)}
 `, { grants: ['install'] });
   const run = await kernel.run(builder, {});
-  assert.equal(run.status, 'submitted', run.error);
-  assert.equal(run.output.answer, 12);
+  submitted(run);
+  const output = object(run.output);
+  assert.equal(output['answer'], 12);
   const restarted = await createHost({ root, worker: { mode: 'trusted-process' } });
-  try { assert.equal((await restarted.kernel.run(run.output.ref, 9)).output, 18); }
+  try {
+    const reused = await restarted.kernel.run(reference(output['ref']), 9);
+    submitted(reused);
+    assert.equal(reused.output, 18);
+  }
   finally { await restarted.dispose(); }
-  const events = readFileSync(join(root, 'runs', run.id, 'events.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
-  const calls = events.filter(event => event.kind === 'call.begin');
+  const events = readFileSync(join(root, 'runs', run.id, 'events.jsonl'), 'utf8').trim().split('\n').map(line => object(parseJson(line)));
+  const calls = events.filter(event => event['kind'] === 'call.begin');
   assert.equal(calls.length, 2);
-  assert.equal(calls[1].data.parent, calls[0].call);
-  assert.deepEqual(events.map(event => event.sequence), events.map((_, index) => index + 1));
+  assert.equal(object(calls[1]?.['data'])['parent'], calls[0]?.['call']);
+  assert.deepEqual(events.map(event => event['sequence']), events.map((_, index) => index + 1));
 });
 
 test('reference knowledge does not authorize reading private evaluator values', async t => {
@@ -100,7 +126,7 @@ test('reference knowledge does not authorize reading private evaluator values', 
   const secret = kernel.values.put('hidden answer');
   const entry = kernel.define(`def main(task, api):\n    return api.request('values.get', ref=task['ref'])\n`);
   const run = await kernel.run(entry, { ref: secret });
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /not available/);
 });
 
@@ -109,7 +135,7 @@ test('nested component capabilities cannot exceed the caller', async t => {
   const child = kernel.define('def main(task, api):\n    return True\n', { grants: ['model'] });
   const parent = kernel.define(`def main(task, api):\n    return api.request('call', target='child', input=task)\n`, { bindings: { child } });
   const run = await kernel.run(parent, {});
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /capability escalation/);
 });
 
@@ -118,13 +144,13 @@ test('nested calls consume a shared operation budget', async t => {
   const child = kernel.define(`def main(task, api):\n    return api.request('values.put', value=1)\n`);
   const parent = kernel.define(`def main(task, api):\n    return api.request('call', target='child', input=task)\n`, { bindings: { child } });
   const run = await kernel.run(parent, {}, { maxOperations: 3 });
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /budget/);
 });
 
 test('oversized context is rejected before the model is invoked', async t => {
   let invoked = false;
-  const { kernel } = await fixture(t, { model: async () => { invoked = true; return 'unexpected'; } });
+  const { kernel } = await fixture(t, { model: async () => { invoked = true; return { content: 'unexpected' }; } });
   const entry = kernel.define(`def main(task, api):
     ref = api.request('values.put', value='x' * 100)
     view = api.request('views.create')
@@ -132,7 +158,7 @@ test('oversized context is rejected before the model is invoked', async t => {
     return api.request('model.invoke', view=view)
 `, { grants: ['model'] });
   const run = await kernel.run(entry, {}, { contextBytes: 20 });
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /capacity/);
   assert.equal(invoked, false);
   assert.equal(run.modelCalls, 0);
@@ -142,7 +168,7 @@ test('worker deadline stops a component that never returns', async t => {
   const { kernel } = await fixture(t);
   const entry = kernel.define('def main(task, api):\n    while True: pass\n');
   const run = await kernel.run(entry, {}, { timeoutMs: 200 });
-  assert.equal(run.status, 'failed');
+  failed(run);
   assert.match(run.error, /deadline/);
   assert.ok(run.elapsedMs < 3000);
 });
@@ -153,19 +179,20 @@ test('evaluation withholds expected values and compares actual candidates', asyn
   const correct = kernel.define('def main(task, api):\n    assert "expected" not in task\n    return sum(task["numbers"])\n');
   const selection = await compare(kernel, [wrong, correct], [{ id: 'development', input: { numbers: [2, 3] }, expected: 5 }]);
   assert.equal(selection.selected, correct);
+  assert.ok(selection.selected);
   const transfer = await evaluate(kernel, selection.selected, [{ id: 'new-task', input: { numbers: [-4, 7] }, expected: 3 }]);
   assert.equal(transfer.passed, 1);
 });
 
 test('editable seed generates and invokes source through the model boundary', async t => {
   const { kernel } = await fixture(t, { model: async messages => {
-    assert.equal(messages[0].role, 'system');
-    assert.deepEqual(JSON.parse(messages[1].content), { numbers: [3, 8] });
+    assert.equal(messages[0]?.role, 'system');
+    assert.deepEqual(JSON.parse(messages[1]?.content ?? 'null'), { numbers: [3, 8] });
     return { content: JSON.stringify({ source: 'def main(task, api):\n    return sum(task["numbers"])\n' }), usage: { total_tokens: 25 } };
   } });
-  const entry = kernel.define(readFileSync(new URL('../seeds/generate.py', import.meta.url), 'utf8'), { grants: ['model', 'install'] });
+  const entry = kernel.define(readFileSync(new URL('../../seeds/generate.py', import.meta.url), 'utf8'), { grants: ['model', 'install'] });
   const run = await kernel.run(entry, { numbers: [3, 8] });
-  assert.equal(run.status, 'submitted', run.error);
+  submitted(run);
   assert.equal(run.output, 11);
   assert.equal(run.modelCalls, 1);
 });
@@ -175,7 +202,7 @@ if (process.env.HW_TEST_DOCKER === '1') {
     const { kernel } = await fixture(t, { worker: { mode: 'docker' } });
     const entry = kernel.define('import os\ndef main(task, api):\n    assert "HW_API_KEY" not in os.environ\n    return task + 1\n');
     const run = await kernel.run(entry, 4, { timeoutMs: 30000 });
-    assert.equal(run.status, 'submitted', run.error);
+    submitted(run);
     assert.equal(run.output, 5);
   });
 }

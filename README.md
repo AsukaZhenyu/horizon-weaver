@@ -30,10 +30,13 @@ An executable prototype and its tests are engineering evidence. Improvements in 
 
 ## Run the first substrate
 
+The host, evaluator, examples and tests are written in TypeScript with strict type checking. Python remains the executable component language; the worker ABI is unchanged. Build output goes to ignored `dist/` and is not a second source tree.
+
 Requires Node.js 22+, Python 3.12+ for trusted fixture tests, and Docker for isolated component execution.
 
 ```sh
 npm ci
+npm run typecheck
 npm test
 docker pull python:3.12-alpine
 npm run demo
@@ -41,6 +44,8 @@ npm run demo
 
 For the authored fixture only, `npm run demo -- --trusted-process` runs without Docker. This mode is not a sandbox. Tests use this mode for authored fixtures; `HW_TEST_DOCKER=1 npm test` additionally validates Docker execution. Formal experiments must pin the worker image digest and record the model configuration.
 
-`examples/model-generated.mjs` uses an OpenAI-compatible endpoint configured by `HW_BASE_URL` (including `/v1`), `HW_MODEL`, and optional `HW_API_KEY`. Run `node examples/model-generated.mjs` with Docker available. It generates and invokes a Python component, but does not yet train a proposer.
+`npm run build` compiles the TypeScript sources. Tests and demos build automatically, then execute the emitted JavaScript on Node.js. Keep `sdk/python/` and `seeds/` alongside `dist/`; these Python assets are loaded relative to the emitted modules.
+
+`examples/model-generated.ts` uses an OpenAI-compatible endpoint configured by `HW_BASE_URL` (including `/v1`), `HW_MODEL`, and optional `HW_API_KEY`. Run `npm run demo:model` with Docker available. It generates and invokes a Python component, but does not yet train a proposer.
 
 See [execution semantics and current boundaries](docs/architecture.md). The first slice implements context and component execution. Terminal tools, a learned search policy and fresh benchmark evaluation are still to be implemented.

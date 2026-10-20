@@ -4,10 +4,21 @@
   "private": true,
   "type": "module",
   "description": "A minimal executable substrate for learning agent programs",
-  "engines": { "node": ">=22" },
-  "scripts": {
-    "test": "node --test test/*.test.mjs",
-    "demo": "node examples/context-and-components.mjs"
+  "engines": {
+    "node": ">=22"
   },
-  "dependencies": { "@deepseek-ai/cordis": "4.0.1" }
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "demo": "npm run build && node dist/examples/context-and-components.js",
+    "demo:model": "npm run build && node dist/examples/model-generated.js"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "typescript": "7.0.2"
+  }
 }
