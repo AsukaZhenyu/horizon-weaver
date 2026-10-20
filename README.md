@@ -6,7 +6,7 @@ Development restarts on `codex/learnable-runtime`. The v0 and v1 implementations
 
 ## Historical experiments
 
-Read [the experiment summary and lessons](docs/history/legacy-experiments.md) before interpreting earlier Terminal-Bench results. The old eight tasks were repeatedly used for development and are not a held-out evaluation set.
+Read [the experiment summary and lessons](history/legacy-experiments.md) before interpreting earlier Terminal-Bench results. The old eight tasks were repeatedly used for development and are not a held-out evaluation set.
 
 - `claude-code/legacy-v0` retains the complete original v0 commit history. The former `v0.1`, `v0.2`, `v0.3`, and `v0.5` branch names have been consolidated into this archive.
 - `codex/legacy-v1` preserves the previously uncommitted v1.3 source, tests, design documents, and original experiment reports in commit `86b0e43`.
