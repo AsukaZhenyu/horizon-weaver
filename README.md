@@ -1,29 +1,46 @@
-# Horizon Weaver v0.x
+# Horizon Weaver
 
-早期终端 Agent 探索，使用本地小模型执行代码与命令。该系列已停止维护，保留实现和提交历史供回溯。
+Research on a small executable structure in which agents can learn context operations, generate components, change their composition, and accumulate reusable capabilities.
 
-## 开发过程
+Development restarts on `codex/learnable-runtime`. The v0 and v1 implementations are preserved in Git rather than carried into the new runtime.
 
-从直接拼接提示词、工具和执行循环的最小实现开始，逐步加入结构化动作、历史记录、停滞检测与提交检查。v0.3 尝试有界推理，v0.4 要求先生成测试样例，v0.5 再将各功能拆成自制插件。
+## Historical experiments
 
-## 实验结果
+Read [the experiment summary and lessons](docs/history/legacy-experiments.md) before interpreting earlier Terminal-Bench results. The old eight tasks were repeatedly used for development and are not a held-out evaluation set.
 
-选定八项 Terminal-Bench 任务进行开发冒烟，原报告的整项通过数如下：
+- `claude-code/legacy-v0` retains the complete original v0 commit history. The former `v0.1`, `v0.2`, `v0.3`, and `v0.5` branch names have been consolidated into this archive.
+- `codex/legacy-v1` preserves the previously uncommitted v1.3 source, tests, design documents, and original experiment reports in commit `86b0e43`.
+- `codex/learnable-runtime` contains the cleanup, retrospective, and new implementation.
 
-| 版本 | 通过任务 |
-| --- | ---: |
-| v0.1 | 0/8 |
-| v0.2 | 1/8 |
-| v0.3 | 2/8 |
-| v0.4 | 1/8 |
-| v0.5.1 | 3/8 |
+To inspect the preserved implementation without changing the current checkout:
 
-v0.5.1 的单元测试为 108/108，但真实任务仍有重复探索、假完成和超时。
+```sh
+git show codex/legacy-v1:horizon_weaver/verification.py
+git log --oneline codex/legacy-v1
+git diff --stat claude-code/legacy-v0..codex/legacy-v1
+```
 
-## 局限性
+Raw historical runs, third-party source repositories, books, and personal notes remain local and are excluded from new commits. The local `.legacy/` recovery archive also contains a byte-verified copy of the pre-cleanup source.
 
-- 主要依赖人工规则和提示词补丁；后期插件化改善了组织方式，尚无策略学习与跨任务能力积累。
-- 模型自生成的检查可能遗漏需求；更严格的门控也可能使执行空转。
-- 八项结果包含基础设施故障，缺少重复和严格对照；不能认定剩余失败都是模型能力上限，也不能与 v1 的不同任务集合直接比较。
+## Research boundary
 
-详细数据和教训见[实验汇总](https://github.com/AsukaZhenyu/horizon-weaver/blob/codex/learnable-runtime/docs/history/legacy-experiments.md)。源码和测试位于 `agent/`，依赖见 `requirements.txt`。
+The runtime defines references, versions, execution, context operations, budgets, and the provenance of observations. Executable programs decide which information to load, which components to create, how to compose them, and when to submit. Independent task evaluation supplies the score.
+
+An executable prototype and its tests are engineering evidence. Improvements in task accuracy, search efficiency, and transfer require separate matched-budget experiments.
+
+## Run the first substrate
+
+Requires Node.js 22+, Python 3.12+ for trusted fixture tests, and Docker for isolated component execution.
+
+```sh
+npm ci
+npm test
+docker pull python:3.12-alpine
+npm run demo
+```
+
+For the authored fixture only, `npm run demo -- --trusted-process` runs without Docker. This mode is not a sandbox. Tests use this mode for authored fixtures; `HW_TEST_DOCKER=1 npm test` additionally validates Docker execution. Formal experiments must pin the worker image digest and record the model configuration.
+
+`examples/model-generated.mjs` uses an OpenAI-compatible endpoint configured by `HW_BASE_URL` (including `/v1`), `HW_MODEL`, and optional `HW_API_KEY`. Run `node examples/model-generated.mjs` with Docker available. It generates and invokes a Python component, but does not yet train a proposer.
+
+See [execution semantics and current boundaries](docs/architecture.md). The first slice implements context and component execution. Terminal tools, a learned search policy and fresh benchmark evaluation are still to be implemented.
