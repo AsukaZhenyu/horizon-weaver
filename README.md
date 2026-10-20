@@ -27,3 +27,20 @@ Raw historical runs, third-party source repositories, books, and personal notes 
 The runtime defines references, versions, execution, context operations, budgets, and the provenance of observations. Executable programs decide which information to load, which components to create, how to compose them, and when to submit. Independent task evaluation supplies the score.
 
 An executable prototype and its tests are engineering evidence. Improvements in task accuracy, search efficiency, and transfer require separate matched-budget experiments.
+
+## Run the first substrate
+
+Requires Node.js 22+, Python 3.12+ for trusted fixture tests, and Docker for isolated component execution.
+
+```sh
+npm ci
+npm test
+docker pull python:3.12-alpine
+npm run demo
+```
+
+For the authored fixture only, `npm run demo -- --trusted-process` runs without Docker. This mode is not a sandbox. Tests use this mode for authored fixtures; `HW_TEST_DOCKER=1 npm test` additionally validates Docker execution. Formal experiments must pin the worker image digest and record the model configuration.
+
+`examples/model-generated.mjs` uses an OpenAI-compatible endpoint configured by `HW_BASE_URL` (including `/v1`), `HW_MODEL`, and optional `HW_API_KEY`. Run `node examples/model-generated.mjs` with Docker available. It generates and invokes a Python component, but does not yet train a proposer.
+
+See [execution semantics and current boundaries](docs/architecture.md). The first slice implements context and component execution. Terminal tools, a learned search policy and fresh benchmark evaluation are still to be implemented.
