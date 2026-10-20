@@ -1,0 +1,3 @@
+[
+  {"kind": "command", "command": "python -c \"import json; from pathlib import Path; Path('result.json').write_text(json.dumps({'answer':sum([19,23])})+'\\n')\""}
+]

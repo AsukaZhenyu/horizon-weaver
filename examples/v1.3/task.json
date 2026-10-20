@@ -1,0 +1,8 @@
+{
+  "task_id": "exploration-demo",
+  "goal": "Write the exact text 42 to answer.txt and verify it before submission.",
+  "acceptance_checks": [{"id": "external-demo-grader", "kind": "external"}],
+  "exploration_history": true,
+  "verification_policy": "behavioral",
+  "budget": {"max_steps": 10, "wall_time_s": 60}
+}

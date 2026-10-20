@@ -1,0 +1,3 @@
+[
+  {"kind": "write", "path": "result.json", "content": "{\"answer\":42}\n"}
+]

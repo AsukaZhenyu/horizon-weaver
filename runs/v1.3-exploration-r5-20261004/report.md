@@ -1,0 +1,48 @@
+# v1.3 dev5 真实模型开发试验
+
+168 项回归全部通过，其中 17 项真实 Docker，无跳过。
+
+Qwen3.5-9B Q4_K_M；原始 Terminal-Bench 0.2 八项任务，每组每项一次，串行；300 秒、40 步，模型与输出预算相同。所有组使用 State IR / JSON Schema。控制组为同版本 legacy 开关，不是旧 v1.2 二进制。
+
+| 配置 | 整项通过 | 独立检查 | Agent 总时间 | 解析失败 | 行为自检就绪但外部失败 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| control | 3/8 | 18/30 | 995.2s | 0 | 0 |
+| history | 3/8 | 23/30 | 1178.1s | 0 | 0 |
+| verify | 3/8 | 25/30 | 1614.2s | 0 | 1 |
+| both | 3/8 | 19/30 | 1924.9s | 1 | 0 |
+
+| 任务 | control | history | verify | both |
+| --- | --- | --- | --- | --- |
+| hello-world | 通过 2/2；submitted；2步；17.6s | 通过 2/2；submitted；2步；17.0s | 通过 2/2；submitted；3步；31.3s | 通过 2/2；submitted；3步；31.3s |
+| fix-permissions | 通过 1/1；submitted；4步；37.0s | 通过 1/1；submitted；4步；39.5s | 失败 0/1；submitted；3步；30.8s | 通过 1/1；submitted；10步；83.7s |
+| log-summary | 失败 0/3；submitted；3步；33.9s | 失败 0/3；submitted；12步；163.7s | 通过 3/3；submitted；3步；36.2s | 通过 3/3；timeout；11步；302.6s |
+| regex-log | 失败 0/1；timeout；16步；304.8s | 失败 0/1；timeout；12步；302.3s | 失败 0/1；timeout；12步；301.1s | 失败 0/1；timeout；12步；302.8s |
+| cancel-async-tasks | 失败 1/6；submitted；12步；185.9s | 失败 5/6；timeout；16步；304.5s | 失败 5/6；timeout；20步；301.3s | 失败 1/6；timeout；23步；301.1s |
+| jq-data-processing | 通过 14/14；submitted；5步；54.8s | 通过 14/14；submitted；6步；59.6s | 通过 14/14；timeout；12步；304.6s | 失败 12/14；timeout；15步；302.1s |
+| sqlite-db-truncate | 失败 0/1；timeout；12步；302.6s | 失败 0/1；submitted；5步；109.2s | 失败 0/1；timeout；10步；302.4s | 失败 0/1；timeout；17步；300.7s |
+| cprofiling-python | 失败 0/2；submitted；4步；58.6s | 失败 1/2；submitted；10步；182.4s | 失败 1/2；timeout；9步；306.5s | 失败 0/2；timeout；14步；300.7s |
+
+| 配置 | 模型调用 | 输入 tokens | 输出 tokens | 重复观察 | 只读 history 查询 | 未正常提交但外部正确 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| control | 60 | 187818 | 16370 | 14 | 0 | 0 |
+| history | 68 | 242349 | 12112 | 13 | 0 | 0 |
+| verify | 76 | 298863 | 27954 | 15 | 0 | 1 |
+| both | 107 | 455213 | 39171 | 15 | 0 | 1 |
+
+tokens 包含运行时估算值，不能当作精确服务端计量。
+
+| 与 control 都正确的任务 | control 时间 | 对照时间 | 对照/control |
+| --- | ---: | ---: | ---: |
+| history（3项） | 109.4s | 116.0s | 1.06 |
+| verify（2项） | 72.4s | 335.9s | 4.64 |
+| both（2项） | 54.5s | 115.0s | 2.11 |
+
+dev5 独立预检为 2/2、3/3 检查。dev1—dev4 的预检、已评分任务和中断轨迹分别保留，不择优混入本轮四组。
+
+verify 原批次前三项已执行并保留，后五项因 Docker 默认网络地址池耗尽未启动。只补跑未启动的五项，单独保留 verify-recovery 评分与日志；不存在从多个 Agent 尝试中择优选分。原始基础设施失败保留在 verify-overview.json。
+
+已完成轨迹的具体观察见 [findings.md](findings.md)，包括历史读取交付缺口、上下文预算、重复方法、路径错位与正确候选未正常提交。修复与最终复测另存 dev6。
+
+以上是单次开发试验，不能归因于稳定的准确率收益。强化自检的通过也不证明自然语言需求已完整覆盖，正确性只以独立 TB 评分为准。重复指标表示已记录的相同后果，不自动表示 shell 重试无效。
+
+输入审计：55 个任务文件和兼容文件未改变；四组任务初始文件状态完全相同；所有事件账本校验、IR 往返和运行源码哈希一致。完整分项指标在各组 overview.json，原始 native results.json 和事件账本保留。

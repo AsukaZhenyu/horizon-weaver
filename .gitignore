@@ -28,3 +28,12 @@ research-experience/
 
 # 开发文档
 docs/
+
+# v1 task outputs and event journals
+runs/
+examples/v1/workspace/
+
+# Local migration archive and scratch files
+.legacy/
+_work/
+.pytest_cache/
