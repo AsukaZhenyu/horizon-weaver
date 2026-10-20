@@ -26,4 +26,4 @@ v0.5.1 的单元测试为 108/108，但真实任务仍有重复探索、假完�
 - 模型自生成的检查可能遗漏需求；更严格的门控也可能使执行空转。
 - 八项结果包含基础设施故障，缺少重复和严格对照；不能认定剩余失败都是模型能力上限，也不能与 v1 的不同任务集合直接比较。
 
-详细数据和教训见[实验汇总](https://github.com/AsukaZhenyu/horizon-weaver/blob/codex/learnable-runtime/docs/history/legacy-experiments.md)。源码和测试位于 `agent/`，依赖见 `requirements.txt`。
+详细数据和教训见[实验汇总](https://github.com/AsukaZhenyu/horizon-weaver/blob/codex/learnable-runtime/history/legacy-experiments.md)。设计文档见 [docs/v0.x](docs/v0.x/)。v0 源码、测试和依赖可从归档提交 `bdb784e` 查看。
