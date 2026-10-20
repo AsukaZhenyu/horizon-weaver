@@ -8,7 +8,7 @@ Development restarts on `codex/learnable-runtime`. The v0 and v1 implementations
 
 Read [the experiment summary and lessons](docs/history/legacy-experiments.md) before interpreting earlier Terminal-Bench results. The old eight tasks were repeatedly used for development and are not a held-out evaluation set.
 
-- Existing `v0.1`, `v0.2`, `v0.3`, and `v0.5` branches retain the original v0 commit history.
+- `claude-code/legacy-v0` retains the complete original v0 commit history. The former `v0.1`, `v0.2`, `v0.3`, and `v0.5` branch names have been consolidated into this archive.
 - `codex/legacy-v1` preserves the previously uncommitted v1.3 source, tests, design documents, and original experiment reports in commit `86b0e43`.
 - `codex/learnable-runtime` contains the cleanup, retrospective, and new implementation.
 
@@ -17,7 +17,7 @@ To inspect the preserved implementation without changing the current checkout:
 ```sh
 git show codex/legacy-v1:horizon_weaver/verification.py
 git log --oneline codex/legacy-v1
-git diff --stat v0.5..codex/legacy-v1
+git diff --stat claude-code/legacy-v0..codex/legacy-v1
 ```
 
 Raw historical runs, third-party source repositories, books, and personal notes remain local and are excluded from new commits. The local `.legacy/` recovery archive also contains a byte-verified copy of the pre-cleanup source.
