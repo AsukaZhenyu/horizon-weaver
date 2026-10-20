@@ -1,121 +1,29 @@
-# HorizonWeaver: Structured Context Orchestration for Long-Horizon Small-Model Agents
+# Horizon Weaver
 
-## Motivation
+Research on a small executable structure in which agents can learn context operations, generate components, change their composition, and accumulate reusable capabilities.
 
-长期来看，理想情况下人每天只能专注工作7-8h，长期过长时间集中精力工作对人的心理与身体健康有害，并且会降低效率，就我实际体验来看，一天如果在工位上坐10h以上，能有2-3h的高效思考与工作就非常不错了。长期10h以上工作时长+交付物压力会导致：人的身体素质下滑，人疲惫焦虑，丧失与人交流的基本能力，人被“异化”了。
+Development restarts on `codex/learnable-runtime`. The v0 and v1 implementations are preserved in Git rather than carried into the new runtime.
 
-在工作中存在大量，可被自动化的，机械的工作。如果人的精力被这样的事物占据，则会导致疲劳以及效率低下，更可怕的是会失去对于人生、项目全局的把控，容易迷失在死胡同里。
+## Historical experiments
 
-例如：沉迷在具体的代码实现里，而忽略了项目的顶层设计，导致项目没有学术性/创新性，仅仅在工程上有意义，而随着AI的发展，这样的工作越来越没有意义，人也越来越没有价值。
+Read [the experiment summary and lessons](docs/history/legacy-experiments.md) before interpreting earlier Terminal-Bench results. The old eight tasks were repeatedly used for development and are not a held-out evaluation set.
 
-又例如：硕士期间仅专注于当前交付项目的工作，没有形成独立完成科研闭环的能力，没有在一个领域内深度积累，毕业后只能作为耗材随波逐流找工作，这辈子将与自我实现无关，一切的梦想都化为泡影。
+- Existing `v0.1`, `v0.2`, `v0.3`, and `v0.5` branches retain the original v0 commit history.
+- `codex/legacy-v1` preserves the previously uncommitted v1.3 source, tests, design documents, and original experiment reports in commit `86b0e43`.
+- `codex/learnable-runtime` contains the cleanup, retrospective, and new implementation.
 
-基本原则是：
-做一个长期主义者，日拱一卒，个人的身心健康是最有价值的投资，8h睡眠、8h工作，另外8h要运动、兴趣以及与人交往。如果是8h睡眠、16h工作，等待着我的就是：30岁胃癌晚期还在工位上，养育着和我没有血缘关系的孩子，看着闪烁的屏幕直到失去意识，老婆分走所有财产，老爸老妈在农村靠着200块一个月的养老金过活。
+To inspect the preserved implementation without changing the current checkout:
 
-7-8h 的工作需要发挥最大效益，目前的规划是：上午3h主要交付物工作，处理昨天Agent的实验信息，下午4h用于个人能力积累，晚上运动以及兴趣，目标是：从中午开始，Agent自动帮我处理主要交付物相关工作。
+```sh
+git show codex/legacy-v1:horizon_weaver/verification.py
+git log --oneline codex/legacy-v1
+git diff --stat v0.5..codex/legacy-v1
+```
 
-因为我没钱太多钱买超天才API，所以 10-20h 内的所有Agent实际上调用的是本地部署的模型，或国产API（好消息是deepseek API可以报销），这意味着模型的知识、智能与推理能力有限。
+Raw historical runs, third-party source repositories, books, and personal notes remain local and are excluded from new commits. The local `.legacy/` recovery archive also contains a byte-verified copy of the pre-cleanup source.
 
-曾经使用Gxx5.1推理，一天烧了300元API，还是在左右脑互博，连框架都没搭出来，曾经使用Dxxxxxxx3.5推理，在遇到难题时，总是尝试“回退”，忽视开发要求，在简单的状态之间反复横跳，遇到一点什么问题就“让我们回退到xxx可以运行的版本”，逃避困难的开发需求，浪费时间，浪费API，而不是尝试解决这个问题，添加调试信息，分析问题出现在哪里，尝试解决问题。
+## Research boundary
 
-在目前的LLM用于工程的实践中，pretrain、post-training、Agent都是决定智能的重要原因，好消息是做Agent不需要太多算力。目前sota的LLM的思维能力、工作能力早就超过了人脑，但不可忽视的是，即便是以人有限的思考能力、存储能力和算力，在人类的社会环境中仍然做出了许多伟大的工作。或许lager scale、super intelligence并非一切，或许Agent是非常不错、非常有潜力的智能增长空间。
+The runtime defines references, versions, execution, context operations, budgets, and the provenance of observations. Executable programs decide which information to load, which components to create, how to compose them, and when to submit. Independent task evaluation supplies the score.
 
-我们需要更高的抽象，更聪明的上下文组织方法，更持久的Agent的自主探索导航。必须要有完整的地图，明确前行方向，而不是左右脑互博，反复横跳
-精确上下文管理 -> 不只是要对执行路径建图，对于项目结构也要建图，不必反复阅读代码，总结项目结构、接口，是某种“压缩”方法，完整代码、文档 -> 图节点、与其他节点的关系、调用接口。
-
-
-## Requirement
-
-### 基础设计
-
-1. 不做多模态
-
-只做代码、文字、终端的harness，不做多模态，不处理图像模态。LLM通过结构化字符的harness与计算机交互。即便这样，也可以将大部分工作完成。
-
-PPT / 图像：用XML可以直接通过代码生成drawio图像/PPT，非常好，可以固定配色，图像结构，PPT汇报结构，让Agent去做。
-
-文字、mermaid流程图和代码就不必说了。
-
-对于网页的交互，通常是可以看到html代码的，也可以通过终端命令对网页进行操作。
-
-对于闭源的桌面端APP，只能通过GUI操作的，目前暂时不在考虑范围内。
-
-2. 运行环境
-
-环境隔离，在Docker中配置环境、执行任务，保证可复现性，同时避免污染宿主环境
-
-3. 采用DeepSeek Harness的Cordis架构
-
-这意味着两件事：
-
-其一：所有组件都是插件，没有特殊组件
-这样做的好处是强迫我将各个功能抽离为各组件，防止Agent系统变成糊成一坨的System Prompt Engineering
-还有一个好处，曾经我思考，LLM和Compiler都是处理字符串，不同的是LLM处理的是非结构化的字符串，优势是“涌现”了思考与推理能力，劣势是会产生幻觉，不可执行，不客观。Agent系统中应该严格区分LLM和Compiler的工作，各组件最好按照Compiler的形式设计，以让LLM获得更客观的信号，例如用lean描述verification，验证是否通过就是强客观的反馈信号，也就是形式化语言/结构语言+类似lean的验证内核，lean的验证实际上就是Compiler的类型检查。纯靠System Prompt和模型自主推理，可能会“在幻梦中航行”。
-
-其二：时间组合性与空间组合性
-这不是Agent架构，而是软件架构，这意味着不只是Agent自身可以获得动态灵活性，Agent编写的项目也有动态灵活性。
-self-evolving、RSI（Recursive Self-Improvement）、根据task编译harness是2026年9月比较火的工作，虽然目前看了效果不如手工设计的Agent框架，但显然是future work。另一个目前非常火的领域是Agentic RL，它会在Agent Runtime修改Agent的Policy，这种可持续学习的能力需要这种灵活性作为保障。
-更重要的是Agent自行编写的项目，各组件之间需要时间组合性与空间组合性，考虑到LLM的幻觉问题，开发过程中的灵活性非常重要。
-
-4. everything is structured files
-
-Hypothesis A
-
-结构化 representation 本身是否有价值？
-
-token sequence vs structured IR
-
-Context Orchestration / 送给LLM推理 的对象是structured files
-Agent经验、用户习惯、新增知识 是structured files
-LLM的输出 是structured files
-用图表示：结点（基本对象），边（基本对象之间的关系）
-
-输出经过：
-type checker
- ↓
-constraint solver
- ↓
-compiler
- ↓
-renderer
- ↓
-visual verifier
- ↓
-repair
-
-例子：
-文字，一个结点是一段文字，记录结点本身的位置信息，以及与其他段落的关系
-代码，一个结点是一个类/一个文件/一个组件，记录结点本身的功能，以及与其他结点的关系
-PPT，一个结点是一个文本框/色块/基础组件，记录本结点的信息，以及与其他结点的关系
-
-上下文
-项目导航
-
-每一个都是人参与设计的IR和Compiler，作为一个组件参与Agent的工作
-
-5. 最小验证原则
-
-Hypothesis B
-
-hierarchical refinement 是否有价值？
-
-direct generation vs S0→S1→⋯→Sn
-	​
-
-
-从简单到复杂，从模拟到真实，从全局架构到具体实现，“冒烟测试”
-
-在具体实现前，请确保已经建立全局数学模型，经过初步模拟验算
-
-
-
-### 基础架构
-
-Node-Agent是最小Agent，用于处理一个明确定义的、狭小范围内的问题。
-推理上下文编排：对于目前的单个问题，需要将：单问题system prompt、问题描述、历史尝试与推理编排进入推理
-
-Pilot-Agent是全局Agent，协调各Node-Agent的concurrency，对项目维持全局判断，编排Node-Agent去执行明确定义的问题。
-推理上下文编排：科研工作基本原则，参考[科研注意事项](research-experience/5.6-Sol-research.md)和[科研错题本](research-experience/5.6-Sol-detour.md)、项目探索图
-
-
+An executable prototype and its tests are engineering evidence. Improvements in task accuracy, search efficiency, and transfer require separate matched-budget experiments.

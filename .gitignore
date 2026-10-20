@@ -1,39 +1,33 @@
-# 第三方源码参考（用于分析，不纳入本项目版本控制）
-# 其中 deepseek-harness 与 langgraph 已各自含 .git，是独立仓库
+# Local reference libraries and personal research materials
 source-code-reference/
-
-# 参考书籍 PDF（大二进制、版权内容）
 book-reference/
-
-# 提取的论文全文（参考材料）
+reference-analysis/
+research-experience/
 thesis_extracted.txt
-
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-
-# 通用
-.DS_Store
-Thumbs.db
-
+knowledge/
 开发log/
 
-# 参考代码分析
-reference-analysis/
-
-# 个人科研经历
-research-experience/
-
-# 开发文档
-docs/
-
-# v1 task outputs and event journals
-runs/
-examples/v1/workspace/
-
-# Local migration archive and scratch files
+# Recovery archives, raw experiments and scratch work
 .legacy/
 _work/
+runs/
+docs/research/
+docs/v0.x/
+docs/v1.x/
+docs/run.md
+
+# Runtime data and dependencies
+.horizon/
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
 .pytest_cache/
+.venv/
+venv/
+.DS_Store
+Thumbs.db

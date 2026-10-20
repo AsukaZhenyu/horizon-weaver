@@ -1,0 +1,87 @@
+[
+  {
+    "file": "v0.1.md",
+    "original": "开发log/2026-08-26-v0.1-里程碑总结.md",
+    "sha256": "5e23613ce0630bbf91c3d98024aeabb75dd1d761a35365d4d0aa4f08cfaf8568"
+  },
+  {
+    "file": "v0.2.md",
+    "original": "开发log/2026-08-27-v0.2-里程碑总结.md",
+    "sha256": "f502ec02338a9d78c85ce00af421959e8f75e2c589e7e97afd28120916869278"
+  },
+  {
+    "file": "v0.3.md",
+    "original": "开发log/2026-08-29-v0.3-里程碑总结.md",
+    "sha256": "18c65e32dd0748ed3597688d41ade533c3b9563f46571f6678637e68fb34a66f"
+  },
+  {
+    "file": "v0.4.md",
+    "original": "开发log/2026-08-30-v0.4-里程碑总结.md",
+    "sha256": "15c4c7a56779f2eaff17165fc168cdbff2a2ff125d87d7ecb1ef0313c6e618b3"
+  },
+  {
+    "file": "v0.5.md",
+    "original": "开发log/2026-08-30-v0.5-里程碑总结.md",
+    "sha256": "3f7487e3ec4792b44efb66bb0d3fbc391cc0cd85331fcec211183f91883dc576"
+  },
+  {
+    "file": "v1.1.md",
+    "original": "runs/v1.1-terminal-bench-smoke-20261004/report.md",
+    "sha256": "52fa8adf7a19f56290f1953fc1b84fd315b5576c575e723e066b84f2f388d2d8"
+  },
+  {
+    "file": "v1.2.md",
+    "original": "runs/v1.2-terminal-bench-smoke-20261004-r2/report.md",
+    "sha256": "6a46558ff9281c984fbe9e21356c4fe295fbe2a56bfdc9456d5a8d4498c2bac2"
+  },
+  {
+    "file": "v1.3-dev5.md",
+    "original": "runs/v1.3-exploration-r5-20261004/report.md",
+    "sha256": "088996512df855f9d872f295ab78b505d80b7d0686e5a5a40eed3962aea48ba1"
+  },
+  {
+    "file": "v1.3-dev6.md",
+    "original": "runs/v1.3-exploration-r6-20261004/report.md",
+    "sha256": "d15529deecca9996d824b8c9c64980c2c05a5e75320cba1b0b2766e348c1a5ae"
+  },
+  {
+    "file": "v1.3-dev8.md",
+    "original": "runs/v1.3-exploration-r8-20261007/report.md",
+    "sha256": "111467fbc50e2971e922a4a9c8c2dae7061d00e6acf557c9682e7e27d8902b2b"
+  },
+  {
+    "file": "v1.3-dev10.md",
+    "original": "runs/v1.3-exploration-r11-20261007/report.md",
+    "sha256": "55c1234252d60cdb5c5c2f12a525a379c524d4fc36a91ddfba585cb148baa7c5"
+  },
+  {
+    "file": "v1.3-dev11.md",
+    "original": "runs/v1.3-context-r12-20261008/report.md",
+    "sha256": "d9dbb83293bdf6c46654a274fe28879d238ad5927bad1857d3d5845eab681f1c"
+  },
+  {
+    "file": "v1.3-dev12.md",
+    "original": "runs/v1.3-goal-r13-20261011/report.md",
+    "sha256": "48bc6e3b5d02bb9ace9d4d529536b6784fb62816242f409facf44aff809f356e"
+  },
+  {
+    "file": "v1.3-dev14.md",
+    "original": "runs/v1.3-smoke-r16-20261011/report.md",
+    "sha256": "59b10082486f871065712265b587ddeeac5e11613d699e9e0e9f7b51eb559b49"
+  },
+  {
+    "file": "v1.3-dev16.md",
+    "original": "runs/v1.3-goal-feedback-r18-20261012/report.md",
+    "sha256": "df93f5b56e04da1924abc4da504a06a02e2fd632d64560cb0b833b16ef2328d5"
+  },
+  {
+    "file": "v1.3-dev19.md",
+    "original": "runs/v1.3-goal-contract-r21-20261012/report.md",
+    "sha256": "eacfc24890655ae8236c46c80c7ef15d0cec4b29d733fb12e29eba978a14e644"
+  },
+  {
+    "file": "v1.3-dev19-findings.md",
+    "original": "runs/v1.3-goal-contract-r21-20261012/findings.md",
+    "sha256": "6499bc441aed3b42b47e739d843a8582f262144587f5327725d3ac07b724a7c6"
+  }
+]
