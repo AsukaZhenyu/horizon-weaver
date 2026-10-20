@@ -24,4 +24,4 @@ v1.1 为 **2/8**，v1.2 为 **3/8**；v1.3 多轮为 **2～4/8**。最终 dev19 
 - 组件与协作策略主要由人工设计，尚无根据执行反馈持续学习、积累和复用能力的闭环。
 - 八项任务被反复用于开发，各轮多为单次采样，不能当作未知测试集或稳定的因果结论。
 
-源码在 `horizon_weaver/`，测试在 `tests/`，依赖见 `requirements-v1.txt`。完整对照与教训见[实验汇总](https://github.com/AsukaZhenyu/horizon-weaver/blob/codex/learnable-runtime/docs/history/legacy-experiments.md)。
+设计文档见 [docs/v1.x](docs/v1.x/)。源码在 `horizon_weaver/`，测试在 `tests/`，依赖见 `requirements-v1.txt`。完整对照与教训见[实验汇总](https://github.com/AsukaZhenyu/horizon-weaver/blob/codex/learnable-runtime/history/legacy-experiments.md)。
