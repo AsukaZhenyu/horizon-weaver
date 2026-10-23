@@ -1,0 +1,3 @@
+# Preserve exact executed source bytes and their SHA256 on Windows.
+*.py -text
+protocol.json -text

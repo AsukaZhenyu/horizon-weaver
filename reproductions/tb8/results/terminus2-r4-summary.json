@@ -1,0 +1,479 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T10:18:09.301280+00:00",
+  "scope": "固定本地TB 0.2.18八任务开发比较；非完整榜单、非保留集、非严格随机种子复现",
+  "method": "terminus-2",
+  "run_id": "terminus2-20261023-fixed8-r4",
+  "partial": false,
+  "source_files": {
+    "effective_summary": {
+      "path": "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\effective-summary.json",
+      "sha256": "2fa210617a46f84dd1f8fd0a6a2923f4244fbd5af73939aa47bb707035e196b4"
+    },
+    "effective_results": {
+      "path": "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\effective-results.json",
+      "sha256": "83383b31a55e847732c141ce82e207d302820039816c3e92860a825a99aed174"
+    },
+    "r13_effective_overview": {
+      "path": "C:\\Users\\89664\\Desktop\\master degree\\horizon-weaver\\runs\\v1.3-goal-r13-20261011\\effective-overview.json",
+      "sha256": "041f90fa4ebdd96af07b6140404f7838601a681b155e7812783f41ccc3275d9f"
+    },
+    "protocol": {
+      "path": "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\reproductions\\tb8\\protocol.json",
+      "sha256": "93d38db1a801d4e22d21b5d07cef5e379ff50f25dc096c4cb558cb7ccaa08048"
+    }
+  },
+  "native": {
+    "reported_resolved": 4,
+    "reported_accuracy": 0.5,
+    "valid_grading_tasks": 6,
+    "invalid_grading_tasks": 2,
+    "normal_submission_and_pass": 3,
+    "note": "Native parse errors remain in the unchanged raw JSON; native full-suite grading is incomplete"
+  },
+  "effective": {
+    "expected_tasks": 8,
+    "final_graded": 8,
+    "successes": 5,
+    "failures": 3,
+    "ungraded_tasks": 0,
+    "accuracy": 0.625,
+    "normal_submissions": 4,
+    "normal_submission_and_pass": 4,
+    "normal_submission_and_pass_over_all_tasks": 0.5,
+    "passed_checks": 26,
+    "total_checks": 30,
+    "agent_seconds": 1382.0825756000704,
+    "setup_seconds": 0,
+    "original_run_wall_seconds": 2171.204349,
+    "http_calls": 85,
+    "known_input_tokens": 318396,
+    "known_output_tokens": 21932,
+    "known_total_tokens": 340328,
+    "unknown_usage_requests": 6,
+    "http_error_attempts": 6,
+    "native_exact_command_repeats": 16,
+    "cleanup_error_count": 0,
+    "marker_error_count": 14,
+    "recovery_grading_seconds": 68.69788130000234,
+    "recovery_agent_attempts": 0,
+    "recovery_model_calls": 0
+  },
+  "r13": {
+    "run_id": "v1.3-goal-r13-20261011",
+    "totals": {
+      "tasks": 8,
+      "resolved": 4,
+      "grading_valid": 8,
+      "passed_checks": 25,
+      "total_checks": 30,
+      "elapsed_s": 1784.0736572998576,
+      "normal_submission_and_resolved": 2,
+      "model_calls": 128,
+      "reflection_requested": 61,
+      "understanding_updates": 52,
+      "cited_understanding_updates": 52,
+      "requirement_notes": 13,
+      "blocked_submissions": 0,
+      "protocol_errors": 3,
+      "model_timeouts": 5,
+      "repetitions": {
+        "repeated_proposal": 32,
+        "same_outcome_repeat": 30,
+        "repeated_failure": 21,
+        "runtime_repeated": 45,
+        "zero_change_write": 22
+      }
+    },
+    "input_tokens_mixed_actual_estimated": 477416,
+    "output_tokens_mixed_actual_estimated": 34105,
+    "estimated_usage_tasks": [
+      "cancel-async-tasks",
+      "regex-log",
+      "sqlite-db-truncate"
+    ]
+  },
+  "tasks": [
+    {
+      "task": "hello-world",
+      "r13": {
+        "resolved": true,
+        "checks": {
+          "passed": 2,
+          "total": 2
+        },
+        "normal_submission": true,
+        "stop": "submitted",
+        "agent_seconds": 26.848824500106275,
+        "gateway_calls": 3,
+        "usage": {
+          "input_tokens": 5530,
+          "output_tokens": 96,
+          "estimated": false
+        }
+      },
+      "terminus2": {
+        "native_status": "invalid_or_unparsed",
+        "native_failure_mode": "parse_error",
+        "native_external_pass": null,
+        "final_pass": true,
+        "normal_submission": true,
+        "normal_submission_and_pass": true,
+        "elapsed_seconds": 16.55255110003054,
+        "http_calls": 3,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "known_input_tokens": 2872,
+        "known_output_tokens": 331,
+        "unknown_usage_requests": 0,
+        "native_exact_command_repeats": 0,
+        "grading_source": "Original tests on original captured complete /app tar",
+        "recovery_scope": "Original captured complete /app tar restored and verified, including Unix metadata; not the entire container filesystem"
+      }
+    },
+    {
+      "task": "fix-permissions",
+      "r13": {
+        "resolved": true,
+        "checks": {
+          "passed": 1,
+          "total": 1
+        },
+        "normal_submission": true,
+        "stop": "submitted",
+        "agent_seconds": 79.15276399999857,
+        "gateway_calls": 8,
+        "usage": {
+          "input_tokens": 19911,
+          "output_tokens": 514,
+          "estimated": false
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "unset",
+        "native_external_pass": true,
+        "final_pass": true,
+        "normal_submission": true,
+        "normal_submission_and_pass": true,
+        "elapsed_seconds": 26.084913300001062,
+        "http_calls": 4,
+        "passed_checks": 1,
+        "total_checks": 1,
+        "known_input_tokens": 4775,
+        "known_output_tokens": 592,
+        "unknown_usage_requests": 0,
+        "native_exact_command_repeats": 0,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    },
+    {
+      "task": "log-summary",
+      "r13": {
+        "resolved": true,
+        "checks": {
+          "passed": 3,
+          "total": 3
+        },
+        "normal_submission": false,
+        "stop": "no_progress",
+        "agent_seconds": 205.86740099987946,
+        "gateway_calls": 21,
+        "usage": {
+          "input_tokens": 67464,
+          "output_tokens": 1658,
+          "estimated": false
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "unset",
+        "native_external_pass": true,
+        "final_pass": true,
+        "normal_submission": true,
+        "normal_submission_and_pass": true,
+        "elapsed_seconds": 38.97616909997305,
+        "http_calls": 5,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "known_input_tokens": 7948,
+        "known_output_tokens": 888,
+        "unknown_usage_requests": 0,
+        "native_exact_command_repeats": 0,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    },
+    {
+      "task": "regex-log",
+      "r13": {
+        "resolved": false,
+        "checks": {
+          "passed": 0,
+          "total": 1
+        },
+        "normal_submission": false,
+        "stop": "timeout",
+        "agent_seconds": 301.1488518998958,
+        "gateway_calls": 15,
+        "usage": {
+          "input_tokens": 64462,
+          "output_tokens": 8934,
+          "estimated": true
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "agent_timeout",
+        "native_external_pass": false,
+        "final_pass": false,
+        "normal_submission": false,
+        "normal_submission_and_pass": false,
+        "elapsed_seconds": 300.32992430002196,
+        "http_calls": 9,
+        "passed_checks": 0,
+        "total_checks": 1,
+        "known_input_tokens": 22980,
+        "known_output_tokens": 3720,
+        "unknown_usage_requests": 2,
+        "native_exact_command_repeats": 2,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    },
+    {
+      "task": "cancel-async-tasks",
+      "r13": {
+        "resolved": false,
+        "checks": {
+          "passed": 5,
+          "total": 6
+        },
+        "normal_submission": false,
+        "stop": "timeout",
+        "agent_seconds": 300.9767465000041,
+        "gateway_calls": 25,
+        "usage": {
+          "input_tokens": 104278,
+          "output_tokens": 8207,
+          "estimated": true
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "agent_timeout",
+        "native_external_pass": true,
+        "final_pass": true,
+        "normal_submission": false,
+        "normal_submission_and_pass": false,
+        "elapsed_seconds": 300.3535069000209,
+        "http_calls": 23,
+        "passed_checks": 6,
+        "total_checks": 6,
+        "known_input_tokens": 108460,
+        "known_output_tokens": 6794,
+        "unknown_usage_requests": 1,
+        "native_exact_command_repeats": 4,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    },
+    {
+      "task": "jq-data-processing",
+      "r13": {
+        "resolved": true,
+        "checks": {
+          "passed": 14,
+          "total": 14
+        },
+        "normal_submission": false,
+        "stop": "no_progress",
+        "agent_seconds": 268.1080634999089,
+        "gateway_calls": 25,
+        "usage": {
+          "input_tokens": 93771,
+          "output_tokens": 2756,
+          "estimated": false
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "unset",
+        "native_external_pass": true,
+        "final_pass": true,
+        "normal_submission": true,
+        "normal_submission_and_pass": true,
+        "elapsed_seconds": 99.07635200000368,
+        "http_calls": 12,
+        "passed_checks": 14,
+        "total_checks": 14,
+        "known_input_tokens": 52516,
+        "known_output_tokens": 2092,
+        "unknown_usage_requests": 0,
+        "native_exact_command_repeats": 1,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    },
+    {
+      "task": "sqlite-db-truncate",
+      "r13": {
+        "resolved": false,
+        "checks": {
+          "passed": 0,
+          "total": 1
+        },
+        "normal_submission": false,
+        "stop": "timeout",
+        "agent_seconds": 300.96660530008376,
+        "gateway_calls": 18,
+        "usage": {
+          "input_tokens": 79855,
+          "output_tokens": 10219,
+          "estimated": true
+        }
+      },
+      "terminus2": {
+        "native_status": "invalid_or_unparsed",
+        "native_failure_mode": "parse_error",
+        "native_external_pass": null,
+        "final_pass": false,
+        "normal_submission": false,
+        "normal_submission_and_pass": false,
+        "elapsed_seconds": 300.38633990002563,
+        "http_calls": 16,
+        "passed_checks": 0,
+        "total_checks": 1,
+        "known_input_tokens": 58160,
+        "known_output_tokens": 4578,
+        "unknown_usage_requests": 2,
+        "native_exact_command_repeats": 1,
+        "grading_source": "Original tests on trace-derived complete observable grading input",
+        "recovery_scope": "Trace-derived complete observable grader input (/app/recover.json); not original tar, original file-SHA observation, or filesystem restoration"
+      }
+    },
+    {
+      "task": "cprofiling-python",
+      "r13": {
+        "resolved": false,
+        "checks": {
+          "passed": 0,
+          "total": 2
+        },
+        "normal_submission": false,
+        "stop": "timeout",
+        "agent_seconds": 301.0044005999807,
+        "gateway_calls": 13,
+        "usage": {
+          "input_tokens": 42145,
+          "output_tokens": 1721,
+          "estimated": false
+        }
+      },
+      "terminus2": {
+        "native_status": "completed",
+        "native_failure_mode": "agent_timeout",
+        "native_external_pass": false,
+        "final_pass": false,
+        "normal_submission": false,
+        "normal_submission_and_pass": false,
+        "elapsed_seconds": 300.3228189999936,
+        "http_calls": 13,
+        "passed_checks": 0,
+        "total_checks": 2,
+        "known_input_tokens": 60685,
+        "known_output_tokens": 2937,
+        "unknown_usage_requests": 1,
+        "native_exact_command_repeats": 8,
+        "grading_source": "native",
+        "recovery_scope": null
+      }
+    }
+  ],
+  "recovery_sources": {
+    "sqlite-db-truncate": {
+      "path": "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\artifact-recovery\\sqlite-db-truncate\\grading\\result.json",
+      "sha256": "7524934f23940e4f0fe747592d6d547c3e28002c25504cd34c22135610f0ff2d",
+      "scope": "Trace-derived complete observable grader input (/app/recover.json); not original tar, original file-SHA observation, or filesystem restoration"
+    },
+    "hello-world": {
+      "path": "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\grading-recovery\\hello-world\\result.json",
+      "sha256": "cfde006ac7f05e66e07f140ce756e7b8ff80b6fa2f05e472c57f3a1b8061d029",
+      "scope": "Original captured complete /app tar restored and verified, including Unix metadata; not the entire container filesystem"
+    }
+  },
+  "raw_native_files": {
+    "modified": false,
+    "sha256_verified": true,
+    "sha256": {
+      "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\native-results.json": "bfa0fdf926769ba0fa61cd1692ff6392125cefe84b282a0f81359ad618021269",
+      "C:\\Users\\89664\\.codex\\worktrees\\repro-tb8\\horizon-weaver\\_work\\tb8\\runs\\terminus2-20261023-fixed8-r4\\native\\results.json": "820050a63594ccfb65871d9e18b8abcce0bf664de449f57d280a68991f702db2"
+    }
+  },
+  "mini_swe_agent": {
+    "status": "pending",
+    "valid_score": null,
+    "note": "原生mini套测待完成；先前运行受turn_aborted影响，尚无可报告有效成绩。此报告不替该运行判分。"
+  },
+  "comparison_limits": {
+    "same": [
+      "固定八任务与原始tests",
+      "Qwen3.5-9B-Q4_K_M模型文件与物理context 16384",
+      "temperature 0.2",
+      "每任务Agent 300秒，单并发，一次尝试",
+      "累计token观察阈值200000"
+    ],
+    "different": [
+      "R13 40次typed decision；Terminus2 40个episode，每个episode可包含多条shell命令并有完成确认",
+      "R13默认单次输出2048，可由Agent升至8192；Terminus2响应上限8192",
+      "R13单模型调用默认60秒，可升至120秒；Terminus2 HTTP上限90秒，亦受剩余Agent时间约束",
+      "R13 state/IR上下文预算14000；Terminus2原生对话与恢复机制，物理context上限16384",
+      "历史seed及部分采样参数未显式固定；历史镜像逐任务身份不能完全证明相同"
+    ],
+    "token_caution": "R13总量混合实际usage与估算；Terminus2 known usage不包含6次usage未知请求，不能宣称精确token节省比例。",
+    "repeat_caution": "Terminus2 exact session-command repeats=16；R13 typed action/file-state重复定义不同，不直接比值。",
+    "causal_claim": "这是完整交互方式与预算语义共同变化的观察；不能归因于单模块。"
+  },
+  "findings": {
+    "log_summary": {
+      "r13_seconds": 205.86740099987946,
+      "terminus2_seconds": 38.97616909997305,
+      "r13_calls": 21,
+      "terminus2_calls": 5,
+      "terminus2_max_completion_tokens": 215,
+      "old_stop": "no_progress",
+      "new_stop": "native_submission"
+    },
+    "jq_data_processing": {
+      "r13_seconds": 268.1080634999089,
+      "terminus2_seconds": 99.07635200000368,
+      "r13_calls": 25,
+      "terminus2_calls": 12,
+      "terminus2_max_completion_tokens": 290,
+      "old_stop": "no_progress",
+      "new_stop": "native_submission"
+    },
+    "cancel_async_tasks": {
+      "checks_before": "5/6",
+      "checks_after": "6/6",
+      "new_normal_submission": false,
+      "old_final_run_py_bytes": 477,
+      "old_defect": "handle_interrupt(signum, frame)被add_signal_handler无参数调用；原post-test出现TypeError"
+    },
+    "sqlite_db_truncate": {
+      "checks_after": "0/1",
+      "recovered_input_bytes": 380,
+      "defect": "把ASCII b'01'按大端整数解码为12337并生成testword12337；恢复评分仍为真实语义失败。"
+    },
+    "cprofiling_python": {
+      "checks_after": "0/2",
+      "candidate_files": [
+        "fast.py",
+        "fastest.py"
+      ],
+      "limitation": "文件已生成，但原tests遇SSLEOF下载失败，无法据此评判加速。"
+    }
+  },
+  "core_typescript_changes": false
+}
