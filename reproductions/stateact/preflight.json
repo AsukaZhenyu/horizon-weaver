@@ -1,0 +1,136 @@
+{
+  "upstream_sha": "8fb47be6f5f3978a38726608ae347987341f1d82",
+  "config": {
+    "upstream": {
+      "url": "https://github.com/ai-nikolai/StateAct.git",
+      "commit": "8fb47be6f5f3978a38726608ae347987341f1d82"
+    },
+    "backend": {
+      "base_url": "http://172.21.80.1:8080/v1",
+      "model": "repro-qwen35-9b-q4",
+      "model_sha256": "03B74727A860A56338E042C4420BB3F04B2FEC5734175F4CB9FA853DAF52B7E8",
+      "context_tokens": 16384,
+      "max_tokens": 1024,
+      "temperature": 0,
+      "seed": 42,
+      "enable_thinking": false,
+      "prompt_overflow": "fail",
+      "prompt_truncation": "none"
+    },
+    "benchmark": {
+      "split": "eval_out_of_distribution",
+      "prompt_ids": [
+        1,
+        0
+      ],
+      "keys_to_use": [
+        "goal",
+        "locations_visited",
+        "current_location",
+        "current_inventory",
+        "thought",
+        "action"
+      ],
+      "apply_correction": true,
+      "resample": false
+    }
+  },
+  "rows": [
+    {
+      "method": "react",
+      "kind": "clean",
+      "chars": 4419,
+      "template_tokens": 1612,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "react",
+      "kind": "cool",
+      "chars": 4494,
+      "template_tokens": 1638,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "react",
+      "kind": "examine",
+      "chars": 3829,
+      "template_tokens": 1405,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "react",
+      "kind": "heat",
+      "chars": 3969,
+      "template_tokens": 1427,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "react",
+      "kind": "put",
+      "chars": 3290,
+      "template_tokens": 1166,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "react",
+      "kind": "puttwo",
+      "chars": 4377,
+      "template_tokens": 1438,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "clean",
+      "chars": 8474,
+      "template_tokens": 2690,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "cool",
+      "chars": 9948,
+      "template_tokens": 3191,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "examine",
+      "chars": 7887,
+      "template_tokens": 2523,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "heat",
+      "chars": 6767,
+      "template_tokens": 2127,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "put",
+      "chars": 6433,
+      "template_tokens": 1988,
+      "output_budget": 1024,
+      "fits": true
+    },
+    {
+      "method": "stateact",
+      "kind": "puttwo",
+      "chars": 7340,
+      "template_tokens": 2174,
+      "output_budget": 1024,
+      "fits": true
+    }
+  ]
+}

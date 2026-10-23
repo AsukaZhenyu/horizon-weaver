@@ -1,0 +1,9 @@
+# Benchmark environment only; no local GPU inference stack.
+alfworld==0.4.2
+fast-downward-textworld==20.6.3
+textworld==1.6.2
+pandas==2.3.3
+PyYAML==6.0.3
+httpx==0.28.1
+tiktoken==0.14.0
+# Install llamp==0.0.19 separately with --no-deps: vLLM is replaced by HTTP transport.

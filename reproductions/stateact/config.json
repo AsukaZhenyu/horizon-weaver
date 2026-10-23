@@ -1,0 +1,43 @@
+{
+  "upstream": {
+    "url": "https://github.com/ai-nikolai/StateAct.git",
+    "commit": "8fb47be6f5f3978a38726608ae347987341f1d82"
+  },
+  "backend": {
+    "base_url": "http://172.21.80.1:8080/v1",
+    "model": "repro-qwen35-9b-q4",
+    "model_sha256": "03B74727A860A56338E042C4420BB3F04B2FEC5734175F4CB9FA853DAF52B7E8",
+    "context_tokens": 16384,
+    "max_tokens": 1024,
+    "temperature": 0,
+    "seed": 42,
+    "enable_thinking": false,
+    "prompt_overflow": "fail",
+    "prompt_truncation": "none",
+    "model_file": "Qwen3.5-9B-Q4_K_M.gguf",
+    "server_exe_sha256": "028797554f3e5e6e491d0bc3ac15a9957a748a4734bd6b3abc6982f992d64224",
+    "server_version": "0 (unknown)",
+    "hardware": "NVIDIA RTX 4070 Laptop GPU 8GB",
+    "parallel": 1,
+    "context_shift": false,
+    "cache_k_type": "bf16",
+    "cache_v_type": "bf16"
+  },
+  "benchmark": {
+    "split": "eval_out_of_distribution",
+    "prompt_ids": [
+      1,
+      0
+    ],
+    "keys_to_use": [
+      "goal",
+      "locations_visited",
+      "current_location",
+      "current_inventory",
+      "thought",
+      "action"
+    ],
+    "apply_correction": true,
+    "resample": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "archives": [
+    {
+      "url": "https://github.com/alfworld/alfworld/releases/download/0.2.2/json_2.1.1_json.zip",
+      "sha256": "25171f16e20ad7b048c47275c45b0babf3aa1cbab29cec97387922350a9844bc",
+      "files_in_ood_split": 477
+    },
+    {
+      "url": "https://github.com/alfworld/alfworld/releases/download/0.2.2/json_2.1.1_pddl.zip",
+      "sha256": "913942ebed06659ea0da2f8122512d98bc6add30d84961ca803132d8fbcad585",
+      "files_in_ood_split": 255
+    },
+    {
+      "url": "https://github.com/alfworld/alfworld/releases/download/0.4.0/json_2.1.2_tw-pddl.zip",
+      "sha256": "eea90499df27b9cb3147d1d1927264146d38194b575e25f70a82875545742dcb",
+      "files_in_ood_split": 134
+    }
+  ],
+  "extracted_task_count": 134,
+  "task_ids": "environment-check.json:native_catalogue_task_ids",
+  "full_extraction_manifest": ".horizon/reproductions/stateact/data-manifest.json"
+}
