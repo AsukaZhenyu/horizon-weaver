@@ -1,0 +1,126 @@
+{
+  "run": "20261023T071537962591Z",
+  "status": "partial",
+  "task_complete": false,
+  "normal_submit": false,
+  "scope": "One native ContextBench KV R1000 seed42 task on local9B Q4; not paper reproduction or benchmark-wide performance.",
+  "official_grader": {
+    "valid": 1.0,
+    "reward": 0.6666666666666666,
+    "matched": 16,
+    "total": 24,
+    "answered": 16,
+    "graded_from": "snapshots",
+    "answered_only_accuracy": 1.0
+  },
+  "stream": {
+    "refusals": 0,
+    "delivered": 27,
+    "terminated_by": "budget_wall",
+    "total": 34
+  },
+  "usage": {
+    "prompt_tokens": 332439,
+    "completion_tokens": 4815,
+    "total_tokens": 337254,
+    "reasoning_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cached_tokens": 223098,
+    "cost_usd": 0.0,
+    "max_steps": 64,
+    "n_bash": 43,
+    "n_ctx_syncs": 10,
+    "n_ctx_syncs_real": 10,
+    "n_ctx_grew": 0,
+    "n_ctx_rejected": 0,
+    "ctx_hint": "default",
+    "free_ctx_turns": 0,
+    "total_iters": 44,
+    "n_lm_calls": 43,
+    "lm_call_cap": 96,
+    "hit_lm_call_cap": false,
+    "context_budget_tokens": 12288,
+    "over_budget_policy": "error_finalize",
+    "n_nudges": 0,
+    "max_num_retry_on_limit": 0,
+    "n_retry_on_limit": 0,
+    "n_turns_rolled_back": 0,
+    "budget_finalized": true,
+    "code_fingerprint": {
+      "context_env": "414f8f05b93d",
+      "harness": "5f1a5defc251",
+      "combined": "a0b224bbc615",
+      "package": "2feef816912c"
+    }
+  },
+  "usage_accounting": {
+    "status": "complete",
+    "logical_calls_started": 43,
+    "configured_http_attempt_limit_per_logical_call": 1,
+    "calls_with_complete_usage": 43,
+    "calls_with_unknown_usage": 0,
+    "recorded_tokens_known_calls": 337254,
+    "total_tokens_including_all_attempts": 337254,
+    "official_export_check": {
+      "agent_steps": 43,
+      "lm_calls": 43,
+      "per_call_metrics": 43,
+      "discarded_replies": 0,
+      "consistent": true
+    },
+    "note": "Unknown request/response usage is not counted as zero; upstream aggregate zeros remain raw evidence only."
+  },
+  "edits_by_phase": {
+    "SET": 10,
+    "GET": 0,
+    "successful_edit_steps": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "time_seconds": {
+    "agent_wall": 255.282384,
+    "harbor_trial_wall": 275.950831,
+    "bash_sum_rounded": 16.7,
+    "controller_with_source_preflight_and_cleanup": 363.816846166,
+    "llm_sum_rounded": 201.4
+  },
+  "budget": {
+    "stop_calibrated_tokens": 10711,
+    "final_raw_o200k_tokens": 8056,
+    "last_call_raw_o200k_tokens": 7947,
+    "last_call_server_prompt_tokens": 10567,
+    "reconstructed_stop": 10711.0,
+    "final_turn_calibrated_tokens": 10485,
+    "stop_step": 44,
+    "configured_agent": 12288,
+    "native_raw_peak": 8133,
+    "reserve": 2048,
+    "last_calibration_ratio": 1.3296841575437273,
+    "server_window": 16384,
+    "effective_calibrated_target": 10240,
+    "final_turn_step": 43,
+    "raw_token_method": "tiktoken:o200k_base",
+    "server_context_overflow": false
+  },
+  "exception": null,
+  "process_return_code": 0,
+  "monetary_cost_usd": null,
+  "monetary_cost_status": "unknown/unpriced local service; raw official0.0 is not a measured dollar cost",
+  "method_unchanged": true,
+  "extra_model_trials_after_this_result": 0,
+  "observations": [
+    "Ten real edits occurred during SET batches only; GET stage made no context edits.",
+    "After the one final-turn warning, the model ran a grep lookup rather than compacting context.",
+    "No claim of structural superiority, general accuracy, or learned policy follows from one local task."
+  ]
+}

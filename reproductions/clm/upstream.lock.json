@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "repositories": [
+    {
+      "name": "context-language-models",
+      "url": "https://github.com/facebookresearch/context-language-models.git",
+      "commit": "483198229ab7b90c0eed4651306ab3b3505aaf50",
+      "directory": "_work/upstream/context-language-models",
+      "license": "CC-BY-NC-4.0",
+      "license_file": "LICENSE",
+      "license_sha256": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0"
+    },
+    {
+      "name": "ContextBench",
+      "url": "https://github.com/RulinShao/ContextBench.git",
+      "commit": "fb533c18c78a82d3f1b2047a9c1700735cf829ae",
+      "directory": "_work/upstream/ContextBench",
+      "license": "Apache-2.0",
+      "license_file": "LICENSE",
+      "license_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "python": "3.12",
+  "harbor": "0.16.1",
+  "task": {
+    "name": "kv-store-R1000-seed42",
+    "family": "kv_store",
+    "level": "R1000",
+    "seed": 42,
+    "stream_count": 34,
+    "stream_sha256": "5f0799fab3470cf468bf2936f0a487da6f85e2c1ff6e8f5aa55af259c210cc9c"
+  },
+  "scope": "Official zero-shot single-agent ClmStream; no Task IR, ALFWorld adaptation, training or Suffix Cache Reuse."
+}

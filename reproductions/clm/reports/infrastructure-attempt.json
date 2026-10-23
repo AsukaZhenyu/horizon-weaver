@@ -1,0 +1,11 @@
+{
+  "run": "20261023T065101668321Z",
+  "classification": "infrastructure_failure_before_model_HTTP_not_a_model_score",
+  "real_model_requests": 0,
+  "official_logical_calls_started": 1,
+  "reason": "LiteLLM 1.106.2 tools dispatch imports an MCP optional module absent from base install, before OpenAI transport.",
+  "evidence": "exception.txt stack ends in litellm/main.py:5297 -> MCP catalog import -> ModuleNotFoundError: mcp",
+  "repair": "Same LiteLLM version with its official mcp extra; no upstream source, prompt, task or policy changes.",
+  "raw_artifacts_preserved": true,
+  "new_trial_required": true
+}

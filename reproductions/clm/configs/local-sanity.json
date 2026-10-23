@@ -1,0 +1,30 @@
+{
+  "model": "openai/repro-qwen35-9b-q4",
+  "backend": "llama.cpp; Qwen3.5-9B Q4; supplied by root, not the paper model/backend",
+  "server_context_tokens": 16384,
+  "agent": "clm_contextbench:ClmStream",
+  "task": "kv-store-R1000-seed42",
+  "agent_timeout_sec": 1800,
+  "agent_kwargs": {
+    "context_budget_tokens": 12288,
+    "context_budget_reserve_tokens": 2048,
+    "max_tokens": 2048,
+    "max_steps": 64,
+    "lm_call_cap": 96,
+    "enable_thinking": false,
+    "cost_metric": "usd"
+  },
+  "deviations": [
+    "Local 9B Q4 model and llama.cpp instead of the paper backbone/server.",
+    "Agent context budget 12288 (effective retained target 10240), output 2048, rather than 32768/8192.",
+    "Agent timeout 1800 seconds; max_steps 64 and LM-call cap 96 instead of the effectively unlimited ContextBench paper settings.",
+    "Thinking disabled through official enable_thinking kwarg for the existing endpoint.",
+    "The official R1000 seed42 task, 1000 records and 24 queries are unchanged; original benchmark metadata stays 32768 tokens.",
+    "cost_metric=usd avoids an invalid 9B dense-model FLOPs approximation; report token usage and wall time, not a claimed dollar/FLOPs comparison.",
+    "CLM_LLM_MAX_RETRIES=1 disables the official transient-error retry loop; litellm num_retries is already 0.",
+    "A 2700-second outer supervisor covers the complete Harbor setup/agent/verifier process; timeout cleanup targets only this trial's compose project and process group.",
+    "LiteLLM 1.106.2 official mcp extra resolves the released tool-dispatch import dependency; LOCAL_MODEL_COST_MAP=True uses the pinned installed backup instead of mutable remote pricing."
+  ],
+  "supervisor_timeout_sec": 2700,
+  "request_attempts_per_logical_call": 1
+}

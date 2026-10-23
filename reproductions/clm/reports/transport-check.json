@@ -1,0 +1,19 @@
+{
+  "checked_at_utc": "2026-10-23T07:14:42.149852+00:00",
+  "passed": true,
+  "response_source": "Authored loopback HTTP fixture; no model, no benchmark score.",
+  "official_path": "ClmStream._query_with_retry -> ClmAgent._query_with_retry -> litellm.completion -> OpenAI HTTP",
+  "successful_fixture_http_requests": 1,
+  "failing_fixture_http_requests": 1,
+  "failed_request_retried": false,
+  "tool_call_parser_passed": true,
+  "usage_accumulator_passed": true,
+  "model_calls": 0,
+  "gpu_calls": 0,
+  "dependency_lock_sha256": "d85229980ac4f3a26f3c4a032182b128296044aa9f48393ebff1b17483e78e01",
+  "request_environment": {
+    "CLM_LLM_MAX_RETRIES": "1",
+    "LITELLM_LOCAL_MODEL_COST_MAP": "True"
+  },
+  "stub_closed": true
+}

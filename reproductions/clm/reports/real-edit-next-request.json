@@ -1,0 +1,19 @@
+{
+  "scope": "Actual LLM-generated first edit and the next official request snapshot; not the authored offline fixture.",
+  "run": "20261023T071537962591Z",
+  "before_snapshot": "turn-0000.json",
+  "next_request_snapshot": "turn-0001.json",
+  "before_snapshot_kind": "agent",
+  "next_snapshot_kind": "agent",
+  "before_raw_o200k_tokens": 7853,
+  "next_request_raw_o200k_tokens": 8049,
+  "before_batch_message_characters": 19542,
+  "before_batch_message_sha256": "eb6e7e4ae613be5bc44f4ca6437cf01a2fcd9f4b37ef7fedf028540cfcff8ecb",
+  "full_previous_batch_message_present_in_next_request": false,
+  "offload_marker_present_in_next_request": true,
+  "protected_system_and_task_prefix_identical": true,
+  "protected_prefix_sha256": "4f73d91dd30dfb4aa6799554d78f45e47fb1037800f5b22d78aca93839a5138a",
+  "actual_llm_bash_command": "python3 - <<'PY' && echo READY_FOR_NEXT_OP\nimport pathlib\np = pathlib.Path('/tmp/.live_ctx/LIVE_CTX_MAIN.txt')\nt = p.read_text()\na = '<<<SET-BATCH 0000#9226d9e1 BEGIN'\nprev = '[batch 0000 offloaded]'\ni = t.index(a)\nj = t.index('END>>>', i) + len('END>>>')\nd = pathlib.Path('/tmp/ctx_offload')\nd.mkdir(exist_ok=True)\n(d / 'kv-0000.txt').write_text(t[i:j])\nhead = t[:t.index(prev) + len(prev)] if (prev and prev in t[:i]) else t[:i]\np.write_text(head + '\\n[batch 0000 offloaded]' + t[j:])\nPY",
+  "official_tool_receipt": "READY_FOR_NEXT_OP\n\n(exit_code=0)\n[context: ~3784/10240 tokens]\n[LIVE_CTX_MAIN.txt: edit applied — context ~7853->2958 tokens, 3 turns]",
+  "note": "Next request already includes batch0001, so its total token count is not the post-edit-only count. Official receipt records 7853->2958 before the next operation was appended."
+}

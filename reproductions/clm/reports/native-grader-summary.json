@@ -1,0 +1,30 @@
+{
+  "rewards": {
+    "reward": 0.6666666666666666,
+    "reward_attempted": 1.0,
+    "n_answered": 16.0,
+    "matched": 16.0,
+    "total": 24.0,
+    "n_snapshots": 46.0,
+    "graded_from": "snapshots",
+    "grader_valid": 1.0,
+    "agent_peak_tokens": 8133.0,
+    "agent_mean_tokens": 6277.434782608696
+  },
+  "graded_from": "snapshots",
+  "terminated_by": "budget_wall",
+  "stream": {
+    "n_ops_delivered": 27,
+    "n_ops_total": 34,
+    "terminated_by": "budget_wall",
+    "n_refusals": 0,
+    "n_explains": 0,
+    "stream": {
+      "count": 34,
+      "sha256": "5f0799fab3470cf468bf2936f0a487da6f85e2c1ff6e8f5aa55af259c210cc9c",
+      "verified": true,
+      "path": "/app/stream/chunks.jsonl",
+      "removed": true
+    }
+  }
+}

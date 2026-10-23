@@ -1,0 +1,35 @@
+{
+  "source": "Controller-supplied artifact hashes and launch parameters; not inferred from a folder name.",
+  "model_file": "Qwen3.5-9B-Q4_K_M.gguf",
+  "model_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+  "server_executable": "llama-server.exe",
+  "server_sha256": "028797554f3e5e6e491d0bc3ac15a9957a748a4734bd6b3abc6982f992d64224",
+  "server_version_output": "0 (unknown); upstream commit unavailable",
+  "device": "NVIDIA RTX 4070 Laptop GPU, 8 GB VRAM",
+  "argv": [
+    "--alias",
+    "repro-qwen35-9b-q4",
+    "--ctx-size",
+    "16384",
+    "--parallel",
+    "1",
+    "-ngl",
+    "99",
+    "--cache-type-k",
+    "bf16",
+    "--cache-type-v",
+    "bf16",
+    "--threads",
+    "4",
+    "--host",
+    "172.21.80.1",
+    "--port",
+    "8080",
+    "--jinja",
+    "--no-context-shift"
+  ],
+  "request_chat_template_kwargs": {
+    "enable_thinking": false
+  },
+  "scope": "Existing local service; not paper model/backend. This reproduction does not launch the service."
+}

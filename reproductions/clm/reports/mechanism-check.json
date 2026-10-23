@@ -1,0 +1,39 @@
+{
+  "checked_at_utc": "2026-10-23T06:49:04.800232+00:00",
+  "static": {
+    "checks": [
+      "clean pinned upstream",
+      "unchanged official stream identity",
+      "official KV skill and complete instruction hashes",
+      "official ClmStream/ClmAgent inheritance and local limits",
+      "protected prefix omitted from editable mirror",
+      "official edit mutates the actual message list and removes stale content",
+      "over-budget growth rejected",
+      "in-body system role cannot replace pinned prefix",
+      "pure-edit accounting differs from no-op/failed command"
+    ],
+    "stream_count": 34,
+    "instruction_sha16": "beff2f70192abfa5",
+    "token_method": "tiktoken:o200k_base",
+    "accepted_edit": {
+      "prefix": 8,
+      "before": 1215,
+      "after": 10
+    },
+    "over_budget_edit_rejected": true,
+    "model_calls": 0,
+    "scope": "Direct calls into real pinned upstream functions; no mocked model or substitute agent."
+  },
+  "docker": {
+    "passed": true,
+    "trial_dir": "/mnt/c/Users/89664/.codex/worktrees/repro-clm/horizon-weaver/_work/clm/mechanism-docker/hw-clm-mechanism-20261023065009",
+    "actual_environment": "Harbor DockerEnvironment",
+    "future_stream_removed": true,
+    "gold_not_in_agent_container": true,
+    "actual_context_roundtrip": true,
+    "model_calls": 0
+  },
+  "real_model": {
+    "status": "not_run"
+  }
+}

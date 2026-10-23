@@ -1,0 +1,13 @@
+{
+  "checked_at_utc": "2026-10-23T07:14:32.530755+00:00",
+  "checks": [
+    "task artifact tampering refused without printing gold",
+    "whole subprocess deadline fires and terminates its process group",
+    "missing/failed usage remains unknown rather than zero",
+    "known per-call usage is distinguished from partial usage",
+    "actual upstream import reads exactly one configured HTTP attempt"
+  ],
+  "model_calls": 0,
+  "docker_commands": 0,
+  "passed": true
+}
