@@ -1,0 +1,168 @@
+diff --git a/agentcore/llm/LLMBackend.py b/agentcore/llm/LLMBackend.py
+index 27f0617..480f125 100644
+--- a/agentcore/llm/LLMBackend.py
++++ b/agentcore/llm/LLMBackend.py
+@@ -15,6 +15,9 @@ class BaseLLM:
+         self.seed: int = llm_config.seed
+         self.enable_thinking: bool = llm_config.enable_thinking
+         self.max_output_tokens: int = llm_config.max_output_tokens
++        self.send_chat_template_kwargs = llm_config.send_chat_template_kwargs
++        self.request_attempts = llm_config.request_attempts
++        self.retry_delay = llm_config.retry_delay
+         # LLM call trace, including prompt and completion token counts and other metadata
+         self._call_trace: list = []
+ 
+@@ -33,9 +36,10 @@ class BaseLLM:
+             kwargs["top_p"] = self.top_p
+         if self.seed is not None:
+             kwargs["seed"] = self.seed
+-        kwargs["extra_body"] = {
+-            "chat_template_kwargs": {"enable_thinking": self.enable_thinking},
+-        }
++        if self.send_chat_template_kwargs:
++            kwargs["extra_body"] = {
++                "chat_template_kwargs": {"enable_thinking": self.enable_thinking},
++            }
+         return kwargs
+ 
+     def reset_trace(self):
+@@ -68,7 +72,7 @@ class VLLMLLM(BaseLLM):
+             api_key=llm_config.api_key,
+             base_url=llm_config.base_url,
+             max_retries=0,
+-            timeout=1200,  # 20-min timeout to avoid infinite hangs from vLLM
++            timeout=llm_config.request_timeout,
+         )
+ 
+     @staticmethod
+@@ -98,8 +102,8 @@ class VLLMLLM(BaseLLM):
+     def run(self, prompt: str, system_prompt: str = None) -> str:
+         system_prompt = system_prompt or "You are a helpful assistant."
+ 
+-        max_retries = 3
+-        retry_delay = 30
++        max_retries = self.request_attempts
++        retry_delay = self.retry_delay
+ 
+         for attempt in range(max_retries):
+             try:
+diff --git a/agentcore/llm/LLMConfig.py b/agentcore/llm/LLMConfig.py
+index ce84eea..f75bb8b 100644
+--- a/agentcore/llm/LLMConfig.py
++++ b/agentcore/llm/LLMConfig.py
+@@ -16,6 +16,10 @@ class LLMConfig:
+         self.seed = None
+         self.enable_thinking: bool = True
+         self.max_output_tokens: int = 65536
++        self.send_chat_template_kwargs: bool = True
++        self.request_timeout: float = 1200
++        self.request_attempts: int = 3
++        self.retry_delay: float = 30
+         self.api_key: str = os.environ.get("OPENAI_API_KEY", "EMPTY")
+         self.base_url = config_dict.get("base_url", DEFAULT_BASE_URL)
+ 
+diff --git a/benchmark/math/math_actions.py b/benchmark/math/math_actions.py
+index 7431203..ddf3842 100644
+--- a/benchmark/math/math_actions.py
++++ b/benchmark/math/math_actions.py
+@@ -6,9 +6,11 @@ Provides domain-specific tools:
+   - CodeExecutor: execute Python/SymPy code for computation
+ """
+ 
++import os
+ import re
+ import subprocess
+ import sys
++import uuid
+ 
+ from agentcore.actions import BaseAction
+ 
+@@ -174,6 +176,8 @@ class CodeExecutorAction(BaseAction):
+     Returns stdout output or error messages.
+     """
+ 
++    SUPPORTS_ISOLATED_CODE = True
++
+     # Limit execution time and output
+     MAX_OUTPUT_LEN = 4096
+     TIMEOUT_SECONDS = 120
+@@ -255,21 +259,47 @@ except BaseException:
+ print(stdout_capture.getvalue(), end="")
+ """
+ 
++        # Engineering isolation: native behavior remains available only outside the bounded wrapper.
++        code_image = os.environ.get("MAGE_CODE_IMAGE")
++        sandbox_name = None
++        command = [sys.executable, "-c", runner_code]
++        input_data = None
++        if code_image:
++            sandbox_name = "mage-code-" + uuid.uuid4().hex[:16]
++            run_id = os.environ.get("MAGE_RUN_ID", "manual")
++            runner_code = runner_code.replace(f"sys.path[:] = {list(sys.path)!r}\n", "")
++            runner_code = runner_code.replace(f"code = {code!r}", "code = sys.stdin.read()")
++            command = [
++                "docker", "run", "--rm", "-i", "--name", sandbox_name,
++                "--label", f"hw.mage.run={run_id}", "--network=none",
++                "--read-only", "--cap-drop=ALL", "--security-opt=no-new-privileges",
++                "--memory=512m", "--cpus=1", "--pids-limit=32",
++                "--tmpfs", "/tmp:rw,nosuid,nodev,size=64m",
++                "--env", "OPENBLAS_NUM_THREADS=1", "--env", "OMP_NUM_THREADS=1",
++                code_image, "-c", runner_code,
++            ]
++            input_data = code
+         try:
+             completed = subprocess.run(
+-                [sys.executable, "-c", runner_code],
+-                capture_output=True,
+-                text=True,
++                command, input=input_data,
++                capture_output=True, text=True, encoding="utf-8", errors="replace",
+                 timeout=self.TIMEOUT_SECONDS,
+             )
+         except subprocess.TimeoutExpired as exc:
+-            output = (exc.stdout or "") + (exc.stderr or "")
++            output = str(exc.stdout or "") + str(exc.stderr or "")
+             return self._format_error(
+                 f"code execution timed out after {self.TIMEOUT_SECONDS} seconds",
+                 output,
+             )
+         except OSError as exc:
+             return self._format_error("failed to start code execution", str(exc))
++        finally:
++            if sandbox_name:
++                try:
++                    subprocess.run(["docker", "rm", "--force", sandbox_name],
++                                   capture_output=True, timeout=10)
++                except (OSError, subprocess.TimeoutExpired):
++                    pass
+ 
+         output = completed.stdout or ""
+         error_output = completed.stderr or ""
+diff --git a/benchmark/math/math_env.py b/benchmark/math/math_env.py
+index 8ea2890..a355f66 100644
+--- a/benchmark/math/math_env.py
++++ b/benchmark/math/math_env.py
+@@ -90,6 +90,8 @@ class MathEnvironment:
+         Falls back to simple string matching if the judge is unavailable.
+         """
+         if self.judge_llm is None:
++            if getattr(self, "strict_judge", False):
++                raise RuntimeError("Strict judge requires an available LLM judge")
+             return self._simple_verify(reference, predicted), "simple string match"
+ 
+         prompt = JUDGE_USER_TEMPLATE.format(
+@@ -116,10 +118,14 @@ class MathEnvironment:
+             # Cache only one distinct verdict keyword; repeated occurrences are allowed.
+             # Missing or mixed keywords skip caching without changing the score above.
+             verdicts = set(re.findall(r"\b(?:CORRECT|INCORRECT)\b", response_normalized))
++            if getattr(self, "strict_judge", False) and len(verdicts) != 1:
++                raise RuntimeError("Judge returned missing or conflicting verdict keywords")
+             if len(verdicts) == 1:
+                 self._judge_cache[cache_key] = result
+             return result
+         except Exception as exc:
++            if getattr(self, "strict_judge", False):
++                raise RuntimeError("Strict judge failed; no string-match fallback") from exc
+             print(f"[MathEnv] LLM judge failed: {exc}, falling back to string match")
+             return self._simple_verify(reference, predicted), f"fallback: {exc}"
+ 

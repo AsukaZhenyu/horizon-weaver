@@ -1,0 +1,14 @@
+{
+  "upstream": {
+    "url": "https://github.com/Komorebi660/MAGE.git",
+    "revision": "ace693139dc43e8bdb3076da4127483b41a5060f"
+  },
+  "dataset": {
+    "repo": "ZexueHe/memoryarena",
+    "revision": "da1a37c8b19280e18627ca01cf368195a5e1d92e",
+    "file": "formal_reasoning_math/data.jsonl",
+    "sha256": "ff5b0ad575847c7476a02d1e35661592a833bd0cff384cb54bc6f35b46de7803",
+    "tasks": 40
+  },
+  "code_base_image": "python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1"
+}

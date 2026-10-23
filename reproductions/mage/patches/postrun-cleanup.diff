@@ -1,0 +1,37 @@
+--- a/reproductions/mage/run.py (used in completed run)
++++ b/reproductions/mage/run.py (post-run reporting fix)
+@@ -38,9 +38,23 @@
+ def cleanup_code(run_id):
+     found = subprocess.run(["docker", "ps", "-aq", "--filter", f"label=hw.mage.run={run_id}"],
+                            capture_output=True, text=True, timeout=15)
++    if found.returncode:
++        raise RuntimeError(f"Docker cleanup query failed ({found.returncode}): {found.stderr[-1000:]}")
+     identifiers = found.stdout.split()
+-    if identifiers and all(re.fullmatch(r"[0-9a-f]{12,64}", x) for x in identifiers):
+-        subprocess.run(["docker", "rm", "--force", *identifiers], capture_output=True, timeout=20)
++    if identifiers and not all(re.fullmatch(r"[0-9a-f]{12,64}", x) for x in identifiers):
++        raise RuntimeError("Unexpected Docker cleanup identifiers; refusing removal")
++    if identifiers:
++        removed = subprocess.run(["docker", "rm", "--force", *identifiers],
++                                 capture_output=True, text=True, timeout=20)
++        if removed.returncode:
++            raise RuntimeError(f"Docker cleanup failed ({removed.returncode}): {removed.stderr[-1000:]}")
++
++def cleanup_preserving_manifest(run_id, manifest):
++    """Report cleanup failure without overwriting the experiment result or blocking its save."""
++    try:
++        cleanup_code(run_id)
++    except Exception as exc:
++        manifest["cleanup_error"] = f"{type(exc).__name__}: {exc}"
+ 
+ def bounded_process(command, log_path, timeout):
+     with log_path.open("w", encoding="utf-8") as log:
+@@ -148,7 +162,7 @@
+     except subprocess.TimeoutExpired:
+         manifest["status"] = "timeout"
+     finally:
+-        cleanup_code(stamp)
++        cleanup_preserving_manifest(stamp, manifest)
+         costs = {}
+         for role, directory in (("solver", solver), ("judge", private)):
+             path = directory / f"{role}_usage.json"

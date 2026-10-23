@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "facts": {
+    "uid": 65534,
+    "gold_file_visible": false,
+    "agent_source_visible": false,
+    "docker_socket_visible": false,
+    "api_key_visible": false,
+    "root_write_denied": true,
+    "network_denied": true
+  },
+  "timeout_cleanup": true,
+  "elapsed_seconds": 5.25,
+  "model_calls": 0
+}

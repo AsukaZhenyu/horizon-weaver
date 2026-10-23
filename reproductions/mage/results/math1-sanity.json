@@ -1,0 +1,156 @@
+{
+  "run_id": "20261023T065330Z-9a7fda83",
+  "status": "completed",
+  "elapsed_seconds": 712.1720000000205,
+  "scores": {
+    "sub_scores": [
+      1,
+      1,
+      1,
+      1,
+      0
+    ],
+    "task_success": false,
+    "all_subtasks_pass": false,
+    "solver_status": "completed",
+    "gold_feedback_to_solver": false
+  },
+  "submitted": [
+    true,
+    true,
+    true,
+    false,
+    true
+  ],
+  "tree_nodes": 5,
+  "summary_nodes": 1,
+  "costs": {
+    "solver": {
+      "num_calls": 40,
+      "attempted_calls": 40,
+      "total_prompt_tokens": 380249,
+      "total_completion_tokens": 20118,
+      "total_tokens": 400367,
+      "elapsed_seconds": 668.125
+    },
+    "judge": {
+      "num_calls": 5,
+      "attempted_calls": 5,
+      "total_prompt_tokens": 32457,
+      "total_completion_tokens": 297,
+      "total_tokens": 32754,
+      "elapsed_seconds": 24.625
+    },
+    "total_tokens": 433121,
+    "calls_with_unknown_usage": 0
+  },
+  "budget_hits": {
+    "solver": {
+      "output_cap": 768,
+      "equal_to_cap": 19,
+      "successful_calls": 40,
+      "failed_calls": 0,
+      "finish_reason_recorded": false,
+      "interpretation": "Boundary hits only; no saved finish_reason, so not asserted length truncation."
+    },
+    "judge": {
+      "output_cap": 256,
+      "equal_to_cap": 0,
+      "successful_calls": 5,
+      "failed_calls": 0,
+      "finish_reason_recorded": false,
+      "interpretation": "Boundary hits only; no saved finish_reason, so not asserted length truncation."
+    }
+  },
+  "headline": "不可信准确率：第4子题为空答案，却被本地LLM judge判对。",
+  "scope": "Fixed task ID 0, 5 subtasks, one bounded local-model engineering sanity; not paper reproduction.",
+  "nonempty_and_judge_pass_mask": [
+    true,
+    true,
+    true,
+    false,
+    false
+  ],
+  "nonempty_and_judge_pass_count": 3,
+  "correctness_interpretation": "Raw LLM judgments are not trusted correctness. The 3/5 nonempty-and-judge-pass intersection is an audit metric, not objective accuracy.",
+  "audit": {
+    "subtask_ordinal": 4,
+    "prediction_characters": 0,
+    "prediction_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reference_characters": 121,
+    "reference_sha256": "8f90d49ad0c55bfd2e48d66f4e158f35ed64a280d35c9361b66e811ee32d14e7",
+    "judge_verdict": "CORRECT",
+    "judge_response_characters": 384,
+    "judge_response_sha256": "ceeca156ca96d859f2281411d6e95b929555680185f16b0d3f2c2abdc2375556",
+    "evidence": "Reference is nonempty (121 chars), prediction is empty; the original judge response nevertheless asserts a matching mathematical answer.",
+    "reference_and_prediction_texts_committed": false
+  },
+  "serving": {
+    "model": "repro-qwen35-9b-q4",
+    "model_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+    "server_sha256": "028797554f3e5e6e491d0bc3ac15a9957a748a4734bd6b3abc6982f992d64224",
+    "server_version": "0unknown",
+    "server_metadata_source": "Main controller; no new model request made for this report",
+    "context_tokens": 16384,
+    "parallel": 1,
+    "context_shift": false,
+    "thinking": false,
+    "code_image_id": "sha256:667a066354e4f6d8c5467ca50b1b9372a49341021945f16d1850f1f750e353d6"
+  },
+  "effective_config": {
+    "protocol": "MAGE math engineering sanity; not paper reproduction",
+    "task_index": 0,
+    "num": 1,
+    "workers": 1,
+    "max_retry_num": 0,
+    "max_steps": 8,
+    "max_verify_retries": 1,
+    "max_check_retries": 0,
+    "max_backtrace": 5,
+    "solver_max_output_tokens": 768,
+    "judge_max_output_tokens": 256,
+    "enable_thinking": false,
+    "send_chat_template_kwargs": true,
+    "temperature": 0,
+    "top_p": 1,
+    "seed": 2026,
+    "request_attempts": 1,
+    "exception_task_attempts": 1,
+    "request_timeout_s": 90,
+    "solver_max_calls": 64,
+    "judge_max_calls": 5,
+    "solver_timeout_s": 900,
+    "judge_timeout_s": 300,
+    "total_timeout_s": 1200,
+    "code_timeout_s": 30,
+    "code_image": "sha256:667a066354e4f6d8c5467ca50b1b9372a49341021945f16d1850f1f750e353d6",
+    "docker_context": "desktop-linux",
+    "model": "repro-qwen35-9b-q4",
+    "base_url": "<local/private endpoint; exact URL in ignored runtime manifest>",
+    "run_id": "20261023T065330Z-9a7fda83"
+  },
+  "known_total_prompt_tokens": 412706,
+  "known_total_completion_tokens": 20415,
+  "trace_diagnostics": {
+    "original_parser_recognized_action_counts": {
+      "Think": 10,
+      "SymbolicReasoning": 4,
+      "Finish": 4
+    },
+    "syntactically_unrecognized_action_calls": 19,
+    "gold_free_self_check_calls": 3,
+    "final_tree_nodes": 5,
+    "final_summary_nodes_including_root": 1,
+    "note": "Parser recognition is not proof the action executed successfully. No Store recognition and only the root summary mean this run does not demonstrate compression benefits.",
+    "budget_boundary_and_unrecognized_action_calls": 19,
+    "unrecognized_action_calls_below_output_cap": 0,
+    "recognized_action_calls_at_output_cap": 0
+  },
+  "postrun_reporting_fix": {
+    "description": "Catch/record cleanup errors and still persist original status/costs; run-label-only container selection unchanged.",
+    "before_run_wrapper_sha256": "826d52edf42f67245cb6dc22de29ebc9d143427ed578e2f9f60c38ccd72b432e",
+    "after_run_wrapper_sha256": "5d4073108c16af8300de0c1ded0b9239aee6dc83dd31b807849f80226f0b3468",
+    "diff": "patches/postrun-cleanup.diff",
+    "model_rerun": false
+  }
+}

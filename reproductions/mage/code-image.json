@@ -1,0 +1,13 @@
+{
+  "Id": "sha256:667a066354e4f6d8c5467ca50b1b9372a49341021945f16d1850f1f750e353d6",
+  "RepoTags": [
+    "horizon-repro-mage-code:math1"
+  ],
+  "RepoDigests": [],
+  "Created": "2026-10-23T06:49:11.146820655Z",
+  "Architecture": "amd64",
+  "Os": "linux",
+  "base_image": "python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1",
+  "wheel_lock": "linux-wheels.lock.json",
+  "dockerfile_sha256": "28c6568b6212528395f395ae800835c49894edb5c84158d4ff8d246ccc392712"
+}
