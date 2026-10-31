@@ -19,7 +19,7 @@ Pi 1.1.0 + Spine 插件，以及 Sentry 0.11.0 核心 + 受控终端宿主。
 ## 一台新机器上开始
 
 ```powershell
-git clone https://github.com/AsukaZhenyu/horizon-weaver.git
+git clone -b codex/tb-eval-harness https://github.com/AsukaZhenyu/horizon-weaver.git
 cd horizon-weaver
 powershell -NoProfile -ExecutionPolicy Bypass -File experiments\tb-eval\bootstrap\setup.ps1 -Check
 powershell -NoProfile -ExecutionPolicy Bypass -File experiments\tb-eval\bootstrap\setup.ps1
