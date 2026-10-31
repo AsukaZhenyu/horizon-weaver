@@ -74,7 +74,7 @@ def export_method(method, out_root, check):
             continue
         if not check:
             (out / "cases").mkdir(parents=True, exist_ok=True)
-            payload = {name: json.loads(p.read_text(encoding="utf-8")) for name, p in files.items()}
+            payload = {name: json.loads(p.read_text(encoding="utf-8-sig")) for name, p in files.items()}
             (out / "cases" / f"{task}.json").write_text(
                 json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
             )
@@ -83,7 +83,7 @@ def export_method(method, out_root, check):
         if not check:
             out.mkdir(parents=True, exist_ok=True)
             shutil.copy2(spec["summary"], out / "summary.json")
-        summary = json.loads(spec["summary"].read_text(encoding="utf-8"))
+        summary = json.loads(spec["summary"].read_text(encoding="utf-8-sig"))
     else:
         summary = None
     return rows, summary, skipped
@@ -104,11 +104,14 @@ def markdown(exported):
             lines += ["本轮尚无汇总（`summary.json` 未生成）。", ""]
             continue
         lines += [
-            f"n={summary.get('n', summary.get('tasksAttempted', 0))}  "
-            f"A={summary.get('A', summary.get('artifactPassCount', 0))}  "
-            f"AInvalid={summary.get('AInvalid', len(TASKS) - summary.get('knownArtifactGrades', len(TASKS)))}  "
-            f"V={summary.get('V', summary.get('normalSubmissionCount', 0))}  "
-            f"Y={summary.get('Y', summary.get('endToEndPassCount', 0))}",
+            f"n={summary.get('n', len(TASKS))}  "
+            f"已跑={summary.get('attempted', '?')}  "
+            f"A={summary.get('A', 0)}  "
+            f"AInvalid={summary.get('AInvalid', '?')}  "
+            f"V={summary.get('V', 0)}  "
+            f"Y={summary.get('Y', 0)}  ",
+            "",
+            "AInvalid 只统计「跑过但评分无效」的题；没跑的题是「无证据」，不算无效。",
             "",
             "| 任务 | 层 | 组 | A | V | Y | 模型请求 | Agent 秒 | 评分 |",
             "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",

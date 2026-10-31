@@ -29,7 +29,8 @@ USAGE_RE = re.compile(r"completion_tokens\\?\":\s*(\d+),\s*\\?\"prompt_tokens\\?
 
 
 def load_json(path):
-    with path.open(encoding="utf-8") as handle:
+    # utf-8-sig: a case file written by a Windows tool can carry a BOM.
+    with path.open(encoding="utf-8-sig") as handle:
         return json.load(handle)
 
 
@@ -88,7 +89,11 @@ def main():
         if not result_path.exists():
             result_path = case_dir / "result.json"
         if not result_path.exists():
-            rows.append({"task": task, "case": case_dir.name, "attempted": case_dir.exists(),
+            # Same start mark as status.py: an attempt exists only once the
+            # Agent was actually launched, so an empty directory stays "pending"
+            # rather than being reported as an invalid grading.
+            rows.append({"task": task, "case": case_dir.name,
+                         "attempted": (case_dir / "agent-started.json").exists(),
                          "A": None, "V": None, "Y": None, **LABELS.get(task, {})})
             continue
         result = load_json(result_path)
@@ -96,6 +101,7 @@ def main():
         row = {
             "task": task,
             "case": case_dir.name,
+            "attempted": True,
             **LABELS.get(task, {}),
             "A": result.get("A"),
             "V": result.get("V"),
@@ -139,10 +145,15 @@ def main():
         return sum(1 for row in rows_ if row.get(key) == value)
 
     def block(subset):
+        # A task that was never attempted has A=None too, but that is "no
+        # evidence", not "invalid grading"; keep the two apart so 24 unattempted
+        # tasks do not read as 24 broken graders.
+        attempted = [r for r in subset if r.get("attempted")]
         return {
             "n": len(subset),
+            "attempted": len(attempted),
             "A": count("A", 1, subset),
-            "AInvalid": count("A", None, subset),
+            "AInvalid": sum(1 for r in attempted if r.get("A") is None),
             "V": count("V", 1, subset),
             "Y": count("Y", 1, subset),
         }

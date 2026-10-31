@@ -25,7 +25,7 @@ for task in protocol['tasks']:
     if not path.exists():
         tasks.append({'task':task,'attempted':(case/'worker-started.json').exists(),'A':None,'V':None,'Y':None})
         continue
-    result=json.loads(path.read_text(encoding='utf-8'))
+    result=json.loads(path.read_text(encoding='utf-8-sig'))
     commands=[step['action']['command'].strip() for step in result.get('steps',[]) if isinstance(step.get('action'),dict) and 'command' in step['action']]
     freq=Counter(commands)
     pause_path=case/'execution-stop-pause.json'
@@ -50,6 +50,10 @@ summary={
     'runnerSha256':hashlib.sha256((HERE/'run_tb8.py').read_bytes()).hexdigest(),
     'paths':paths.resolved(),
     'tasks':tasks,'expectedTasks':len(tasks),'attemptedTasks':sum(bool(r['attempted']) for r in tasks),
+    # Uniform counters shared with the Spine summary so one report reads both.
+    'n':len(tasks),'attempted':sum(bool(r['attempted']) for r in tasks),
+    'A':sum(known_A),'AInvalid':sum(1 for r in tasks if r.get('attempted') and r.get('A') is None),
+    'V':sum(known_V),'Y':sum(known_Y),
     'knownArtifactGrades':len(known_A),'artifactPassCount':sum(known_A),
     'normalSubmissionCount':sum(known_V),'knownSubmissionResults':len(known_V),
     'knownEndToEndGrades':len(known_Y),'endToEndPassCount':sum(known_Y),
@@ -69,5 +73,7 @@ summary={
     'scope':'Round4 stratified 24-task development set (8 historical + 16 new), one fresh attempt each; not a native Sentry TB implementation, leaderboard result, or RSI learning-efficiency experiment',
     'grading':'Full writable candidate filesystem and /app archive frozen before hidden tests; no model feedback or agent retries in grading',
 }
-(Path(_sys.argv[1]) if len(_sys.argv)>1 else paths.RUNS/'sentry'/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+_out=Path(_sys.argv[1]) if len(_sys.argv)>1 else paths.RUNS/'sentry'/'summary.json'
+_out.parent.mkdir(parents=True,exist_ok=True)
+_out.write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({k:v for k,v in summary.items() if k not in ['tasks','repetitionMetrics']},ensure_ascii=False))
