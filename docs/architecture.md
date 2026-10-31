@@ -40,4 +40,4 @@ Returning from the entry component submits its output; no semantic reflection or
 
 The Node test suite exercises actual Cordis lifecycle, immutable storage, context operations, generated component execution and reuse, reference access checks, nested capability/budget checks, deadlines, evaluator separation and the model adapter protocol. Ordinary tests use authored Python and a deterministic adapter. `HW_TEST_DOCKER=1 npm test` additionally exercises the Docker path and fails if the daemon or image is unavailable.
 
-The historical implementations and evaluation lessons are documented in [the retrospective](../history/legacy-experiments.md). They remain available on `codex/legacy-v1` and `claude-code/legacy-v0`.
+The historical implementations and evaluation lessons are documented in [the retrospective](../history/legacy-experiments.md). They remain available on the `v1` and `v0` branches; this document describes `v2`. Reproductions of other methods and the Terminal-Bench apparatus live in a separate repository, [long-horizon-replicate](https://github.com/AsukaZhenyu/long-horizon-replicate).
