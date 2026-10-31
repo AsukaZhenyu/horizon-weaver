@@ -16,6 +16,12 @@ docs/v0.x/
 docs/v1.x/
 docs/run.md
 
+# Downloaded third-party checkouts, model weights, task images and per-case
+# evidence for experiments/tb-eval. What has to travel between machines is the
+# code, the frozen config and results/<round>/ -- not this.
+.cache/
+experiments/tb-eval/.local/
+
 # Runtime data and dependencies
 .horizon/
 node_modules/

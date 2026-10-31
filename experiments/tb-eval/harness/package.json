@@ -1,0 +1,10 @@
+{
+  "name": "tb-eval-harness",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Node dependencies of the Terminal-Bench evaluation runners (the Spine runner parses task.yaml).",
+  "dependencies": {
+    "yaml": "2.5.1"
+  }
+}

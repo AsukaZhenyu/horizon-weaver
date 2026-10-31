@@ -1,0 +1,4666 @@
+[
+ {
+  "task": "3d-model-format-legacy",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "700",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2646,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "additional_test_models",
+   "test_cmake.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "accelerate-maximal-square",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "240",
+  "base_image": "taichidev/taichi:v0.7.26@sha256:bec1d405e56468c6dd376c18657df699431b20d9064bb0976977faf1c66240b2",
+  "dockerfile_bytes": 2301,
+  "compose_bytes": 581,
+  "has_gpu_hint": true,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "acl-permissions-inheritance",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "70",
+  "junior_time_estimate_min": "150",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:latest",
+  "dockerfile_bytes": 502,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "adaptive-rejection-sampler",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1003,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "add-benchmark-lm-eval-harness",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "7200.0",
+  "max_test_timeout_sec": "1200.0",
+  "expert_time_estimate_min": "300",
+  "junior_time_estimate_min": "720",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1214,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "aimo-airline-departures",
+  "category": "mathematics",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 381,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "amuse-install",
+  "category": "scientific-computing",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "360.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1384,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "analyze-access-logs",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "12",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1031,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "ancient-puzzle",
+  "category": "file-operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1064,
+  "compose_bytes": 1100,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "assign-seats",
+  "category": "algorithms",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "70",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 980,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "attention-mil",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1241,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "audio-synth-stft-peaks",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 467,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "bank-trans-filter",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "200.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "90",
+  "base_image": "python:3.13-slim-bookworm",
+  "dockerfile_bytes": 492,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "blind-maze-explorer-5x5",
+  "category": "games",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "2.0",
+  "junior_time_estimate_min": "5.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 778,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "blind-maze-explorer-algorithm",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30.0",
+  "junior_time_estimate_min": "50.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 880,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "bn-fit-modify",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "480",
+  "junior_time_estimate_min": "1000",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 640,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "break-filter-js-from-html",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 729,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "filter.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "broken-networking",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "240",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 2164,
+  "compose_bytes": 625,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "broken-python",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 427,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-cython-ext",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1080,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-initramfs-qemu",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1809,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-linux-kernel-qemu",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "[]",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "600",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 981,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-pmars",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "270",
+  "base_image": "debian:13.0-slim",
+  "dockerfile_bytes": 1033,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-pov-ray",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "12000.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1187,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "reference_illum1.png",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-stp",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1441,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "build-tcc-qemu",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2877,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "caffe-cifar-10",
+  "category": "machine-learning",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 316,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cancel-async-tasks",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 944,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cartpole-rl-training",
+  "category": "model-training",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 338,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "catch-me-if-you-can",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1216,
+  "compose_bytes": 457,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "causal-inference-r",
+  "category": "data-science",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 483,
+  "compose_bytes": 638,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "chem-property-targeting",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 571,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "chem-rf",
+  "category": "model-training",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "86400.0",
+  "max_test_timeout_sec": "28800.0",
+  "expert_time_estimate_min": "960",
+  "junior_time_estimate_min": "1440",
+  "base_image": "",
+  "dockerfile_bytes": 1947,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "chess-best-move",
+  "category": "games",
+  "difficulty": "medium",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1255,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "circuit-fibsqrt",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "960",
+  "junior_time_estimate_min": "2400",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 347,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "sim.c",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "classifier-debug",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "3.0",
+  "junior_time_estimate_min": "20.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1082,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cobol-modernization",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "70",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1088,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "code-from-image",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 964,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "compile-compcert",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "2400.0",
+  "max_test_timeout_sec": "2400.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 959,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "negative_probe.c",
+   "positive_probe.c",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "conda-env-conflict-resolution",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1000.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "",
+  "dockerfile_bytes": 0,
+  "compose_bytes": 479,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_imports.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "configure-git-webserver",
+  "category": "system-administration",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1041,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py",
+   "verify.sh"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "constraints-scheduling",
+  "category": "personal-assistant",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1306,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "count-call-stack",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "40",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1087,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "expected_output.txt",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "count-dataset-tokens",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 179,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "countdown-game",
+  "category": "mathematics",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1123,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cpp-compatibility",
+  "category": "debugging",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1988,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cprofiling-python",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 1006,
+  "compose_bytes": 355,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "crack-7z-hash",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "5.0",
+  "junior_time_estimate_min": "10.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 780,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "create-bucket",
+  "category": "file-operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "localstack/localstack:4.3",
+  "dockerfile_bytes": 317,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cron-broken-network",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 6684,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "cross-entropy-method",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1567,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "csv-to-parquet",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 256,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "custom-memory-heap-crash",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "1200",
+  "base_image": "ubuntu:24.04",
+  "dockerfile_bytes": 3213,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "db-wal-recovery",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 450,
+  "compose_bytes": 580,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "debug-long-program",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 271,
+  "compose_bytes": 856,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "decommissioning-service-with-sensitive-data",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 2661,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "deterministic-tarball",
+  "category": "reproducible-builds",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "360",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:latest",
+  "dockerfile_bytes": 573,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "distribution-search",
+  "category": "machine-learning",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1021,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "dna-assembly",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 968,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "dna-insert",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1162,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "download-youtube",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 180,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "long_trunks.mp4",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "enemy-grid-escape",
+  "category": "games",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "35",
+  "junior_time_estimate_min": "200",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 2006,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "run_game.cpython-313.pyc",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "extract-elf",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 408,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "extract-moves-from-video",
+  "category": "file-operations",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1906,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "extract-safely",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "",
+  "dockerfile_bytes": 0,
+  "compose_bytes": 498,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "feal-differential-cryptanalysis",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "480",
+  "junior_time_estimate_min": "19200",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 198,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "feal.c",
+   "feal.h",
+   "feal_module.c",
+   "setup.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "feal-linear-cryptanalysis",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "960",
+  "junior_time_estimate_min": "19200",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 399,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fibonacci-server",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 181,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "filter-js-from-html",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 532,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "financial-document-processor",
+  "category": "data-processing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 701,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "find-official-code",
+  "category": "research",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "python:3.11-slim@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317",
+  "dockerfile_bytes": 1961,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "find-restaurant",
+  "category": "personal-assistant",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1333,
+  "compose_bytes": 1784,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fix-code-vulnerability",
+  "category": "security",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "240",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 1530,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fix-git",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 326,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fix-ocaml-gc",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "3600.0",
+  "expert_time_estimate_min": "1440",
+  "junior_time_estimate_min": "14400",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1328,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fix-pandas-version",
+  "category": "debugging",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "30",
+  "base_image": "python:3.8-slim-bookworm",
+  "dockerfile_bytes": 400,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "src",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fix-permissions",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 234,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "flood-monitoring-basic",
+  "category": "data-processing",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "60",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 9284,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "fmri-encoding-r",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "540",
+  "junior_time_estimate_min": "1080",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 473,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "form-filling",
+  "category": "personal-assistant",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 678,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "gcc-compiler-optimization",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "40",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1964,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "program",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "gcode-to-text",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 235,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "get-bitcoin-nodes",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 1990,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "git-leak-recovery",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1254,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "git-multibranch",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "360",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 906,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "git-workflow-hack",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2234,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "gomoku-planner",
+  "category": "game",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2180,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "gpt2-codegolf",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "2400",
+  "junior_time_estimate_min": "9600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1177,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "grid-pattern-transform",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "25",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 193,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hdfs-deployment",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:latest",
+  "dockerfile_bytes": 1967,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hello-world",
+  "category": "file-operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 179,
+  "compose_bytes": 415,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "heterogeneous-dates",
+  "category": "file-operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 244,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hf-lora-adapter",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 324,
+  "compose_bytes": 694,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "data.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hf-model-inference",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 243,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hf-train-lora-adapter",
+  "category": "model-training",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "1500.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "720",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1293,
+  "compose_bytes": 694,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "home-server-https",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:latest",
+  "dockerfile_bytes": 965,
+  "compose_bytes": 906,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "html-finance-verify",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2211,
+  "compose_bytes": 581,
+  "has_gpu_hint": true,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "huarong-dao-solver",
+  "category": "algorithms",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1994,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "hydra-debug-slurm-mode",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "360.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 355,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "ref_config.yaml",
+   "ref_debug.yaml",
+   "ref_main.py",
+   "ref_original.yaml",
+   "ref_slurm_hydra.yaml",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "ilp-solver",
+  "category": "mathematics",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2273,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "implement-eigenvectors-from-eigenvalues-research-paper",
+  "category": "mathematics",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "360",
+  "junior_time_estimate_min": "1000",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 2217,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "incompatible-python-fasttext",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 621,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "install-klee-minimal",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1046,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "install-windows-3.11",
+  "category": "system-administration",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "300",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2810,
+  "compose_bytes": 430,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "qemu-control.sh",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "install-windows-xp",
+  "category": "system-administration",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "7200.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 3112,
+  "compose_bytes": 558,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "reference_screenshot1.png",
+   "reference_screenshot2.png",
+   "reference_screenshot3.png",
+   "reference_screenshot4.png",
+   "reference_screenshot5.png",
+   "reference_screenshot6.png",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "interactive-maze-game",
+  "category": "game",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "45",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1285,
+  "compose_bytes": 998,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "intrusion-detection",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 4104,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "jq-data-processing",
+  "category": "data-processing",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 688,
+  "compose_bytes": 435,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "jsonl-aggregator",
+  "category": "file-operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1341,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "jupyter-notebook-server",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "60",
+  "base_image": "python:3.13-slim-bookworm",
+  "dockerfile_bytes": 271,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "kv-store-grpc",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 1119,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "large-scale-text-editing",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "40",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1419,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "gen_large_csv.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "largest-eigenval",
+  "category": "mathematics",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1096,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "lean4-proof",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "1440",
+  "junior_time_estimate_min": "7200",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 315,
+  "compose_bytes": 576,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "leelachess0-pytorch-conversion",
+  "category": "machine-learning",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "30000.0",
+  "max_test_timeout_sec": "1200.0",
+  "expert_time_estimate_min": "1000",
+  "junior_time_estimate_min": "2000",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 2433,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "llm-inference-batching-scheduler",
+  "category": "machine-learning",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "450",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 294,
+  "compose_bytes": 583,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "cost_model_for_tests.py",
+   "test_outputs.py",
+   "__init__.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "llm-spec-decoding",
+  "category": "machine-learning",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1551,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "log-summary",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "25",
+  "junior_time_estimate_min": "50",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1175,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "log-summary-date-ranges",
+  "category": "data-processing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "75",
+  "junior_time_estimate_min": "150",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1252,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "logistic-regression-divergence",
+  "category": "machine-learning",
+  "difficulty": "easy",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 291,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "magsac-install",
+  "category": "computer-vision",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1500.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "720",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 2011,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mahjong-winninghand",
+  "category": "games",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "7200.0",
+  "max_test_timeout_sec": "320.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1351,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mailman",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1359,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "make-doom-for-mips",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "480",
+  "junior_time_estimate_min": "1920",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 813,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "reference.jpg",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "make-mips-interpreter",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "480",
+  "junior_time_estimate_min": "3600",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 972,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "reference.jpg",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "matlab-python-conversion",
+  "category": "data-processing",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "75",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2083,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mcmc-sampling-stan",
+  "category": "data-science",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "2880",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 418,
+  "compose_bytes": 576,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "merge-diff-arc-agi-task",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "40",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1039,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mixed-integer-programming",
+  "category": "mathematics",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "5.0",
+  "junior_time_estimate_min": "15.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1143,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mlflow-register",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1012,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mnist-learning-fix",
+  "category": "machine-learning",
+  "difficulty": "easy",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1333,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "create_dataset.py",
+   "model.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "model-extraction-relu-logits",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "480",
+  "junior_time_estimate_min": "2400",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 315,
+  "compose_bytes": 355,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "modernize-fortran-build",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2347,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "modernize-scientific-stack",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "600.0",
+  "max_test_timeout_sec": "120.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1546,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "movie-helper",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "480.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 928,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mteb-eval",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "60",
+  "base_image": "python:3.10-slim-bookworm",
+  "dockerfile_bytes": 350,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mteb-leaderboard",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "3600.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "10",
+  "base_image": "python:3.10-slim-bookworm",
+  "dockerfile_bytes": 314,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "mteb-retrieve",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "45",
+  "base_image": "python:3.10-slim-bookworm",
+  "dockerfile_bytes": 370,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "multi-source-data-merger",
+  "category": "data-processing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 427,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "multistep-definite-integral",
+  "category": "math",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "15",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 205,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "neuron-to-jaxley-conversion",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 353,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "functions.py",
+   "RGC.swc",
+   "sec_lu.pkl",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "new-encrypt-command",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "20",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 517,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "nginx-request-logging",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 260,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "npm-conflict-resolution",
+  "category": "debugging",
+  "difficulty": "easy",
+  "tags": "[]",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1948,
+  "compose_bytes": 603,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "ode-solver-rk4",
+  "category": "algorithms",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2054,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "oom",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 335,
+  "compose_bytes": 483,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "openssl-selfsigned-cert",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 273,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "optimal-transport",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1190,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "hidden_ai_data.json",
+   "hidden_ai_data_large.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "organization-json-generator",
+  "category": "file-operations",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 320,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "overfull-hbox",
+  "category": "debugging",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "750.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1181,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "input.tex",
+   "main.tex",
+   "synonyms.txt",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pandas-etl",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "3.0",
+  "junior_time_estimate_min": "10.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1124,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pandas-sql-query",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10.0",
+  "junior_time_estimate_min": "30.0",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1532,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "generate_data.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "parallel-particle-simulator",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:latest@sha256:656c30e5b1e4f0526d5da9a157e69441a52b68314c1426f524fc3389ace9a3ae",
+  "dockerfile_bytes": 2191,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "parallelize-compute-squares",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2195,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "parallelize-graph",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "900.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1050,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "password-recovery",
+  "category": "security",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "100",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1254,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "path-tracing",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "360",
+  "junior_time_estimate_min": "2400",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1102,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "path-tracing-reverse",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "1440",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1090,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pcap-to-netflow",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1243,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "play-lord",
+  "category": "games",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3000.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "360",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1481,
+  "compose_bytes": 553,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "play-zork",
+  "category": "games",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "2000.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "960",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1485,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "play-zork-easy",
+  "category": "games",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "2000.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "2400",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1576,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "png-generation",
+  "category": "file_operations",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "5",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 2043,
+  "compose_bytes": 355,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "polyglot-c-py",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 937,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "polyglot-rust-c",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "720",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 980,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "port-compressor",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "3600.0",
+  "expert_time_estimate_min": "600",
+  "junior_time_estimate_min": "6000",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1492,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "c",
+   "rs",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "portfolio-optimization",
+  "category": "optimization",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "1800.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 747,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "portfolio_baseline_protected.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "postgres-csv-clean",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2323,
+  "compose_bytes": 1309,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "predicate-pushdown-bench",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "1800.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2079,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "pipeline",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "predict-customer-churn",
+  "category": "model-training",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "",
+  "max_test_timeout_sec": "",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1485,
+  "compose_bytes": 743,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test.csv",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "privilege-escalation",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1202,
+  "compose_bytes": 430,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "processing-pipeline",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 629,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "protein-assembly",
+  "category": "scientific-computing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "60.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1154,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "protocol-analysis-rs",
+  "category": "protocol-analysis",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "1920",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 589,
+  "compose_bytes": 355,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "start.ts",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "prove-plus-comm",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 419,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "puzzle-solver",
+  "category": "algorithms",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 435,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pypi-server",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1146,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pytorch-model-cli",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 246,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "pytorch-model-recovery",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "15",
+  "junior_time_estimate_min": "70",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1080,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py",
+   "weights_gtruth.pt"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "qemu-alpine-ssh",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "480",
+  "base_image": "debian:bullseye-slim",
+  "dockerfile_bytes": 724,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "qemu-startup",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "480",
+  "base_image": "debian:bullseye-slim",
+  "dockerfile_bytes": 725,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "query-optimize",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "900.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2420,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "golden.sql",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "raman-fitting",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "5",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 246,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "rare-mineral-allocation",
+  "category": "mathematics",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 445,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "p.npy",
+   "q.npy",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "recover-accuracy-log",
+  "category": "data-processing",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "150",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1730,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_data",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "recover-obfuscated-files",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2143,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "regex-chess",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "1440",
+  "junior_time_estimate_min": "4800",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 221,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "regex-log",
+  "category": "data-processing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 958,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "reshard-c4-data",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "900.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 288,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "files_hashes.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "reverse-engineering",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "1200",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 503,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "main.c",
+   "test_outputs.py",
+   "validate.s"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "rstan-to-pystan",
+  "category": "data-science",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "2880",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 456,
+  "compose_bytes": 557,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "run-pdp11-code",
+  "category": "security",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1000.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "1440",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 223,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sam-cell-seg",
+  "category": "data-science",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "7200.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "600",
+  "junior_time_estimate_min": "1200",
+  "base_image": "python:3.11",
+  "dockerfile_bytes": 1523,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "correct_output.csv",
+   "test_img.png",
+   "test_metadata.csv",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sanitize-git-repo",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 305,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "process.py",
+   "ray_cluster.yaml",
+   "rw_v2_fasttext_openhermes_vs_rw_v2_bigram_0.1_arcade100k.json",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "schedule-vacation",
+  "category": "algorithms",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "35",
+  "junior_time_estimate_min": "90",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1266,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "schemelike-metacircular-eval",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "2400.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "300",
+  "junior_time_estimate_min": "2440",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 431,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "interp.py",
+   "shadow_test",
+   "test",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "security-celery-redis-rce",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1256,
+  "compose_bytes": 978,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "security-vulhub-minio",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1322,
+  "compose_bytes": 1572,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "setup-custom-dev-env",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 318,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sha-puzzle",
+  "category": "games",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "10",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 1105,
+  "compose_bytes": 504,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "shell-deobfuscation",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1894,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "simple-sheets-put",
+  "category": "file-operations",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "",
+  "dockerfile_bytes": 0,
+  "compose_bytes": 1358,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "simple-web-scraper",
+  "category": "data-science",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "60",
+  "base_image": "",
+  "dockerfile_bytes": 0,
+  "compose_bytes": 965,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "slurm-simple-node-monitoring",
+  "category": "system-administration",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ubuntu:${UBUNTU_VERSION}",
+  "dockerfile_bytes": 5909,
+  "compose_bytes": 458,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "solana-data",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1965,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "solve-maze-challenge",
+  "category": "algorithms",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 461,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "solve-sudoku",
+  "category": "games",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "90",
+  "junior_time_estimate_min": "360",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1113,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sparql-professors-universities",
+  "category": "data-querying",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "50",
+  "junior_time_estimate_min": "200",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1156,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py",
+   "university_graph_test.ttl"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sparql-university",
+  "category": "data-querying",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "800",
+  "junior_time_estimate_min": "10000",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 992,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py",
+   "university_graph_test.ttl"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "speech-to-text",
+  "category": "audio-processing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "120",
+  "base_image": "python:3.11-slim@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317",
+  "dockerfile_bytes": 1971,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "spinning-up-rl",
+  "category": "machine-learning",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "720.0",
+  "expert_time_estimate_min": "45",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1098,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "spring-messaging-vul",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "60",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1293,
+  "compose_bytes": 778,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sql-injection-attack",
+  "category": "security",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "75",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1646,
+  "compose_bytes": 1958,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sqlite-db-truncate",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "240",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 916,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sqlite-with-gcov",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 217,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "stable-parallel-kmeans",
+  "category": "machine-learning",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "1440",
+  "junior_time_estimate_min": "2160",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 465,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "sudo-llvm-ir",
+  "category": "system-administration",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2681,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "swe-bench-astropy-1",
+  "category": "debugging",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1000.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.9-slim-bookworm",
+  "dockerfile_bytes": 1565,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [],
+  "solution_exists": true
+ },
+ {
+  "task": "swe-bench-astropy-2",
+  "category": "debugging",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1000.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.9-slim-bookworm",
+  "dockerfile_bytes": 1565,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [],
+  "solution_exists": true
+ },
+ {
+  "task": "swe-bench-fsspec",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1000.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.9-slim-bookworm",
+  "dockerfile_bytes": 1588,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "swe-bench-langcodes",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "python:3.9-slim-bookworm",
+  "dockerfile_bytes": 1574,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [],
+  "solution_exists": true
+ },
+ {
+  "task": "tmux-advanced-workflow",
+  "category": "debugging",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "",
+  "dockerfile_bytes": 0,
+  "compose_bytes": 454,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "torch-pipeline-parallelism",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "1200",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1123,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "torch-tensor-parallelism",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "1200",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 958,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "train-bpe-tokenizer",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1200.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "10",
+  "junior_time_estimate_min": "30",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 371,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "train-fasttext",
+  "category": "model-training",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "240.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 645,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "private_test.txt",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "tree-directory-parser",
+  "category": "file-system",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "35",
+  "junior_time_estimate_min": "300",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 676,
+  "compose_bytes": 431,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "triton-interpret",
+  "category": "model-training",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "600.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "1440",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 383,
+  "compose_bytes": 576,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py",
+   "torch_implementation.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "tune-mjcf",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 1060,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "model_ref.xml",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "unprivileged-headless-pyrender",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "180",
+  "junior_time_estimate_min": "3600",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 1571,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "duck_depth_map.png",
+   "rendered_duck.png",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "vertex-solver",
+  "category": "mathematics",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "75",
+  "junior_time_estimate_min": "300",
+  "base_image": "python:3.11-slim",
+  "dockerfile_bytes": 824,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "video-processing",
+  "category": "video-processing",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "400",
+  "junior_time_estimate_min": "1000",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 550,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py",
+   "test_video.mp4"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "vimscript-vim-quine",
+  "category": "software-engineering",
+  "difficulty": "easy",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "30",
+  "junior_time_estimate_min": "180",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 270,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "vul-flask",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2665,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "setup.sh",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "vul-flink",
+  "category": "security",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "1800.0",
+  "max_test_timeout_sec": "360.0",
+  "expert_time_estimate_min": "240",
+  "junior_time_estimate_min": "600",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 2816,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": true,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "vulnerable-secret",
+  "category": "security",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "20",
+  "junior_time_estimate_min": "120",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:20250620",
+  "dockerfile_bytes": 725,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "wasm-pipeline",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "180",
+  "base_image": "--platform=linux/amd64",
+  "dockerfile_bytes": 1145,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "libcompute_1.c",
+   "libcompute_2.c",
+   "libcompute_3.c",
+   "module_1.wat",
+   "module_2.wat",
+   "module_3.wat",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "weighted-max-sat-solver",
+  "category": "scientific-computing",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "",
+  "junior_time_estimate_min": "",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1785,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "winning-avg-corewars",
+  "category": "software-engineering",
+  "difficulty": "medium",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "60",
+  "junior_time_estimate_min": "240",
+  "base_image": "debian:13.0-slim",
+  "dockerfile_bytes": 1593,
+  "compose_bytes": 581,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "word2vec-from-scratch",
+  "category": "model-training",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "3600.0",
+  "max_test_timeout_sec": "300.0",
+  "expert_time_estimate_min": "120",
+  "junior_time_estimate_min": "480",
+  "base_image": "ghcr.io/laude-institute/t-bench/python-3-13:latest",
+  "dockerfile_bytes": 1774,
+  "compose_bytes": 430,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "evaluate.py",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ },
+ {
+  "task": "write-compressor",
+  "category": "software-engineering",
+  "difficulty": "hard",
+  "tags": "",
+  "max_agent_timeout_sec": "900.0",
+  "max_test_timeout_sec": "180.0",
+  "expert_time_estimate_min": "1440",
+  "junior_time_estimate_min": "4800",
+  "base_image": "ghcr.io/laude-institute/t-bench/ubuntu-24-04:20250624",
+  "dockerfile_bytes": 1022,
+  "compose_bytes": 432,
+  "has_gpu_hint": false,
+  "has_download_hint": false,
+  "test_files": [
+   "original-data.txt",
+   "original-decomp.c",
+   "test_outputs.py"
+  ],
+  "solution_exists": true
+ }
+]

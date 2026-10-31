@@ -1,0 +1,538 @@
+{
+ "design": {
+  "unit": "task",
+  "groups": {
+   "software-engineering": 2,
+   "system-administration": 2,
+   "security": 2,
+   "data": 1,
+   "scientific-computing": 2,
+   "debugging": 1,
+   "mathematics-algorithms": 2,
+   "model-training-ml": 2,
+   "games": 1,
+   "other": 1
+  },
+  "strata": "H = 8 historical; N = 16 new across 10 buckets",
+  "seed": 20261031,
+  "exclusion_rules": [
+   "GPU hint in Dockerfile/compose",
+   "media/vision task requiring large offline weights",
+   "multi-service compose (host runs the client container alone)",
+   "expert_time_estimate_min > 120",
+   "environment/build failure (recorded after build)"
+  ],
+  "budget": "300 s agent per task, 1 seed, 180 s original-test grading"
+ },
+ "selected": [
+  {
+   "task": "hello-world",
+   "group": "file-operations",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "fix-permissions",
+   "group": "system-administration",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "log-summary",
+   "group": "system-administration",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "regex-log",
+   "group": "data",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "jq-data-processing",
+   "group": "data",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "sqlite-db-truncate",
+   "group": "debugging",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "cprofiling-python",
+   "group": "debugging",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "cancel-async-tasks",
+   "group": "software-engineering",
+   "stratum": "H",
+   "reason": "historical dev set"
+  },
+  {
+   "task": "modernize-fortran-build",
+   "group": "software-engineering",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "prove-plus-comm",
+   "group": "software-engineering",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "5",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "slurm-simple-node-monitoring",
+   "group": "system-administration",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "processing-pipeline",
+   "group": "system-administration",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "catch-me-if-you-can",
+   "group": "security",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "10",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "new-encrypt-command",
+   "group": "security",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "5",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "recover-accuracy-log",
+   "group": "data",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "120",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "amuse-install",
+   "group": "scientific-computing",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "15",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "modernize-scientific-stack",
+   "group": "scientific-computing",
+   "stratum": "N",
+   "difficulty": "medium",
+   "expert_min": "120",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "npm-conflict-resolution",
+   "group": "debugging",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "multistep-definite-integral",
+   "group": "mathematics-algorithms",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "5",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "assign-seats",
+   "group": "mathematics-algorithms",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "20",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "mnist-learning-fix",
+   "group": "model-training-ml",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "10",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "spinning-up-rl",
+   "group": "model-training-ml",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "45",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "gomoku-planner",
+   "group": "games",
+   "stratum": "N",
+   "difficulty": "easy",
+   "expert_min": "30",
+   "reason": "stratified new task"
+  },
+  {
+   "task": "form-filling",
+   "group": "other",
+   "stratum": "N",
+   "difficulty": "medium",
+   "expert_min": "90",
+   "reason": "stratified new task"
+  }
+ ],
+ "run_order": [
+  "spinning-up-rl",
+  "assign-seats",
+  "sqlite-db-truncate",
+  "recover-accuracy-log",
+  "npm-conflict-resolution",
+  "modernize-fortran-build",
+  "processing-pipeline",
+  "jq-data-processing",
+  "hello-world",
+  "new-encrypt-command",
+  "form-filling",
+  "multistep-definite-integral",
+  "mnist-learning-fix",
+  "slurm-simple-node-monitoring",
+  "regex-log",
+  "amuse-install",
+  "gomoku-planner",
+  "cprofiling-python",
+  "fix-permissions",
+  "modernize-scientific-stack",
+  "log-summary",
+  "catch-me-if-you-can",
+  "cancel-async-tasks",
+  "prove-plus-comm"
+ ],
+ "excluded_before_running": [
+  {
+   "task": "3d-model-format-legacy",
+   "group": "software-engineering",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "accelerate-maximal-square",
+   "group": "software-engineering",
+   "reason": "needs GPU (Dockerfile/compose references nvidia/cuda/gpu)"
+  },
+  {
+   "task": "adaptive-rejection-sampler",
+   "group": "scientific-computing",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "add-benchmark-lm-eval-harness",
+   "group": "software-engineering",
+   "reason": "expert estimate 300 min > 120 min local budget"
+  },
+  {
+   "task": "ancient-puzzle",
+   "group": "file-operations",
+   "reason": "multi-service compose (client,decryptor); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "attention-mil",
+   "group": "model-training-ml",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "bn-fit-modify",
+   "group": "scientific-computing",
+   "reason": "expert estimate 480 min > 120 min local budget"
+  },
+  {
+   "task": "chem-rf",
+   "group": "model-training-ml",
+   "reason": "expert estimate 960 min > 120 min local budget"
+  },
+  {
+   "task": "circuit-fibsqrt",
+   "group": "software-engineering",
+   "reason": "expert estimate 960 min > 120 min local budget"
+  },
+  {
+   "task": "cross-entropy-method",
+   "group": "software-engineering",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "debug-long-program",
+   "group": "software-engineering",
+   "reason": "multi-service compose (client,program); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "deterministic-tarball",
+   "group": "other",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "feal-differential-cryptanalysis",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 480 min > 120 min local budget"
+  },
+  {
+   "task": "feal-linear-cryptanalysis",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 960 min > 120 min local budget"
+  },
+  {
+   "task": "find-restaurant",
+   "group": "other",
+   "reason": "multi-service compose (client,services); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "fix-ocaml-gc",
+   "group": "software-engineering",
+   "reason": "expert estimate 1440 min > 120 min local budget"
+  },
+  {
+   "task": "fmri-encoding-r",
+   "group": "scientific-computing",
+   "reason": "expert estimate 540 min > 120 min local budget"
+  },
+  {
+   "task": "git-multibranch",
+   "group": "system-administration",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "gpt2-codegolf",
+   "group": "software-engineering",
+   "reason": "expert estimate 2400 min > 120 min local budget"
+  },
+  {
+   "task": "hf-train-lora-adapter",
+   "group": "model-training-ml",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "home-server-https",
+   "group": "system-administration",
+   "reason": "multi-service compose (webserver,google-api-mock); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "html-finance-verify",
+   "group": "file-operations",
+   "reason": "needs GPU (Dockerfile/compose references nvidia/cuda/gpu)"
+  },
+  {
+   "task": "implement-eigenvectors-from-eigenvalues-research-paper",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 360 min > 120 min local budget"
+  },
+  {
+   "task": "install-windows-3.11",
+   "group": "system-administration",
+   "reason": "expert estimate 300 min > 120 min local budget"
+  },
+  {
+   "task": "interactive-maze-game",
+   "group": "games",
+   "reason": "multi-service compose (client,maze); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "lean4-proof",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 1440 min > 120 min local budget"
+  },
+  {
+   "task": "leelachess0-pytorch-conversion",
+   "group": "model-training-ml",
+   "reason": "expert estimate 1000 min > 120 min local budget"
+  },
+  {
+   "task": "magsac-install",
+   "group": "other",
+   "reason": "media/vision task needs large model weights not available offline"
+  },
+  {
+   "task": "make-doom-for-mips",
+   "group": "software-engineering",
+   "reason": "expert estimate 480 min > 120 min local budget"
+  },
+  {
+   "task": "make-mips-interpreter",
+   "group": "software-engineering",
+   "reason": "expert estimate 480 min > 120 min local budget"
+  },
+  {
+   "task": "mcmc-sampling-stan",
+   "group": "data",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "model-extraction-relu-logits",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 480 min > 120 min local budget"
+  },
+  {
+   "task": "path-tracing",
+   "group": "software-engineering",
+   "reason": "expert estimate 360 min > 120 min local budget"
+  },
+  {
+   "task": "play-lord",
+   "group": "games",
+   "reason": "expert estimate 360 min > 120 min local budget"
+  },
+  {
+   "task": "polyglot-rust-c",
+   "group": "software-engineering",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "port-compressor",
+   "group": "software-engineering",
+   "reason": "expert estimate 600 min > 120 min local budget"
+  },
+  {
+   "task": "postgres-csv-clean",
+   "group": "file-operations",
+   "reason": "multi-service compose (client,db); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "predict-customer-churn",
+   "group": "model-training-ml",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "protocol-analysis-rs",
+   "group": "security",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "regex-chess",
+   "group": "software-engineering",
+   "reason": "expert estimate 1440 min > 120 min local budget"
+  },
+  {
+   "task": "rstan-to-pystan",
+   "group": "data",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "run-pdp11-code",
+   "group": "security",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "sam-cell-seg",
+   "group": "data",
+   "reason": "expert estimate 600 min > 120 min local budget"
+  },
+  {
+   "task": "schemelike-metacircular-eval",
+   "group": "software-engineering",
+   "reason": "expert estimate 300 min > 120 min local budget"
+  },
+  {
+   "task": "security-celery-redis-rce",
+   "group": "security",
+   "reason": "multi-service compose (client,redis,celery); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "security-vulhub-minio",
+   "group": "security",
+   "reason": "multi-service compose (client,node1,node2,node3); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "simple-sheets-put",
+   "group": "file-operations",
+   "reason": "multi-service compose (client,api,db); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "simple-web-scraper",
+   "group": "data",
+   "reason": "multi-service compose (client,server); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "solve-maze-challenge",
+   "group": "mathematics-algorithms",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "sparql-university",
+   "group": "data",
+   "reason": "expert estimate 800 min > 120 min local budget"
+  },
+  {
+   "task": "speech-to-text",
+   "group": "other",
+   "reason": "media/vision task needs large model weights not available offline"
+  },
+  {
+   "task": "spring-messaging-vul",
+   "group": "security",
+   "reason": "multi-service compose (client,spring); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "sql-injection-attack",
+   "group": "security",
+   "reason": "multi-service compose (client,vulnerable_service,master_service,db_init); the Spine/Sentry hosts run the client container alone"
+  },
+  {
+   "task": "stable-parallel-kmeans",
+   "group": "model-training-ml",
+   "reason": "expert estimate 1440 min > 120 min local budget"
+  },
+  {
+   "task": "torch-pipeline-parallelism",
+   "group": "software-engineering",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "torch-tensor-parallelism",
+   "group": "software-engineering",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "triton-interpret",
+   "group": "model-training-ml",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "unprivileged-headless-pyrender",
+   "group": "software-engineering",
+   "reason": "expert estimate 180 min > 120 min local budget"
+  },
+  {
+   "task": "video-processing",
+   "group": "other",
+   "reason": "media/vision task needs large model weights not available offline"
+  },
+  {
+   "task": "vul-flink",
+   "group": "security",
+   "reason": "expert estimate 240 min > 120 min local budget"
+  },
+  {
+   "task": "write-compressor",
+   "group": "software-engineering",
+   "reason": "expert estimate 1440 min > 120 min local budget"
+  }
+ ]
+}

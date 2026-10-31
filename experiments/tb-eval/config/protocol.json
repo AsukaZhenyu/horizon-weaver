@@ -1,0 +1,93 @@
+{
+  "round": "20261031-strat24-round4",
+  "scope": "One 24-task stratified Terminal-Bench 0.2.18 development set: 8 historical tasks (H) plus 16 new tasks (N) across 10 category buckets. Single fresh attempt per method; no cross-task memory.",
+  "methods": [
+    "official Pi plus official Spine plugin",
+    "official Sentry core plus controlled terminal host"
+  ],
+  "strata": {
+    "software-engineering": 2,
+    "system-administration": 2,
+    "security": 2,
+    "data": 1,
+    "scientific-computing": 2,
+    "debugging": 1,
+    "mathematics-algorithms": 2,
+    "model-training-ml": 2,
+    "games": 1,
+    "other": 1
+  },
+  "selection_seed": 20261031,
+  "exclusion_rules": [
+    "GPU hint in Dockerfile/compose",
+    "media/vision task requiring large offline weights",
+    "multi-service compose (host runs the client container alone)",
+    "expert_time_estimate_min > 120",
+    "environment/build failure (recorded after build)"
+  ],
+  "tasks": [
+    "spinning-up-rl",
+    "assign-seats",
+    "sqlite-db-truncate",
+    "recover-accuracy-log",
+    "npm-conflict-resolution",
+    "modernize-fortran-build",
+    "processing-pipeline",
+    "jq-data-processing",
+    "hello-world",
+    "new-encrypt-command",
+    "form-filling",
+    "multistep-definite-integral",
+    "mnist-learning-fix",
+    "slurm-simple-node-monitoring",
+    "regex-log",
+    "amuse-install",
+    "gomoku-planner",
+    "cprofiling-python",
+    "fix-permissions",
+    "modernize-scientific-stack",
+    "log-summary",
+    "catch-me-if-you-can",
+    "cancel-async-tasks",
+    "prove-plus-comm"
+  ],
+  "legacy_tasks": [
+    "sqlite-db-truncate",
+    "jq-data-processing",
+    "hello-world",
+    "regex-log",
+    "cprofiling-python",
+    "fix-permissions",
+    "log-summary",
+    "cancel-async-tasks"
+  ],
+  "expected_checks": {
+    "hello-world": 2,
+    "fix-permissions": 1,
+    "log-summary": 3,
+    "regex-log": 1,
+    "jq-data-processing": 14,
+    "sqlite-db-truncate": 1,
+    "cprofiling-python": 2,
+    "cancel-async-tasks": 6
+  },
+  "grading": {
+    "legacy": "offline fixed-wheel protocol from round3: paused snapshot, docker commit, unchanged original tests, cached uv + pinned wheels, no network",
+    "new": "generic protocol: paused snapshot, docker commit, unchanged original tests, then the task's own run-tests.sh with network; this is a documented deviation from the legacy offline path and must be reported per task"
+  },
+  "model": "Qwen3.5-9B Q4_K_M",
+  "model_sha256": "03b74727a860a56338e042c4420bb3f04b2fec5734175f4cb9fa853daf52b7e8",
+  "context_tokens": 16384,
+  "parallel_model_requests": 1,
+  "reasoning": "off",
+  "actor_temperature": 0.2,
+  "actor_max_output_tokens": 2048,
+  "sentry_auxiliary_temperature": 0,
+  "sentry_auxiliary_max_output_tokens": 4096,
+  "agent_budget_seconds": 300,
+  "grading_budget_seconds": 180,
+  "cross_task_experience": "reset for every task; execution evaluation only",
+  "feedback": "task instruction, initial environment and ordinary tool results only; hidden tests injected after stopping",
+  "host_differences": "Pi and controlled terminal host are different; results compare complete integrations rather than isolated component effects",
+  "purpose": "stratified development set; not a benchmark leaderboard or generalization result"
+}
