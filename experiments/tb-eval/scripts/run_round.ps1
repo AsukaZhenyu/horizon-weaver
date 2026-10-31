@@ -28,8 +28,11 @@ if ($Status) {
     exit $LASTEXITCODE
 }
 
-if (-not (Test-Path (Join-Path $tbEval 'config/base-images.json'))) {
-    throw "base-images.json missing: build the images and pin IDs first (bootstrap/setup.ps1)"
+# Same round directory the runners use (harness/paths.py): HW_ROUND_DIR wins.
+$roundDir = if ($env:HW_ROUND_DIR) { $env:HW_ROUND_DIR } else { Join-Path $tbEval 'config' }
+$images = Join-Path $roundDir 'base-images.json'
+if (-not (Test-Path $images)) {
+    throw "base-images.json missing from $roundDir : build the images and pin IDs first (bootstrap/setup.ps1)"
 }
 
 # The model server is shared by both tracks and must already be healthy; a
@@ -45,23 +48,28 @@ try {
 & $python (Join-Path $harness 'write_run_config.py')
 
 $methods = if ($Method -eq 'both') { @('spine', 'sentry') } else { @($Method) }
+$failures = @()
 foreach ($m in $methods) {
     $selected = $Tasks
     if (-not $selected) {
         $selected = (& $python (Join-Path $harness 'status.py') --method $m --pending).Trim()
     }
     if (-not $selected) {
-        Write-Host "[round] $m: nothing pending"
+        Write-Host "[round] ${m}: nothing pending"
         continue
     }
-    Write-Host "[round] $m: $selected"
+    Write-Host "[round] ${m}: $selected"
     $started = Get-Date
     if ($m -eq 'spine') {
         node (Join-Path $harness 'spine\run.mjs') --tasks $selected
     } else {
         & $python (Join-Path $harness 'sentry\run_tb8.py') --tasks $selected
     }
-    Write-Host "[round] $m exit=$LASTEXITCODE after $([int]((Get-Date) - $started).TotalMinutes) min"
+    $runnerExit = $LASTEXITCODE
+    Write-Host "[round] ${m} exit=$runnerExit after $([int]((Get-Date) - $started).TotalMinutes) min"
+    # A failed runner still leaves whatever cases finished; summarize and
+    # export them, but do not report success at the end.
+    if ($runnerExit -ne 0) { $failures += $m }
 }
 
 & $python (Join-Path $harness 'summarize_spine.py')
@@ -69,4 +77,9 @@ foreach ($m in $methods) {
 
 if (-not $NoExport) {
     & $python (Join-Path $harness 'export_results.py')
+}
+
+if ($failures.Count -gt 0) {
+    Write-Host "[round] non-zero runner exit: $($failures -join ', ') -- the run directory is recorded in run-config.json"
+    exit 1
 }
